@@ -22,6 +22,7 @@ export default function AdminLayout({
             <li><Link href="/admin/programme" className="block px-4 py-2 rounded text-sm font-medium hover:bg-green-800 transition">Programme</Link></li>
             <li><Link href="/admin/partners" className="block px-4 py-2 rounded text-sm font-medium hover:bg-green-800 transition">Partners & Sponsors</Link></li>
             <li><Link href="/admin/news" className="block px-4 py-2 rounded text-sm font-medium hover:bg-green-800 transition">News</Link></li>
+            <li><Link href="/admin/checkin" className="block px-4 py-2 rounded text-sm font-medium hover:bg-green-800 transition">QR Check-in</Link></li>
             <li><Link href="/admin/settings" className="block px-4 py-2 rounded text-sm font-medium hover:bg-green-800 transition">Settings</Link></li>
           </ul>
         </nav>
