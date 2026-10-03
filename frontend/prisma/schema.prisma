@@ -1,0 +1,256 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  passwordHash  String?
+  role          Role      @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  auditLogs     AuditLog[]
+  reviews       AbstractReview[]
+}
+
+enum Role {
+  USER
+  SUPER_ADMIN
+  EVENT_ADMIN
+  ABSTRACT_REVIEWER
+  CONTENT_EDITOR
+  REGISTRATION_MANAGER
+  MEDIA_MANAGER
+}
+
+model Registration {
+  id                   String   @id @default(cuid())
+  firstName            String
+  lastName             String
+  email                String   @unique
+  phoneNumber          String
+  organization         String?
+  jobTitle             String?
+  state                String?
+  lga                  String?
+  organizationType     String?
+  participantCategory  String?
+  areasOfInterest      String[]
+  accessibilityReqs    String?
+  dietaryReqs          String?
+  consent              Boolean  @default(false)
+  newsletterOptIn      Boolean  @default(false)
+  status               String   @default("CONFIRMED")
+  checkInStatus        Boolean  @default(false)
+  checkInTime          DateTime?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  checkIns             CheckIn[]
+}
+
+model Abstract {
+  id               String   @id @default(cuid())
+  title            String
+  authorName       String
+  coAuthors        String?
+  organization     String
+  email            String
+  phone            String?
+  presentationType String?
+  themeId          String?
+  text             String   @db.Text
+  keywords         String?
+  fileUrl          String?
+  status           String   @default("SUBMITTED")
+  declaration      Boolean  @default(false)
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  reviews          AbstractReview[]
+}
+
+model AbstractReview {
+  id           String   @id @default(cuid())
+  abstractId   String
+  abstract     Abstract @relation(fields: [abstractId], references: [id])
+  reviewerId   String
+  reviewer     User     @relation(fields: [reviewerId], references: [id])
+  score        Int?
+  notes        String?  @db.Text
+  recommendation String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Speaker {
+  id           String   @id @default(cuid())
+  name         String
+  title        String?
+  organization String?
+  country      String?
+  biography    String?  @db.Text
+  photoUrl     String?
+  category     String?
+  socialLinks  Json?
+  published    Boolean  @default(false)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  sessions     SessionSpeaker[]
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?  @db.Text
+  startTime    DateTime?
+  endTime      DateTime?
+  room         String?
+  sessionType  String?
+  track        String?
+  moderator    String?
+  published    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  speakers     SessionSpeaker[]
+}
+
+model SessionSpeaker {
+  id         String  @id @default(cuid())
+  sessionId  String
+  session    Session @relation(fields: [sessionId], references: [id])
+  speakerId  String
+  speaker    Speaker @relation(fields: [speakerId], references: [id])
+
+  @@unique([sessionId, speakerId])
+}
+
+model Partner {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?  @db.Text
+  category     String?
+  logoUrl      String?
+  websiteUrl   String?
+  order        Int      @default(0)
+  published    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Sponsor {
+  id           String   @id @default(cuid())
+  name         String
+  description  String?  @db.Text
+  category     String?
+  logoUrl      String?
+  websiteUrl   String?
+  order        Int      @default(0)
+  published    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model News {
+  id           String   @id @default(cuid())
+  title        String
+  slug         String   @unique
+  summary      String?  @db.Text
+  content      String   @db.Text
+  featuredImage String?
+  author       String?
+  category     String?
+  tags         String[]
+  featured     Boolean  @default(false)
+  published    Boolean  @default(false)
+  publishDate  DateTime?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Media {
+  id           String   @id @default(cuid())
+  title        String
+  url          String
+  type         String
+  category     String?
+  published    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+model Resource {
+  id           String   @id @default(cuid())
+  title        String
+  description  String?  @db.Text
+  url          String
+  category     String?
+  published    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+model FAQ {
+  id           String   @id @default(cuid())
+  question     String
+  answer       String   @db.Text
+  order        Int      @default(0)
+  published    Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model ContactMessage {
+  id           String   @id @default(cuid())
+  name         String
+  email        String
+  phone        String?
+  subject      String?
+  message      String   @db.Text
+  read         Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+model Notification {
+  id           String   @id @default(cuid())
+  type         String
+  recipient    String
+  subject      String
+  body         String   @db.Text
+  sent         Boolean  @default(false)
+  createdAt    DateTime @default(now())
+}
+
+model CheckIn {
+  id             String   @id @default(cuid())
+  registrationId String
+  registration   Registration @relation(fields: [registrationId], references: [id])
+  scannedAt      DateTime @default(now())
+  scannedBy      String?
+}
+
+model SiteSettings {
+  id           String   @id @default(cuid())
+  key          String   @unique
+  value        String   @db.Text
+  updatedAt    DateTime @updatedAt
+}
+
+model AuditLog {
+  id           String   @id @default(cuid())
+  userId       String?
+  user         User?    @relation(fields: [userId], references: [id])
+  action       String
+  entityType   String
+  entityId     String?
+  details      Json?
+  createdAt    DateTime @default(now())
+}
