@@ -86,10 +86,10 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div className="animate-fade-in-up">
               <h2 className="text-4xl md:text-5xl font-black text-gray-900 mb-8 leading-tight tracking-tight border-l-8 border-red-600 pl-6">
-                A Critical Health Intervention.
+                A Global Mandate: World AIDS Day.
               </h2>
               <p className="text-xl text-gray-600 mb-8 leading-relaxed font-light">
-                The Gombe State 2026 AIDS Summit acts as the central health command assembly bringing together medical professionals, NGOs, and government responders to tackle the TB-HIV crisis head-on.
+                The Gombe State 2026 AIDS Summit officially aligns with **World AIDS Day**, a global event observed every year on December 1st. We are uniting medical professionals, NGOs, and government responders on this historic day to tackle the TB-HIV crisis head-on and show support for those affected globally.
               </p>
               <Link href="/about" className="inline-flex items-center text-red-700 font-bold text-lg hover:text-red-800 transition-colors group">
                 Read the Health Directives
