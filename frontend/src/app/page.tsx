@@ -119,6 +119,79 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* PILLARS / THEMES SECTION (RESTORED) */}
+      <section className="py-24 bg-gray-50 border-t border-gray-200">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+            <div className="max-w-2xl">
+              <span className="text-red-700 font-bold tracking-widest text-sm uppercase mb-3 block">Sub-Themes</span>
+              <h2 className="text-4xl font-black text-gray-900 tracking-tight">Pillars of the 2026 Response</h2>
+            </div>
+            <Link href="/programme" className="bg-gray-900 text-white hover:bg-gray-800 px-8 py-4 font-bold text-sm transition-colors rounded-sm inline-block shadow-md">
+              VIEW PROGRAMME
+            </Link>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              "Strengthening resource mobilization in the face of decline external funding.",
+              "Integrate, innovate and fund.",
+              "Building a Resilient, People-Centred TB-HIV Response for Gombe State.",
+              "TB/HIV program science in Gombe state: where we are and what next.",
+              "One plan, coordinated action and shared responsibility."
+            ].map((theme, i) => (
+              <div key={i} className="group relative bg-white p-10 hover:bg-red-700 transition-colors duration-300 rounded-sm overflow-hidden border border-gray-200 shadow-sm">
+                <div className="text-5xl font-black text-gray-100 group-hover:text-red-800/50 transition-colors mb-6 font-serif">
+                  0{i + 1}
+                </div>
+                <h3 className="text-xl font-bold text-gray-900 group-hover:text-white transition-colors leading-snug relative z-10">
+                  {theme}
+                </h3>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* IMPACT / CTA SECTION (RESTORED) */}
+      <section className="relative py-32 bg-gray-900 text-white overflow-hidden">
+        <div className="absolute right-0 top-0 w-1/2 h-full bg-red-800 transform skew-x-[-20deg] origin-top opacity-30 pointer-events-none"></div>
+        <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
+          <h2 className="text-4xl md:text-5xl font-black mb-8 tracking-tight">Call for Abstracts</h2>
+          <p className="text-xl text-gray-300 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
+            Share your research, clinical innovations, and epidemiological evidence contributing to a stronger TB-HIV response. Help shape the scientific dialogue of Gombe State's health architecture.
+          </p>
+          <Link href="/abstracts" className="inline-block bg-red-600 hover:bg-red-500 text-white px-10 py-5 rounded-sm font-black text-lg uppercase tracking-wider transition-transform transform hover:-translate-y-1 shadow-[0_10px_20px_rgba(220,38,38,0.2)]">
+            SUBMIT YOUR RESEARCH
+          </Link>
+        </div>
+      </section>
+
+      {/* PARTNERSHIP CTA (RESTORED) */}
+      <section className="py-24 bg-white border-b border-gray-100">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl text-center">
+          <span className="w-16 h-16 mx-auto bg-red-50 text-red-600 rounded-full flex items-center justify-center mb-6">
+            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+            </svg>
+          </span>
+          <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-6 tracking-tight">
+            Institutional Partnerships
+          </h2>
+          <p className="text-lg text-gray-500 mb-10 max-w-2xl mx-auto">
+            Join hands with the Gombe State Government and medical responders to support the TB-HIV health intervention. Discover partnership and sponsorship opportunities.
+          </p>
+          <div className="flex flex-col sm:flex-row justify-center gap-4">
+            <Link href="/partners" className="bg-red-700 hover:bg-red-800 text-white px-8 py-4 font-black text-center transition-colors text-sm uppercase tracking-wide rounded-sm shadow-md">
+              Explore Partnerships
+            </Link>
+            <Link href="/contact" className="bg-white hover:bg-gray-50 text-gray-900 border border-gray-300 px-8 py-4 font-black text-center transition-colors text-sm uppercase tracking-wide rounded-sm">
+              Contact Secretariat
+            </Link>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
