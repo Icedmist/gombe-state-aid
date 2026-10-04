@@ -6,70 +6,75 @@ export default function Speakers() {
       id: 1,
       name: "[Demo] Prof. Amina Yakubu",
       title: "Commissioner of Health",
-      organization: "[Sample] Gombe State Government",
+      organization: "Gombe State Government",
       category: "Keynote Speaker",
-      image: "https://ui-avatars.com/api/?name=Amina+Yakubu&background=166534&color=fff&size=256",
+      image: "https://ui-avatars.com/api/?name=Amina+Yakubu&background=0A2518&color=fff&size=512",
     },
     {
       id: 2,
       name: "[Demo] Dr. James Okon",
       title: "Regional Director",
-      organization: "[Sample] Global Health Initiative",
+      organization: "Global Health Initiative",
       category: "Panelist",
-      image: "https://ui-avatars.com/api/?name=James+Okon&background=166534&color=fff&size=256",
+      image: "https://ui-avatars.com/api/?name=James+Okon&background=0A2518&color=fff&size=512",
     },
     {
       id: 3,
       name: "[Demo] Sarah Ibrahim",
       title: "Lead Researcher",
-      organization: "[Sample] TB-HIV Research Institute",
+      organization: "TB-HIV Research Institute",
       category: "Technical Presenter",
-      image: "https://ui-avatars.com/api/?name=Sarah+Ibrahim&background=166534&color=fff&size=256",
+      image: "https://ui-avatars.com/api/?name=Sarah+Ibrahim&background=0A2518&color=fff&size=512",
     },
     {
       id: 4,
       name: "[Demo] Hon. Musa Bello",
       title: "Policy Advisor",
-      organization: "[Sample] Federal Ministry of Health",
+      organization: "Federal Ministry of Health",
       category: "Special Guest",
-      image: "https://ui-avatars.com/api/?name=Musa+Bello&background=166534&color=fff&size=256",
+      image: "https://ui-avatars.com/api/?name=Musa+Bello&background=0A2518&color=fff&size=512",
     },
   ];
 
   return (
-    <div className="bg-gray-50 py-16 min-h-screen">
+    <div className="bg-white py-24 min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <div className="text-center max-w-3xl mx-auto mb-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-6">Summit Speakers</h1>
-          <p className="text-xl text-gray-600">
-            Hear from leading experts, policymakers, and community leaders driving the TB-HIV response forward.
+        <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8 border-b border-gray-100 pb-12">
+          <div className="max-w-3xl">
+            <span className="text-yellow-500 font-bold tracking-widest text-sm uppercase mb-3 block">Delegation</span>
+            <h1 className="text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+              Summit Speakers &<br />Special Guests
+            </h1>
+          </div>
+          <p className="text-lg text-gray-500 max-w-md font-light">
+            Hear from leading experts, policymakers, and community leaders driving the TB-HIV response forward across the state and nation.
           </p>
         </div>
 
-        {/* Filter Categories Placeholder */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
+        {/* Filter Categories - Editorial Style */}
+        <div className="flex flex-wrap gap-4 mb-16">
           {['All Speakers', 'Keynote', 'Panelist', 'Technical Presenter', 'Moderator'].map((cat, i) => (
-            <button key={i} className={`px-4 py-2 rounded-full text-sm font-medium transition-colors ${i === 0 ? 'bg-green-700 text-white' : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'}`}>
+            <button key={i} className={`px-5 py-2 text-sm font-bold uppercase tracking-wider transition-all rounded-sm ${i === 0 ? 'bg-[#0A2518] text-white' : 'bg-gray-50 text-gray-500 hover:bg-gray-100 hover:text-gray-900'}`}>
               {cat}
             </button>
           ))}
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16">
           {demoSpeakers.map((speaker) => (
-            <Link href={`/speakers/${speaker.id}`} key={speaker.id} className="group bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1">
-              <div className="aspect-square bg-gray-100 relative overflow-hidden">
-                {/* Using external UI avatars for demo purposes only */}
-                <img src={speaker.image} alt={speaker.name} className="object-cover w-full h-full" />
-                <div className="absolute top-4 left-4 bg-yellow-500 text-green-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
+            <Link href={`/speakers/${speaker.id}`} key={speaker.id} className="group block">
+              <div className="aspect-[3/4] bg-gray-100 relative overflow-hidden mb-6 rounded-sm">
+                <img src={speaker.image} alt={speaker.name} className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                <div className="absolute top-4 left-4 bg-yellow-500 text-[#0A2518] text-[10px] font-black px-3 py-1 uppercase tracking-widest">
                   {speaker.category}
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-lg font-bold text-gray-900 group-hover:text-green-700 transition-colors mb-1">{speaker.name}</h3>
-                <p className="text-sm text-gray-500 font-medium mb-3">{speaker.title}</p>
-                <div className="h-px w-full bg-gray-100 mb-3"></div>
-                <p className="text-sm text-green-800 font-semibold">{speaker.organization}</p>
+              <div>
+                <h3 className="text-xl font-extrabold text-gray-900 group-hover:text-green-700 transition-colors mb-1">{speaker.name}</h3>
+                <p className="text-sm text-gray-500 font-medium mb-2">{speaker.title}</p>
+                <div className="h-px w-8 bg-yellow-500 mb-2 transition-all duration-300 group-hover:w-full"></div>
+                <p className="text-xs font-bold uppercase tracking-wider text-[#0A2518]">{speaker.organization}</p>
               </div>
             </Link>
           ))}
