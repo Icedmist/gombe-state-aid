@@ -1,3 +1,4 @@
+'use client';
 import Link from 'next/link';
 
 export default function Navbar() {
@@ -6,38 +7,35 @@ export default function Navbar() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="flex h-20 items-center justify-between">
           <div className="flex items-center gap-4">
-            {/* Government Seal Placeholder */}
-            <div className="w-12 h-12 bg-green-800 rounded-full flex items-center justify-center shadow-inner">
-              <div className="w-8 h-8 rounded-full border-2 border-yellow-500 border-dashed animate-[spin_10s_linear_infinite]"></div>
+            <div className="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center shadow-inner">
+              <div className="w-8 h-8 rounded-full border-2 border-white border-dashed animate-[spin_10s_linear_infinite]"></div>
             </div>
             <div className="flex flex-col">
               <span className="text-[10px] font-bold tracking-widest text-gray-500 uppercase">Gombe State Government</span>
-              <Link href="/" className="font-extrabold text-xl text-green-900 tracking-tight leading-none mt-1">
+              <Link href="/" className="font-extrabold text-xl text-gray-900 tracking-tight leading-none mt-1">
                 2026 AIDS SUMMIT
               </Link>
             </div>
           </div>
           
           <nav className="hidden lg:flex items-center space-x-8">
-            <Link href="/" className="text-gray-600 hover:text-green-700 font-semibold text-sm transition-colors">Home</Link>
-            <Link href="/about" className="text-gray-600 hover:text-green-700 font-semibold text-sm transition-colors">About</Link>
-            <Link href="/programme" className="text-gray-600 hover:text-green-700 font-semibold text-sm transition-colors">Programme</Link>
-            <Link href="/speakers" className="text-gray-600 hover:text-green-700 font-semibold text-sm transition-colors">Speakers</Link>
-            <Link href="/abstracts" className="text-gray-600 hover:text-green-700 font-semibold text-sm transition-colors">Abstracts</Link>
-            <Link href="/partners" className="text-gray-600 hover:text-green-700 font-semibold text-sm transition-colors">Partners</Link>
-            <Link href="/vendors" className="text-gray-600 hover:text-red-700 font-bold text-sm transition-colors">Exhibition/Vendors</Link>
+            <Link href="/" className="text-gray-600 hover:text-red-600 font-semibold text-sm transition-colors">Home</Link>
+            <Link href="/about" className="text-gray-600 hover:text-red-600 font-semibold text-sm transition-colors">About</Link>
+            <Link href="/programme" className="text-gray-600 hover:text-red-600 font-semibold text-sm transition-colors">Programme</Link>
+            <Link href="/speakers" className="text-gray-600 hover:text-red-600 font-semibold text-sm transition-colors">Speakers</Link>
+            <Link href="/abstracts" className="text-gray-600 hover:text-red-600 font-semibold text-sm transition-colors">Abstracts</Link>
+            <Link href="/partners" className="text-gray-600 hover:text-red-600 font-semibold text-sm transition-colors">Partners</Link>
           </nav>
           
           <div className="hidden lg:flex items-center space-x-5">
-            <Link href="/abstracts/submit" className="text-sm font-bold text-green-700 hover:text-green-800 transition-colors">
+            <Link href="/abstracts/submit" className="text-sm font-bold text-gray-900 hover:text-red-600 transition-colors">
               Submit Abstract
             </Link>
-            <Link href="/register" className="bg-green-700 hover:bg-green-800 text-white px-6 py-2.5 rounded-sm font-bold text-sm transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
-              Register Now
+            <Link href="/register" className="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-sm font-bold text-sm transition-all shadow-md hover:shadow-lg transform hover:-translate-y-0.5">
+              Register / Exhibition
             </Link>
           </div>
 
-          {/* Mobile menu button */}
           <div className="lg:hidden">
             <button className="text-gray-900 p-2">
               <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
