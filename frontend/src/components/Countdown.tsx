@@ -29,7 +29,7 @@ export default function Countdown() {
         { label: 'S', value: timeLeft.seconds }
       ].map((item, index) => (
         <div key={index} className="flex flex-col items-center">
-          <div className="text-2xl font-black text-slate-900 tabular-nums">
+          <div className="text-2xl font-black text-emerald-950 tabular-nums">
             {item.value < 10 ? `0${item.value}` : item.value}
             <span className="text-rose-600 text-sm ml-0.5">{item.label}</span>
           </div>
