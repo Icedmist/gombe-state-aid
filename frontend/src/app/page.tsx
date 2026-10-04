@@ -3,117 +3,129 @@ import Countdown from "@/components/Countdown";
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-full bg-slate-50">
+    <div className="flex flex-col w-full bg-slate-50 selection:bg-rose-100 selection:text-rose-900">
       
-      {/* PREMIUM HEALTH HERO */}
-      <section className="relative min-h-[90vh] flex flex-col justify-center bg-slate-950 overflow-hidden">
-        {/* Medical / Emergency Gradient Background */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-red-900/40 via-slate-950 to-slate-950 z-0"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent z-0"></div>
-        
-        {/* Subtle Health Dot Pattern */}
-        <div className="absolute inset-0 opacity-[0.03] z-0 mix-blend-screen" style={{ backgroundImage: 'radial-gradient(#ffffff 1.5px, transparent 1.5px)', backgroundSize: '32px 32px' }}></div>
+      {/* STRUCTURED NAVY & ROSE HERO */}
+      <section className="relative min-h-[85vh] flex flex-col justify-center bg-slate-900 overflow-hidden">
+        {/* Clean Architectural Grid Background */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b_1px,transparent_1px),linear-gradient(to_bottom,#1e293b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-20"></div>
 
-        <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-20 pb-32">
+        <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-16 pb-32">
           <div className="max-w-4xl">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="flex items-center justify-center w-8 h-8 bg-red-600 text-white font-bold rounded-sm text-lg">+</div>
-              <span className="text-red-400 font-bold tracking-[0.2em] text-sm uppercase">Global Health Initiative</span>
+            <div className="inline-flex items-center gap-3 mb-8 bg-slate-800/50 border border-slate-700/50 rounded-full px-4 py-2 backdrop-blur-sm">
+              <span className="flex h-2.5 w-2.5 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
+              </span>
+              <span className="text-slate-300 font-bold tracking-widest text-xs uppercase">World AIDS Day Global Observance</span>
             </div>
             
-            <h1 className="text-5xl md:text-6xl lg:text-7xl font-black text-white tracking-tight mb-6 leading-[1.05]">
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-red-100 to-slate-400">GOMBE STATE 2026</span><br />
-              AIDS SUMMIT
+            <h1 className="text-5xl md:text-6xl lg:text-8xl font-black text-white tracking-tighter mb-8 leading-[1.05]">
+              GOMBE STATE 2026 <br />
+              <span className="text-rose-500">AIDS SUMMIT</span>
             </h1>
             
-            <p className="text-2xl md:text-3xl text-slate-300 font-light mb-12 max-w-3xl leading-snug border-l-4 border-red-500 pl-6">
-              "Integrate, fund, sustain and own TB-HIV Response"
+            <p className="text-xl md:text-2xl text-slate-400 font-medium mb-12 max-w-2xl leading-relaxed">
+              Integrate, fund, sustain and own the TB-HIV Response. Uniting clinical experts and policymakers for a healthier future.
             </p>
             
-            <div className="flex flex-col sm:flex-row gap-5">
-              <Link href="/register" className="bg-red-600 hover:bg-red-500 text-white px-10 py-5 rounded-sm font-bold text-center transition-transform transform hover:-translate-y-1 text-lg uppercase tracking-wide shadow-[0_0_20px_rgba(220,38,38,0.3)]">
-                REGISTER AS DELEGATE
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link href="/register" className="bg-rose-600 hover:bg-rose-700 text-white px-10 py-5 rounded-lg font-bold text-center transition-all transform hover:-translate-y-1 text-sm uppercase tracking-widest shadow-[0_8px_20px_rgba(225,29,72,0.3)]">
+                Register as Delegate
               </Link>
-              <Link href="/register" className="bg-transparent hover:bg-blue-900/30 text-blue-200 border border-blue-500/50 px-10 py-5 rounded-sm font-bold text-center transition-colors text-lg uppercase tracking-wide">
-                EXHIBITION & VENDORS
+              <Link href="/register" className="bg-slate-800 hover:bg-slate-700 text-white border border-slate-700 px-10 py-5 rounded-lg font-bold text-center transition-colors text-sm uppercase tracking-widest">
+                Exhibition & Vendors
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* QUICK INFO STRIP WITH COUNTDOWN */}
-      <section className="bg-white border-y border-slate-200 relative z-30 shadow-2xl -mt-12 mx-4 md:mx-auto max-w-6xl rounded-sm">
-        <div className="px-8 py-10 border-t-4 border-t-red-600">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 text-center md:text-left divide-y md:divide-y-0 md:divide-x divide-slate-100 items-center">
-            <div className="px-4">
-              <div className="text-xs font-bold uppercase tracking-widest text-red-600 mb-2">Global Event</div>
-              <div className="text-lg font-bold text-slate-900">World AIDS Day</div>
+      {/* FLOATING QUICK INFO (WHITE CARD, NAVY TEXT, ROSE ICONS) */}
+      <section className="relative z-30 -mt-16 mx-4 md:mx-auto max-w-6xl">
+        <div className="bg-white rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-100">
+            <div className="p-8 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+              <div className="w-12 h-12 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center shrink-0">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              </div>
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Date</div>
+                <div className="text-lg font-black text-slate-900">01 Dec 2026</div>
+              </div>
             </div>
-            <div className="px-4">
-              <div className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">Date</div>
-              <div className="text-lg font-bold text-slate-900">1st December 2026</div>
+            <div className="p-8 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+              <div className="w-12 h-12 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center shrink-0">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+              </div>
+              <div>
+                <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Location</div>
+                <div className="text-lg font-black text-slate-900">TBA, Gombe</div>
+              </div>
             </div>
-            <div className="px-4">
-              <div className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-2">Location</div>
-              <div className="text-lg font-bold text-slate-900">To be announced</div>
-            </div>
-            <div className="px-4 pt-4 md:pt-0">
-              <div className="text-xs font-bold uppercase tracking-widest text-red-600 mb-2">Countdown</div>
-              <Countdown />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SUMMIT OVERVIEW */}
-      <section className="pt-32 pb-24 bg-slate-50 relative">
-        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
-            <div className="lg:col-span-5">
-              <span className="text-blue-600 font-bold tracking-widest text-sm uppercase mb-3 block">Health Mandate</span>
-              <h2 className="text-4xl md:text-5xl font-extrabold text-slate-900 mb-8 leading-tight tracking-tight">
-                A Global Mandate: World AIDS Day.
-              </h2>
-              <Link href="/about" className="inline-flex items-center text-red-600 font-bold text-lg hover:text-red-700 transition-colors group">
-                Read our full vision
-                <svg className="w-5 h-5 ml-2 transform group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-            </div>
-            <div className="lg:col-span-7">
-              <p className="text-xl text-slate-600 mb-10 leading-relaxed font-light">
-                The Gombe State 2026 AIDS Summit officially aligns with World AIDS Day, uniting clinical experts, health professionals, development partners, and civil society to decisively strengthen the TB-HIV medical response.
-              </p>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {[
-                  { title: "Clinical Protocols", desc: "Aligning government medical action with community needs." },
-                  { title: "Medical Innovation", desc: "Sharing clinical breakthroughs and program science." },
-                  { title: "Resource Mobilization", desc: "Securing sustainable funding for health facilities." },
-                  { title: "Frontline Partnership", desc: "Building resilient medical stakeholder networks." }
-                ].map((item, i) => (
-                  <div key={i} className="bg-white p-6 border-l-4 border-blue-500 shadow-sm rounded-r-sm">
-                    <h4 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h4>
-                    <p className="text-sm text-slate-600">{item.desc}</p>
-                  </div>
-                ))}
+            <div className="p-8 flex items-center gap-4 hover:bg-slate-50 transition-colors md:col-span-2">
+              <div className="w-12 h-12 bg-slate-900 text-white rounded-full flex items-center justify-center shrink-0">
+                <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+              </div>
+              <div className="w-full">
+                <div className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1 flex justify-between">
+                  <span>Countdown</span>
+                  <span className="text-rose-600">Registration Open</span>
+                </div>
+                <Countdown />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* MODERN THEMES SECTION */}
-      <section className="py-32 bg-white">
+      {/* HEALTH OVERVIEW (NAVY TEXT, ROSE ACCENTS) */}
+      <section className="pt-32 pb-24 bg-slate-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <div className="w-16 h-1 bg-rose-600 mb-8"></div>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-8 leading-tight tracking-tight">
+                A Global Mandate:<br/>World AIDS Day.
+              </h2>
+              <p className="text-xl text-slate-600 mb-10 leading-relaxed">
+                The Gombe State 2026 AIDS Summit officially aligns with World AIDS Day, uniting clinical experts, health professionals, and government responders to decisively strengthen the TB-HIV medical response.
+              </p>
+              <Link href="/about" className="inline-flex items-center text-slate-900 font-bold text-lg hover:text-rose-600 transition-colors group uppercase tracking-widest text-sm">
+                Read our vision
+                <svg className="w-5 h-5 ml-3 transform group-hover:translate-x-2 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M17 8l4 4m0 0l-4 4m4-4H3" /></svg>
+              </Link>
+            </div>
+            
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {[
+                { title: "Clinical Protocols", desc: "Aligning government medical action with community needs." },
+                { title: "Medical Innovation", desc: "Sharing clinical breakthroughs and program science." },
+                { title: "Resource Mobilization", desc: "Securing sustainable funding for health facilities." },
+                { title: "Frontline Partnership", desc: "Building resilient medical stakeholder networks." }
+              ].map((item, i) => (
+                <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow">
+                  <div className="w-10 h-10 bg-rose-50 text-rose-600 rounded-lg flex items-center justify-center mb-6">
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+                  </div>
+                  <h4 className="text-xl font-bold text-slate-900 mb-3">{item.title}</h4>
+                  <p className="text-sm text-slate-500 leading-relaxed font-medium">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PILLARS / SUBTHEMES */}
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
             <div className="max-w-2xl">
-              <span className="text-red-600 font-bold tracking-widest text-sm uppercase mb-3 block">Sub-Themes</span>
-              <h2 className="text-4xl font-extrabold text-slate-900 tracking-tight">Pillars of the Health Response</h2>
+              <span className="text-rose-600 font-bold tracking-widest text-sm uppercase mb-3 block">Sub-Themes</span>
+              <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight">Pillars of the Health Response</h2>
             </div>
-            <Link href="/programme" className="bg-slate-900 text-white hover:bg-slate-800 px-8 py-4 font-bold text-sm transition-colors rounded-sm inline-block shadow-md uppercase tracking-wider">
+            <Link href="/programme" className="bg-slate-900 text-white hover:bg-rose-600 px-8 py-4 font-bold text-sm transition-colors rounded-lg shadow-md uppercase tracking-widest">
               View Programme
             </Link>
           </div>
@@ -126,55 +138,52 @@ export default function Home() {
               "TB/HIV program science in Gombe state: where we are and what next.",
               "One plan, coordinated action and shared responsibility."
             ].map((theme, i) => (
-              <div key={i} className="group relative bg-slate-50 p-10 hover:bg-blue-900 transition-colors duration-300 rounded-sm overflow-hidden border border-slate-200 shadow-sm">
-                <div className="absolute right-0 top-0 w-24 h-24 bg-red-600 rounded-bl-full -mr-12 -mt-12 transition-transform group-hover:scale-110 opacity-10 group-hover:opacity-100"></div>
-                <div className="text-5xl font-extrabold text-slate-200 group-hover:text-blue-800/50 transition-colors mb-6 font-serif relative z-10">
-                  0{i + 1}
+              <div key={i} className="group relative bg-slate-50 p-10 hover:bg-slate-900 transition-colors duration-300 rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+                <div className="text-5xl font-black text-slate-200 group-hover:text-slate-800 transition-colors mb-6 font-serif">
+                  {i + 1 < 10 ? `0${i + 1}` : i + 1}
                 </div>
-                <h3 className="text-xl font-bold text-slate-900 group-hover:text-white transition-colors leading-snug relative z-10">
+                <h3 className="text-xl font-bold text-slate-900 group-hover:text-white transition-colors leading-snug">
                   {theme}
                 </h3>
+                <div className="absolute bottom-0 left-0 w-0 h-1 bg-rose-600 transition-all duration-500 group-hover:w-full"></div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* IMPACT / CTA SECTION */}
-      <section className="relative py-32 bg-red-700 text-white overflow-hidden">
-        <div className="absolute right-0 top-0 w-1/2 h-full bg-red-800 transform skew-x-[-20deg] origin-top opacity-30 pointer-events-none"></div>
-        {/* Subtle cross pattern on the red */}
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(#ffffff 2px, transparent 2px)', backgroundSize: '40px 40px' }}></div>
+      {/* ABSTRACTS CTA (ROSE RED) */}
+      <section className="relative py-32 bg-rose-600 text-white overflow-hidden">
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
+        <div className="absolute right-0 top-0 w-1/3 h-full bg-rose-700 transform skew-x-[-20deg] origin-top opacity-50 pointer-events-none"></div>
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
-          <h2 className="text-4xl md:text-5xl font-extrabold mb-8 tracking-tight">Call for Abstracts</h2>
-          <p className="text-xl text-red-100 mb-12 max-w-3xl mx-auto font-light leading-relaxed">
-            Share your clinical research, medical innovations, and epidemiological evidence contributing to a stronger TB-HIV response. Help shape the scientific dialogue of Gombe State's future health architecture.
+          <div className="w-16 h-16 bg-white/10 rounded-full flex items-center justify-center mx-auto mb-8 border border-white/20">
+            <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-black mb-8 tracking-tight">Call for Abstracts</h2>
+          <p className="text-xl text-rose-100 mb-12 max-w-3xl mx-auto font-medium leading-relaxed">
+            Share your clinical research, medical innovations, and epidemiological evidence contributing to a stronger TB-HIV response. Help shape the scientific dialogue.
           </p>
-          <Link href="/abstracts" className="inline-block bg-white hover:bg-slate-100 text-red-900 px-10 py-5 rounded-sm font-bold text-lg transition-transform transform hover:-translate-y-1 shadow-[0_10px_20px_rgba(0,0,0,0.2)]">
-            SUBMIT YOUR RESEARCH
+          <Link href="/abstracts" className="inline-block bg-slate-900 hover:bg-slate-800 text-white px-12 py-5 rounded-lg font-bold text-sm uppercase tracking-widest transition-transform transform hover:-translate-y-1 shadow-[0_10px_20px_rgba(15,23,42,0.3)]">
+            Submit Your Research
           </Link>
         </div>
       </section>
 
-      {/* PARTNERSHIP CTA */}
-      <section className="py-24 bg-slate-50 border-t border-slate-200">
+      {/* PARTNERSHIPS */}
+      <section className="py-24 bg-white border-b border-slate-100">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl text-center">
-          <span className="w-16 h-16 mx-auto bg-blue-100 text-blue-700 rounded-full flex items-center justify-center mb-6 shadow-inner">
-            <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
-            </svg>
-          </span>
-          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-6 tracking-tight">
+          <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6 tracking-tight">
             Institutional Partnerships
           </h2>
-          <p className="text-lg text-slate-500 mb-10 max-w-2xl mx-auto">
+          <p className="text-lg text-slate-500 mb-10 max-w-2xl mx-auto font-medium">
             Join hands with the Gombe State Government and other clinical stakeholders to support the TB-HIV response. Discover partnership and sponsorship opportunities.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/partners" className="bg-slate-900 hover:bg-black text-white px-8 py-4 font-bold text-center transition-colors text-sm uppercase tracking-wide rounded-sm shadow-md">
+            <Link href="/partners" className="bg-rose-600 hover:bg-rose-700 text-white px-10 py-4 font-bold text-center transition-colors text-sm uppercase tracking-widest rounded-lg shadow-md">
               Explore Partnerships
             </Link>
-            <Link href="/contact" className="bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-8 py-4 font-bold text-center transition-colors text-sm uppercase tracking-wide rounded-sm">
+            <Link href="/contact" className="bg-white hover:bg-slate-50 text-slate-900 border border-slate-300 px-10 py-4 font-bold text-center transition-colors text-sm uppercase tracking-widest rounded-lg">
               Contact Secretariat
             </Link>
           </div>

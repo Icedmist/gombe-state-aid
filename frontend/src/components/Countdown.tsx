@@ -21,18 +21,18 @@ export default function Countdown() {
   }, []);
 
   return (
-    <div className="flex space-x-6 items-center">
+    <div className="flex gap-4 items-center mt-2">
       {[
-        { label: 'Days', value: timeLeft.days },
-        { label: 'Hours', value: timeLeft.hours },
-        { label: 'Mins', value: timeLeft.minutes },
-        { label: 'Secs', value: timeLeft.seconds }
+        { label: 'D', value: timeLeft.days },
+        { label: 'H', value: timeLeft.hours },
+        { label: 'M', value: timeLeft.minutes },
+        { label: 'S', value: timeLeft.seconds }
       ].map((item, index) => (
         <div key={index} className="flex flex-col items-center">
-          <div className="text-3xl md:text-5xl font-light text-gray-900 tracking-tighter tabular-nums">
+          <div className="text-2xl font-black text-slate-900 tabular-nums">
             {item.value < 10 ? `0${item.value}` : item.value}
+            <span className="text-rose-600 text-sm ml-0.5">{item.label}</span>
           </div>
-          <span className="text-[10px] text-gray-400 font-bold uppercase tracking-[0.2em] mt-2">{item.label}</span>
         </div>
       ))}
     </div>

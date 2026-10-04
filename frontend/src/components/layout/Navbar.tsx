@@ -3,42 +3,41 @@ import Link from 'next/link';
 
 export default function Navbar() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white/90 backdrop-blur-lg">
+    <header className="sticky top-0 z-50 w-full border-b border-slate-100 bg-white/95 backdrop-blur-md shadow-sm">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
-        <div className="flex h-20 items-center justify-between">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-red-600 rounded-sm flex items-center justify-center text-white font-bold text-xl shadow-inner">
-              +
+        <div className="flex h-24 items-center justify-between">
+          <Link href="/" className="flex items-center gap-4 group">
+            <div className="w-10 h-10 bg-rose-600 rounded-lg flex items-center justify-center transform group-hover:-rotate-3 transition-transform shadow-md">
+              <svg className="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] font-bold tracking-widest text-slate-500 uppercase">Gombe State Government</span>
-              <span className="font-extrabold text-xl text-slate-900 tracking-tight leading-none mt-0.5">
-                AIDS SUMMIT
+              <span className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase">Gombe State Government</span>
+              <span className="font-black text-2xl text-slate-900 tracking-tight leading-none mt-0.5">
+                AIDS SUMMIT<span className="text-rose-600">.</span>
               </span>
             </div>
           </Link>
           
           <nav className="hidden lg:flex items-center space-x-8">
-            <Link href="/" className="text-slate-600 hover:text-red-600 font-bold text-sm transition-colors">Home</Link>
-            <Link href="/about" className="text-slate-600 hover:text-red-600 font-bold text-sm transition-colors">About</Link>
-            <Link href="/programme" className="text-slate-600 hover:text-red-600 font-bold text-sm transition-colors">Programme</Link>
-            <Link href="/speakers" className="text-slate-600 hover:text-red-600 font-bold text-sm transition-colors">Speakers</Link>
-            <Link href="/abstracts" className="text-slate-600 hover:text-red-600 font-bold text-sm transition-colors">Abstracts</Link>
-            <Link href="/partners" className="text-slate-600 hover:text-red-600 font-bold text-sm transition-colors">Partners</Link>
+            <Link href="/" className="text-slate-600 hover:text-rose-600 font-bold text-sm uppercase tracking-wide transition-colors">Home</Link>
+            <Link href="/about" className="text-slate-600 hover:text-rose-600 font-bold text-sm uppercase tracking-wide transition-colors">About</Link>
+            <Link href="/programme" className="text-slate-600 hover:text-rose-600 font-bold text-sm uppercase tracking-wide transition-colors">Programme</Link>
+            <Link href="/speakers" className="text-slate-600 hover:text-rose-600 font-bold text-sm uppercase tracking-wide transition-colors">Speakers</Link>
+            <Link href="/abstracts" className="text-slate-600 hover:text-rose-600 font-bold text-sm uppercase tracking-wide transition-colors">Abstracts</Link>
           </nav>
           
-          <div className="hidden lg:flex items-center space-x-5">
-            <Link href="/abstracts/submit" className="text-sm font-bold text-blue-700 hover:text-blue-800 transition-colors">
+          <div className="hidden lg:flex items-center space-x-6">
+            <Link href="/abstracts/submit" className="text-sm font-bold text-slate-900 hover:text-rose-600 transition-colors uppercase tracking-wide">
               Submit Abstract
             </Link>
-            <Link href="/register" className="bg-red-600 hover:bg-red-700 text-white px-6 py-2.5 rounded-sm font-bold text-sm transition-all shadow-md">
-              Register / Exhibition
+            <Link href="/register" className="bg-rose-600 hover:bg-rose-700 text-white px-8 py-3 rounded-md font-bold text-sm uppercase tracking-widest transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5">
+              Register
             </Link>
           </div>
 
           <div className="lg:hidden">
             <button className="text-slate-900 p-2">
-              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
               </svg>
             </button>
