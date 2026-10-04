@@ -5,73 +5,84 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full bg-slate-50 selection:bg-emerald-100 selection:text-emerald-900">
       
-      {/* STRUCTURED EMERALD & ROSE HERO */}
-      <section className="relative min-h-[85vh] flex flex-col justify-center bg-emerald-950 overflow-hidden">
-        {/* Clean Architectural Grid Background with Modern Green Glow */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#064e3b_1px,transparent_1px),linear-gradient(to_bottom,#064e3b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)] opacity-30"></div>
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-emerald-700/20 rounded-full blur-[120px] opacity-60 z-0 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
+      {/* GRAND CENTER-ALIGNED HERO SECTION */}
+      <section className="relative min-h-[95vh] flex flex-col justify-center items-center bg-emerald-950 overflow-hidden text-center">
+        {/* Abstract Glow & Grid */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#064e3b_1px,transparent_1px),linear-gradient(to_bottom,#064e3b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] opacity-20"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[600px] bg-emerald-500/20 blur-[120px] rounded-full pointer-events-none"></div>
 
-        <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl pt-16 pb-32">
-          <div className="max-w-4xl">
-            <div className="inline-flex items-center gap-3 mb-8 bg-emerald-900/60 border border-emerald-800/50 rounded-full px-4 py-2 backdrop-blur-sm">
-              <span className="flex h-2.5 w-2.5 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
-              </span>
-              <span className="text-emerald-200 font-bold tracking-widest text-xs uppercase">World AIDS Day Global Observance</span>
-            </div>
-            
-            <h1 className="text-5xl md:text-6xl lg:text-8xl font-black text-white tracking-tighter mb-8 leading-[1.05]">
-              GOMBE STATE 2026 <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">AIDS SUMMIT</span>
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-emerald-100/70 font-medium mb-12 max-w-2xl leading-relaxed">
-              Integrate, fund, sustain and own the TB-HIV Response. Uniting clinical experts and policymakers for a healthier future.
-            </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/register" className="bg-rose-600 hover:bg-rose-700 text-white px-10 py-5 rounded-lg font-bold text-center transition-all transform hover:-translate-y-1 text-sm uppercase tracking-widest shadow-[0_8px_20px_rgba(225,29,72,0.3)]">
-                Register as Delegate
-              </Link>
-              <Link href="/register" className="bg-emerald-900 hover:bg-emerald-800 text-emerald-100 border border-emerald-700 px-10 py-5 rounded-lg font-bold text-center transition-colors text-sm uppercase tracking-widest">
-                Exhibition & Vendors
-              </Link>
-            </div>
+        <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl pt-24 pb-40">
+          
+          <div className="inline-flex items-center gap-3 mb-8 bg-emerald-900/50 border border-emerald-700/50 rounded-full px-5 py-2 backdrop-blur-md shadow-lg">
+            <span className="flex h-2.5 w-2.5 relative">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
+            </span>
+            <span className="text-emerald-100 font-bold tracking-[0.2em] text-[10px] sm:text-xs uppercase">
+              1st December 2026 • World AIDS Day
+            </span>
+          </div>
+          
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-6 leading-[0.95]">
+            GOMBE STATE 2026 <br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-200 to-emerald-400 bg-[length:200%_auto] animate-pulse">
+              AIDS SUMMIT
+            </span>
+          </h1>
+          
+          <p className="text-2xl md:text-3xl font-medium text-white mb-6 leading-snug max-w-4xl mx-auto drop-shadow-md">
+            "Stronger Partnerships for a Healthier, HIV & TB Free Gombe State"
+          </p>
+
+          <p className="text-lg md:text-xl text-emerald-200/90 font-light mb-12 max-w-2xl mx-auto border-t border-emerald-800/50 pt-6">
+            <span className="font-bold text-emerald-100 uppercase tracking-widest text-sm mr-2">Theme:</span> 
+            Integrate, fund, sustain and own TB-HIV Response
+          </p>
+          
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+            <Link href="/register" className="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white px-12 py-5 rounded-full font-bold text-center transition-all transform hover:-translate-y-1 text-sm uppercase tracking-widest shadow-[0_8px_30px_rgba(225,29,72,0.4)]">
+              Register as Delegate
+            </Link>
+            <Link href="/register" className="w-full sm:w-auto bg-emerald-900/60 hover:bg-emerald-800 text-emerald-50 border border-emerald-700/60 px-12 py-5 rounded-full font-bold text-center transition-colors text-sm uppercase tracking-widest backdrop-blur-sm">
+              Exhibition & Vendors
+            </Link>
           </div>
         </div>
+
+        {/* Soft fade into the next section */}
+        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-50 to-transparent z-10 pointer-events-none"></div>
       </section>
 
       {/* FLOATING QUICK INFO (WHITE CARD, EMERALD TEXT, MIXED ICONS) */}
-      <section className="relative z-30 -mt-16 mx-4 md:mx-auto max-w-6xl">
-        <div className="bg-white rounded-2xl shadow-[0_20px_40px_rgba(0,0,0,0.08)] border border-slate-100 overflow-hidden">
+      <section className="relative z-30 -mt-24 mx-4 md:mx-auto max-w-6xl">
+        <div className="bg-white rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.06)] border border-slate-100 overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-100">
-            <div className="p-8 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+            <div className="p-8 flex items-center justify-center md:justify-start gap-4 hover:bg-slate-50 transition-colors">
               <div className="w-12 h-12 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center shrink-0">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
               </div>
-              <div>
+              <div className="text-left">
                 <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 mb-1">Date</div>
                 <div className="text-lg font-black text-emerald-950">01 Dec 2026</div>
               </div>
             </div>
-            <div className="p-8 flex items-center gap-4 hover:bg-slate-50 transition-colors">
+            <div className="p-8 flex items-center justify-center md:justify-start gap-4 hover:bg-slate-50 transition-colors">
               <div className="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-full flex items-center justify-center shrink-0">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
               </div>
-              <div>
+              <div className="text-left">
                 <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 mb-1">Location</div>
                 <div className="text-lg font-black text-emerald-950">TBA, Gombe</div>
               </div>
             </div>
-            <div className="p-8 flex items-center gap-4 hover:bg-slate-50 transition-colors md:col-span-2">
+            <div className="p-8 flex items-center justify-center md:justify-start gap-4 hover:bg-slate-50 transition-colors md:col-span-2">
               <div className="w-12 h-12 bg-emerald-950 text-white rounded-full flex items-center justify-center shrink-0">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
               </div>
-              <div className="w-full">
+              <div className="w-full text-left">
                 <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 mb-1 flex justify-between">
                   <span>Countdown</span>
-                  <span className="text-rose-600">Registration Open</span>
+                  <span className="text-rose-600 hidden sm:inline">Registration Open</span>
                 </div>
                 <Countdown />
               </div>
