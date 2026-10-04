@@ -7,7 +7,7 @@ export default function Home() {
       {/* HEALTH & EMERGENCY HERO SECTION */}
       <section className="relative min-h-[95vh] flex flex-col justify-center bg-gray-900 overflow-hidden">
         {/* Dynamic Health Overlay & Pulse */}
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/clean-text-pattern.png')] opacity-20 z-0"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:16px_16px] opacity-20 z-0"></div>
         <div className="absolute top-0 right-0 w-full h-full bg-gradient-to-br from-red-900/40 via-[#0A2518]/80 to-gray-900 z-0"></div>
         
         {/* Heartbeat / ECG SVG line running across */}
