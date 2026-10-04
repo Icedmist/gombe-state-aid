@@ -4,7 +4,7 @@ export default function Programme() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
         
         <div className="mb-20 text-center">
-          <span className="text-green-700 font-bold tracking-widest text-sm uppercase mb-3 block">Schedule</span>
+          <span className="text-red-700 font-bold tracking-widest text-sm uppercase mb-3 block">Schedule</span>
           <h1 className="text-5xl font-extrabold text-gray-900 tracking-tight mb-6">
             Official Programme
           </h1>
@@ -25,7 +25,7 @@ export default function Programme() {
                 <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Main Hall</span>
               </div>
               <div className="flex-1">
-                <span className="inline-block px-3 py-1 bg-yellow-100 text-yellow-800 text-[10px] font-black uppercase tracking-widest mb-4">
+                <span className="inline-block px-3 py-1 bg-red-100 text-red-800 text-[10px] font-black uppercase tracking-widest mb-4">
                   Opening Ceremony
                 </span>
                 <h3 className="text-2xl font-bold text-gray-900 mb-3 leading-snug">Welcome Address & Keynote Presentation</h3>
@@ -42,7 +42,7 @@ export default function Programme() {
           </div>
 
           {/* Demo Session 2 */}
-          <div className="bg-white p-8 md:p-10 rounded-sm border-l-4 border-yellow-500 shadow-sm hover:shadow-lg transition-shadow relative overflow-hidden group">
+          <div className="bg-white p-8 md:p-10 rounded-sm border-l-4 border-red-600 shadow-sm hover:shadow-lg transition-shadow relative overflow-hidden group">
             <div className="flex flex-col md:flex-row gap-6 md:gap-12 relative z-10">
               <div className="md:w-40 shrink-0">
                 <span className="text-3xl font-extrabold text-[#0A2518] tracking-tight block mb-1">10:30</span>
@@ -72,14 +72,14 @@ export default function Programme() {
           </div>
 
           {/* Demo Session 3 */}
-          <div className="bg-white p-8 md:p-10 rounded-sm border-l-4 border-green-500 shadow-sm hover:shadow-lg transition-shadow relative overflow-hidden group">
+          <div className="bg-white p-8 md:p-10 rounded-sm border-l-4 border-red-600 shadow-sm hover:shadow-lg transition-shadow relative overflow-hidden group">
             <div className="flex flex-col md:flex-row gap-6 md:gap-12 relative z-10">
               <div className="md:w-40 shrink-0">
                 <span className="text-3xl font-extrabold text-[#0A2518] tracking-tight block mb-1">12:45</span>
                 <span className="text-sm font-bold text-gray-400 uppercase tracking-widest">Breakout Rooms</span>
               </div>
               <div className="flex-1">
-                <span className="inline-block px-3 py-1 bg-green-50 text-green-800 text-[10px] font-black uppercase tracking-widest mb-4">
+                <span className="inline-block px-3 py-1 bg-red-50 text-red-800 text-[10px] font-black uppercase tracking-widest mb-4">
                   Technical Session
                 </span>
                 <h3 className="text-2xl font-bold text-gray-900 mb-3 leading-snug">Strengthening Resource Mobilization</h3>

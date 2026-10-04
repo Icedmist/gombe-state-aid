@@ -41,7 +41,7 @@ export default function Speakers() {
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8 border-b border-gray-100 pb-12">
           <div className="max-w-3xl">
-            <span className="text-yellow-500 font-bold tracking-widest text-sm uppercase mb-3 block">Delegation</span>
+            <span className="text-red-600 font-bold tracking-widest text-sm uppercase mb-3 block">Delegation</span>
             <h1 className="text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
               Summit Speakers &<br />Special Guests
             </h1>
@@ -66,14 +66,14 @@ export default function Speakers() {
               <div className="aspect-[3/4] bg-gray-100 relative overflow-hidden mb-6 rounded-sm">
                 <img src={speaker.image} alt={speaker.name} className="object-cover w-full h-full filter grayscale group-hover:grayscale-0 transition-all duration-700 transform group-hover:scale-105" />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                <div className="absolute top-4 left-4 bg-yellow-500 text-[#0A2518] text-[10px] font-black px-3 py-1 uppercase tracking-widest">
+                <div className="absolute top-4 left-4 bg-red-600 text-[#0A2518] text-[10px] font-black px-3 py-1 uppercase tracking-widest">
                   {speaker.category}
                 </div>
               </div>
               <div>
-                <h3 className="text-xl font-extrabold text-gray-900 group-hover:text-green-700 transition-colors mb-1">{speaker.name}</h3>
+                <h3 className="text-xl font-extrabold text-gray-900 group-hover:text-red-700 transition-colors mb-1">{speaker.name}</h3>
                 <p className="text-sm text-gray-500 font-medium mb-2">{speaker.title}</p>
-                <div className="h-px w-8 bg-yellow-500 mb-2 transition-all duration-300 group-hover:w-full"></div>
+                <div className="h-px w-8 bg-red-600 mb-2 transition-all duration-300 group-hover:w-full"></div>
                 <p className="text-xs font-bold uppercase tracking-wider text-[#0A2518]">{speaker.organization}</p>
               </div>
             </Link>
