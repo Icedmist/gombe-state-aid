@@ -25,6 +25,7 @@ export default function Navbar() {
             <Link href="/speakers" className="text-gray-600 hover:text-green-700 font-semibold text-sm transition-colors">Speakers</Link>
             <Link href="/abstracts" className="text-gray-600 hover:text-green-700 font-semibold text-sm transition-colors">Abstracts</Link>
             <Link href="/partners" className="text-gray-600 hover:text-green-700 font-semibold text-sm transition-colors">Partners</Link>
+            <Link href="/vendors" className="text-gray-600 hover:text-red-700 font-bold text-sm transition-colors">Exhibition/Vendors</Link>
           </nav>
           
           <div className="hidden lg:flex items-center space-x-5">
