@@ -8,7 +8,7 @@ export default function Home() {
       {/* ULTRA-MODERN HERO SECTION */}
       <section className="relative pt-32 pb-40 lg:pt-48 lg:pb-56 overflow-hidden">
         {/* Minimalist Background Grid */}
-        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] opacity-40 z-0 mask-image:linear-gradient(to_bottom,white,transparent)"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(#e5e7eb_1px,transparent_1px)] [background-size:24px_24px] opacity-40 z-0 [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-red-50 rounded-full blur-[120px] opacity-50 z-0 translate-x-1/3 -translate-y-1/3 pointer-events-none"></div>
 
         <div className="container relative z-10 mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl text-center">
