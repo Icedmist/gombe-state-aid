@@ -1,8 +1,8 @@
 'use server'
 
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+// Temporarily disabled Prisma for local preview
+// import { PrismaClient } from '@prisma/client'
+// const prisma = new PrismaClient()
 
 export async function submitRegistration(formData: FormData) {
   try {
@@ -15,11 +15,10 @@ export async function submitRegistration(formData: FormData) {
       participantCategory: formData.get('participantCategory') as string,
     }
 
-    const registration = await prisma.registration.create({
-      data,
-    })
-
-    return { success: true, id: registration.id }
+    console.log("Mock Registration Created:", data);
+    
+    // const registration = await prisma.registration.create({ data })
+    return { success: true, id: "mock_id_123" }
   } catch (error) {
     console.error('Registration error:', error)
     return { success: false, error: 'Failed to submit registration' }

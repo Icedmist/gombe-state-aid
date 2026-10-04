@@ -1,8 +1,8 @@
 'use server'
 
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+// Temporarily disabled Prisma for local preview
+// import { PrismaClient } from '@prisma/client'
+// const prisma = new PrismaClient()
 
 export async function submitAbstract(formData: FormData) {
   try {
@@ -15,11 +15,10 @@ export async function submitAbstract(formData: FormData) {
       text: formData.get('text') as string,
     }
 
-    const abstract = await prisma.abstract.create({
-      data,
-    })
+    console.log("Mock Abstract Created:", data);
 
-    return { success: true, id: abstract.id }
+    // const abstract = await prisma.abstract.create({ data })
+    return { success: true, id: "mock_id_456" }
   } catch (error) {
     console.error('Abstract submission error:', error)
     return { success: false, error: 'Failed to submit abstract' }
