@@ -5,55 +5,57 @@ export default function Home() {
   return (
     <div className="flex flex-col w-full bg-slate-50 selection:bg-emerald-100 selection:text-emerald-900">
       
-      {/* GRAND CENTER-ALIGNED HERO SECTION */}
-      <section className="relative min-h-[95vh] flex flex-col justify-center items-center bg-emerald-950 overflow-hidden text-center">
-        {/* Abstract Glow & Grid */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#064e3b_1px,transparent_1px),linear-gradient(to_bottom,#064e3b_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_80%_at_50%_50%,#000_70%,transparent_100%)] opacity-20"></div>
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[600px] bg-emerald-500/20 blur-[120px] rounded-full pointer-events-none"></div>
+      {/* PREMIUM MODERN HERO SECTION */}
+      <section className="relative min-h-[95vh] flex flex-col justify-center items-center bg-slate-950 overflow-hidden text-center">
+        {/* Ambient Animated Glows */}
+        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-emerald-600/30 rounded-full blur-[120px] mix-blend-screen animate-[pulse_8s_ease-in-out_infinite]"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-teal-600/20 rounded-full blur-[150px] mix-blend-screen animate-[pulse_10s_ease-in-out_infinite_reverse]"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-rose-600/10 rounded-[100%] blur-[120px] mix-blend-screen transform -rotate-45 pointer-events-none"></div>
+        
+        {/* Modern Dot Grid Overlay */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:24px_24px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_50%,#000_70%,transparent_100%)]"></div>
 
-        <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl pt-24 pb-40">
+        <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl pt-32 pb-40 flex flex-col items-center">
           
-          <div className="inline-flex items-center gap-3 mb-8 bg-emerald-900/50 border border-emerald-700/50 rounded-full px-5 py-2 backdrop-blur-md shadow-lg">
-            <span className="flex h-2.5 w-2.5 relative">
+          {/* Glassmorphic Date Badge */}
+          <div className="inline-flex items-center gap-3 mb-10 bg-white/5 border border-white/10 rounded-full px-6 py-2.5 backdrop-blur-xl shadow-2xl">
+            <span className="flex h-2 w-2 relative">
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-rose-500"></span>
             </span>
-            <span className="text-emerald-100 font-bold tracking-[0.2em] text-[10px] sm:text-xs uppercase">
+            <span className="text-slate-200 font-medium tracking-[0.2em] text-[11px] sm:text-xs uppercase">
               1st December 2026 • World AIDS Day
             </span>
           </div>
           
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-2 leading-[0.95]">
+          <h1 className="text-6xl md:text-7xl lg:text-[6rem] font-black text-white tracking-tighter mb-4 leading-[0.9]">
             GOMBE STATE 2026 <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-200 to-emerald-400 bg-[length:200%_auto] animate-pulse">
+            <span className="inline-block text-transparent bg-clip-text bg-gradient-to-r from-emerald-300 via-teal-100 to-emerald-300 bg-[length:200%_auto] animate-[gradient_8s_linear_infinite] mt-2">
               HIV-TB SUMMIT
             </span>
           </h1>
-          <p className="text-xl md:text-2xl text-emerald-200 italic mb-6 font-light">
+          
+          <p className="text-xl md:text-2xl text-emerald-300/80 italic mb-10 font-light tracking-wide">
             in commemoration with World AIDS Day
           </p>
           
-          <p className="text-2xl md:text-3xl font-medium text-white mb-6 leading-snug max-w-4xl mx-auto drop-shadow-md">
+          <p className="text-2xl md:text-3xl font-medium text-slate-300 mb-12 leading-relaxed max-w-4xl mx-auto drop-shadow-sm">
             "Stronger Partnerships for a Healthier, HIV & TB Free Gombe State"
           </p>
 
-          <p className="text-lg md:text-xl text-emerald-200/90 font-light mb-12 max-w-2xl mx-auto border-t border-emerald-800/50 pt-6">
-            <span className="font-bold text-emerald-100 uppercase tracking-widest text-sm mr-2">Theme:</span> 
-            Integrate, fund, sustain and own TB-HIV Response
-          </p>
-          
-          <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
-            <Link href="/register" className="w-full sm:w-auto bg-rose-600 hover:bg-rose-700 text-white px-12 py-5 rounded-full font-bold text-center transition-all transform hover:-translate-y-1 text-sm uppercase tracking-widest shadow-[0_8px_30px_rgba(225,29,72,0.4)]">
-              Register as Delegate
+          <div className="flex flex-col sm:flex-row justify-center items-center gap-5 w-full sm:w-auto">
+            <Link href="/register" className="group relative w-full sm:w-auto bg-gradient-to-r from-rose-500 to-rose-600 hover:from-rose-400 hover:to-rose-500 text-white px-10 py-4 rounded-full font-semibold text-center transition-all shadow-[0_0_40px_rgba(225,29,72,0.3)] hover:shadow-[0_0_60px_rgba(225,29,72,0.5)] transform hover:-translate-y-1 overflow-hidden">
+              <span className="relative z-10 text-sm uppercase tracking-widest">Register as Delegate</span>
+              <div className="absolute inset-0 w-full h-full bg-white/20 transform -skew-x-12 -translate-x-full group-hover:animate-[shine_1.5s_ease-out]"></div>
             </Link>
-            <Link href="/register" className="w-full sm:w-auto bg-emerald-900/60 hover:bg-emerald-800 text-emerald-50 border border-emerald-700/60 px-12 py-5 rounded-full font-bold text-center transition-colors text-sm uppercase tracking-widest backdrop-blur-sm">
+            <Link href="/register" className="w-full sm:w-auto bg-white/5 hover:bg-white/10 text-slate-100 border border-white/10 px-10 py-4 rounded-full font-semibold text-center transition-all text-sm uppercase tracking-widest backdrop-blur-md hover:border-white/20 transform hover:-translate-y-1">
               Exhibition & Vendors
             </Link>
           </div>
         </div>
 
-        {/* Soft fade into the next section */}
-        <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-slate-50 to-transparent z-10 pointer-events-none"></div>
+        {/* Elegant Bottom Fade to next section */}
+        <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-slate-50 to-transparent z-10 pointer-events-none"></div>
       </section>
 
       {/* FLOATING QUICK INFO (WHITE CARD, EMERALD TEXT, MIXED ICONS) */}
