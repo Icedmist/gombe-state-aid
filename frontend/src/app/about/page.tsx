@@ -50,7 +50,7 @@ export default function About() {
         </div>
 
         <div className="mt-16 text-center border-t border-gray-200 pt-12">
-          <Link href="/register" className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-sm font-black text-lg uppercase tracking-wide transition-all shadow-md">
+          <Link href="/register" className="bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-sm font-black text-lg uppercase tracking-wide transition-all shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
             Register for the Summit
           </Link>
         </div>

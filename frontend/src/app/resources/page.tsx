@@ -31,7 +31,7 @@ export default function Resources() {
             {documents.map((doc, i) => (
               <li key={i} className="p-6 hover:bg-white transition-colors flex items-center justify-between group">
                 <div className="flex items-center">
-                  <div className={`p-3 rounded-lg mr-4 ${doc.type === 'PDF' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'}`}>
+                  <div className={`p-3 rounded-xl mr-4 ${doc.type === 'PDF' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'}`}>
                     {doc.type === 'PDF' ? (
                       <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />

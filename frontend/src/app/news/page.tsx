@@ -36,7 +36,7 @@ export default function News() {
             </p>
           </div>
           <div className="mt-6 md:mt-0">
-            <div className="inline-flex rounded-md shadow-sm">
+            <div className="inline-flex rounded-md shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
               <button className="px-4 py-2 text-sm font-medium bg-green-700 text-white border border-green-700 rounded-l-lg hover:bg-green-800">
                 Latest
               </button>
@@ -52,7 +52,7 @@ export default function News() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {newsItems.map((item) => (
-            <article key={item.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow flex flex-col">
+            <article key={item.id} className="bg-white rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100 overflow-hidden hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow flex flex-col">
               <div className="h-48 bg-gray-200 relative">
                 {/* Image placeholder */}
                 <div className="absolute inset-0 flex items-center justify-center text-gray-400">

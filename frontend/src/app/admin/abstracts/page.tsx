@@ -10,10 +10,10 @@ export default function AdminAbstracts() {
         </button>
       </div>
       
-      <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
+      <div className="bg-white rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100 p-6">
         <div className="flex flex-col sm:flex-row gap-4 mb-6">
-          <input type="text" placeholder="Search abstracts..." className="flex-1 rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 border p-2 text-sm" />
-          <select className="rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 border p-2 text-sm bg-white">
+          <input type="text" placeholder="Search abstracts..." className="flex-1 rounded-md border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-green-500 focus:ring-green-500 border p-2 text-sm" />
+          <select className="rounded-md border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-green-500 focus:ring-green-500 border p-2 text-sm bg-white">
             <option>All Statuses</option>
             <option>Submitted</option>
             <option>Under Review</option>
@@ -21,7 +21,7 @@ export default function AdminAbstracts() {
             <option>Rejected</option>
             <option>Revision Requested</option>
           </select>
-          <select className="rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 border p-2 text-sm bg-white">
+          <select className="rounded-md border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-green-500 focus:ring-green-500 border p-2 text-sm bg-white">
             <option>All Themes</option>
             <option>Theme 1</option>
             <option>Theme 2</option>

@@ -33,7 +33,7 @@ export default function Home() {
             in commemoration with World AIDS Day
           </p>
           
-          <p className="text-2xl md:text-3xl font-medium text-white mb-6 leading-snug max-w-4xl mx-auto drop-shadow-md">
+          <p className="text-2xl md:text-3xl font-medium text-white mb-6 leading-snug max-w-4xl mx-auto drop-shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
             "Stronger Partnerships for a Healthier, HIV & TB Free Gombe State"
           </p>
 
@@ -58,7 +58,7 @@ export default function Home() {
 
       {/* FLOATING QUICK INFO (WHITE CARD, EMERALD TEXT, MIXED ICONS) */}
       <section className="relative z-30 -mt-24 mx-4 md:mx-auto max-w-6xl">
-        <div className="bg-white rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.06)] border border-slate-100 overflow-hidden">
+        <div className="bg-white rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.06)] border border-slate-100/60 overflow-hidden">
           <div className="grid grid-cols-1 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-slate-100">
             <div className="p-8 flex items-center justify-center md:justify-start gap-4 hover:bg-slate-50 transition-colors">
               <div className="w-12 h-12 bg-rose-50 text-rose-600 rounded-full flex items-center justify-center shrink-0">
@@ -119,8 +119,8 @@ export default function Home() {
                 { title: "Frontline Partnership", desc: "Building resilient stakeholder networks." },
                 { title: "State Response", desc: "Aligning government action with community needs." }
               ].map((item, i) => (
-                <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow hover:border-emerald-100">
-                  <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center mb-6">
+                <div key={i} className="bg-white p-8 rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-slate-100/60 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow hover:border-emerald-100">
+                  <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center mb-6">
                     <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
                   </div>
                   <h4 className="text-xl font-bold text-emerald-950 mb-3">{item.title}</h4>
@@ -140,7 +140,7 @@ export default function Home() {
               <span className="text-emerald-600 font-bold tracking-widest text-sm uppercase mb-3 block">Sub-Themes</span>
               <h2 className="text-4xl md:text-5xl font-black text-emerald-950 tracking-tight">Pillars of the Health Response</h2>
             </div>
-            <Link href="/programme" className="bg-emerald-950 text-white hover:bg-emerald-900 px-8 py-4 font-bold text-sm transition-colors rounded-lg shadow-md uppercase tracking-widest">
+            <Link href="/programme" className="bg-emerald-950 text-white hover:bg-emerald-900 px-8 py-4 font-bold text-sm transition-colors rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)] uppercase tracking-widest">
               View Programme
             </Link>
           </div>
@@ -153,7 +153,7 @@ export default function Home() {
               "TB/HIV program science in Gombe state: where we are and what next.",
               "One plan, coordinated action and shared responsibility."
             ].map((theme, i) => (
-              <div key={i} className="group relative bg-slate-50 p-10 hover:bg-emerald-950 transition-colors duration-300 rounded-2xl overflow-hidden border border-slate-100 shadow-sm">
+              <div key={i} className="group relative bg-slate-50 p-10 hover:bg-emerald-950 transition-colors duration-300 rounded-2xl overflow-hidden border border-slate-100/60 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
                 <div className="text-5xl font-black text-emerald-100 group-hover:text-emerald-800 transition-colors mb-6 font-serif">
                   {i + 1 < 10 ? `0${i + 1}` : i + 1}
                 </div>
@@ -179,14 +179,14 @@ export default function Home() {
           <p className="text-xl text-rose-100 mb-12 max-w-3xl mx-auto font-medium leading-relaxed">
             Share your clinical research, medical innovations, and epidemiological evidence contributing to a stronger TB-HIV response. Help shape the scientific dialogue.
           </p>
-          <Link href="/abstracts" className="inline-block bg-emerald-950 hover:bg-emerald-900 text-white px-12 py-5 rounded-lg font-bold text-sm uppercase tracking-widest transition-transform transform hover:-translate-y-1 shadow-[0_10px_20px_rgba(2,44,34,0.3)]">
+          <Link href="/abstracts" className="inline-block bg-emerald-950 hover:bg-emerald-900 text-white px-12 py-5 rounded-xl font-bold text-sm uppercase tracking-widest transition-transform transform hover:-translate-y-1 shadow-[0_10px_20px_rgba(2,44,34,0.3)]">
             Submit Your Research
           </Link>
         </div>
       </section>
 
       {/* PARTNERSHIPS */}
-      <section className="py-24 bg-white border-b border-slate-100">
+      <section className="py-24 bg-white border-b border-slate-100/60">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl text-center">
           <h2 className="text-3xl md:text-4xl font-black text-emerald-950 mb-6 tracking-tight">
             Institutional Partnerships
@@ -195,10 +195,10 @@ export default function Home() {
             Join hands with the Gombe State Government and other clinical stakeholders to support the TB-HIV response. Discover partnership and sponsorship opportunities.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
-            <Link href="/partners" className="bg-emerald-600 hover:bg-emerald-700 text-white px-10 py-4 font-bold text-center transition-colors text-sm uppercase tracking-widest rounded-lg shadow-md">
+            <Link href="/partners" className="bg-emerald-600 hover:bg-emerald-700 text-white px-10 py-4 font-bold text-center transition-colors text-sm uppercase tracking-widest rounded-xl shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
               Explore Partnerships
             </Link>
-            <Link href="/contact" className="bg-white hover:bg-slate-50 text-emerald-950 border border-slate-300 px-10 py-4 font-bold text-center transition-colors text-sm uppercase tracking-widest rounded-lg">
+            <Link href="/contact" className="bg-white hover:bg-slate-50 text-emerald-950 border border-slate-300 px-10 py-4 font-bold text-center transition-colors text-sm uppercase tracking-widest rounded-xl">
               Contact Secretariat
             </Link>
           </div>

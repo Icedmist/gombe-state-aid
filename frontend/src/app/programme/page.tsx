@@ -17,7 +17,7 @@ export default function Programme() {
         <div className="space-y-8">
           
           {/* Demo Session 1 */}
-          <div className="bg-white p-8 md:p-10 rounded-sm border-l-4 border-[#0A2518] shadow-sm hover:shadow-lg transition-shadow relative overflow-hidden group">
+          <div className="bg-white p-8 md:p-10 rounded-sm border-l-4 border-[#0A2518] shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-lg transition-shadow relative overflow-hidden group">
             <div className="absolute right-0 top-0 w-32 h-32 bg-gray-50 rounded-bl-full -mr-16 -mt-16 transition-transform group-hover:scale-110"></div>
             <div className="flex flex-col md:flex-row gap-6 md:gap-12 relative z-10">
               <div className="md:w-40 shrink-0">
@@ -42,7 +42,7 @@ export default function Programme() {
           </div>
 
           {/* Demo Session 2 */}
-          <div className="bg-white p-8 md:p-10 rounded-sm border-l-4 border-red-600 shadow-sm hover:shadow-lg transition-shadow relative overflow-hidden group">
+          <div className="bg-white p-8 md:p-10 rounded-sm border-l-4 border-red-600 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-lg transition-shadow relative overflow-hidden group">
             <div className="flex flex-col md:flex-row gap-6 md:gap-12 relative z-10">
               <div className="md:w-40 shrink-0">
                 <span className="text-3xl font-extrabold text-[#0A2518] tracking-tight block mb-1">10:30</span>
@@ -72,7 +72,7 @@ export default function Programme() {
           </div>
 
           {/* Demo Session 3 */}
-          <div className="bg-white p-8 md:p-10 rounded-sm border-l-4 border-red-600 shadow-sm hover:shadow-lg transition-shadow relative overflow-hidden group">
+          <div className="bg-white p-8 md:p-10 rounded-sm border-l-4 border-red-600 shadow-[0_4px_20px_rgb(0,0,0,0.03)] hover:shadow-lg transition-shadow relative overflow-hidden group">
             <div className="flex flex-col md:flex-row gap-6 md:gap-12 relative z-10">
               <div className="md:w-40 shrink-0">
                 <span className="text-3xl font-extrabold text-[#0A2518] tracking-tight block mb-1">12:45</span>

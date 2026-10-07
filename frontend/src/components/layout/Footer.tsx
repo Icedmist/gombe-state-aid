@@ -7,7 +7,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           <div className="lg:col-span-2">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-10 h-10 bg-emerald-600 rounded-lg flex items-center justify-center text-white">
+              <div className="w-10 h-10 bg-emerald-600 rounded-xl flex items-center justify-center text-white">
                 <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M12 4v16m8-8H4" /></svg>
               </div>
               <h3 className="text-2xl font-black tracking-tight text-white">Gombe State 2026<br/>AIDS Summit</h3>

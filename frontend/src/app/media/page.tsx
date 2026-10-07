@@ -11,7 +11,7 @@ export default function MediaGallery() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {/* Demo Graphic */}
-          <div className="group rounded-xl overflow-hidden shadow-sm bg-white cursor-pointer relative aspect-video">
+          <div className="group rounded-xl overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.03)] bg-white cursor-pointer relative aspect-video">
             <div className="absolute inset-0 bg-green-900 flex items-center justify-center text-white p-6 text-center">
               <div>
                 <h3 className="font-bold text-lg mb-2">Official 2026 Summit Poster</h3>
@@ -21,7 +21,7 @@ export default function MediaGallery() {
           </div>
           
           {/* Video Placeholder */}
-          <div className="group rounded-xl overflow-hidden shadow-sm bg-gray-200 cursor-pointer relative aspect-video flex items-center justify-center">
+          <div className="group rounded-xl overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.03)] bg-gray-200 cursor-pointer relative aspect-video flex items-center justify-center">
             <svg className="w-16 h-16 text-gray-400 group-hover:text-green-600 transition-colors" fill="currentColor" viewBox="0 0 20 20">
               <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clipRule="evenodd" />
             </svg>
@@ -31,7 +31,7 @@ export default function MediaGallery() {
           </div>
 
           {/* Photo Placeholder */}
-          <div className="group rounded-xl overflow-hidden shadow-sm bg-gray-300 cursor-pointer relative aspect-video">
+          <div className="group rounded-xl overflow-hidden shadow-[0_4px_20px_rgb(0,0,0,0.03)] bg-gray-300 cursor-pointer relative aspect-video">
              <div className="absolute inset-0 flex items-center justify-center">
                <span className="text-gray-500 font-medium">Photo: 2025 Review Meeting</span>
              </div>

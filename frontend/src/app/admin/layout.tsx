@@ -35,7 +35,7 @@ export default function AdminLayout({
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <header className="bg-white shadow-sm border-b h-16 flex items-center justify-between px-6">
+        <header className="bg-white shadow-[0_4px_20px_rgb(0,0,0,0.03)] border-b h-16 flex items-center justify-between px-6">
           <h1 className="text-lg font-semibold text-gray-800">Admin Dashboard</h1>
           <div className="flex items-center space-x-4">
             <span className="text-sm text-gray-500">Super Admin</span>

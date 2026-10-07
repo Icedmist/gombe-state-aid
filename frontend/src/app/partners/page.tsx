@@ -32,7 +32,7 @@ export default function Partners() {
               <h2 className="text-2xl font-bold text-green-900 mb-8 border-b border-green-200 pb-2">{cat.title}</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 {cat.partners.map((partner) => (
-                  <div key={partner.id} className="bg-white p-8 rounded-xl shadow-sm border border-gray-100 flex flex-col items-center text-center hover:shadow-md transition-shadow">
+                  <div key={partner.id} className="bg-white p-8 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100 flex flex-col items-center text-center hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow">
                     <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 font-bold text-2xl mb-6">
                       {partner.logo}
                     </div>

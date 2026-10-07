@@ -9,7 +9,7 @@ export default function Contact() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white rounded-2xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100 overflow-hidden">
           
           {/* Contact Information */}
           <div className="bg-green-900 text-white p-10 lg:p-12">
@@ -67,17 +67,17 @@ export default function Contact() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-                  <input type="text" required className="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 border p-2" />
+                  <input type="text" required className="w-full rounded-md border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-green-500 focus:ring-green-500 border p-2" />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
-                  <input type="email" required className="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 border p-2" />
+                  <input type="email" required className="w-full rounded-md border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-green-500 focus:ring-green-500 border p-2" />
                 </div>
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
-                <select className="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 border p-2 bg-white">
+                <select className="w-full rounded-md border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-green-500 focus:ring-green-500 border p-2 bg-white">
                   <option>General Inquiry</option>
                   <option>Registration Support</option>
                   <option>Abstract Submission</option>
@@ -87,7 +87,7 @@ export default function Contact() {
 
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">Message</label>
-                <textarea rows={5} required className="w-full rounded-md border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 border p-2"></textarea>
+                <textarea rows={5} required className="w-full rounded-md border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-green-500 focus:ring-green-500 border p-2"></textarea>
               </div>
 
               <button type="button" className="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-3 px-4 rounded-md transition-colors">

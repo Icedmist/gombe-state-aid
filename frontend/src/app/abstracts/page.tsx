@@ -11,7 +11,7 @@ export default function AbstractsLanding() {
             The Scientific Committee of the Gombe State 2026 AIDS Summit invites researchers, public health professionals, and front-line workers to submit abstracts sharing critical evidence, clinical innovations, and epidemiological data.
           </p>
           
-          <div className="bg-red-50 p-6 rounded-lg border border-red-100 mb-8">
+          <div className="bg-red-50 p-6 rounded-xl border border-red-100 mb-8">
             <h3 className="text-xl font-bold text-red-900 mt-0">Important Deadlines</h3>
             <ul className="text-red-800 space-y-2">
               <li><strong>Submission Opens:</strong> September 15, 2026</li>

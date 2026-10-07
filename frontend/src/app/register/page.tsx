@@ -74,34 +74,34 @@ export default function Register() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">First Name</label>
-                  <input type="text" required className="w-full rounded-sm border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="text" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Last Name</label>
-                  <input type="text" required className="w-full rounded-sm border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="text" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
-                  <input type="email" required className="w-full rounded-sm border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="email" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Phone Number</label>
-                  <input type="tel" required className="w-full rounded-sm border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="tel" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">Organization / Company</label>
-                <input type="text" required className="w-full rounded-sm border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                <input type="text" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
               </div>
 
               {activeTab === 'vendor' && (
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Exhibition Category</label>
-                  <select required className="w-full rounded-sm border-gray-300 shadow-sm focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50">
+                  <select required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50">
                     <option value="">Select Category</option>
                     <option>Medical Equipment & Supplies</option>
                     <option>Pharmaceuticals</option>
@@ -123,7 +123,7 @@ export default function Register() {
               )}
 
               <div className="pt-6">
-                <button type="submit" disabled={status === 'submitting'} className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 px-4 rounded-sm transition-all uppercase tracking-widest shadow-md">
+                <button type="submit" disabled={status === 'submitting'} className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 px-4 rounded-sm transition-all uppercase tracking-widest shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
                   {status === 'submitting' ? 'Processing...' : activeTab === 'vendor' ? 'Proceed to Payment' : 'Complete Registration'}
                 </button>
               </div>
