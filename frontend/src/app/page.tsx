@@ -23,12 +23,15 @@ export default function Home() {
             </span>
           </div>
           
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-6 leading-[0.95]">
+          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-2 leading-[0.95]">
             GOMBE STATE 2026 <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-200 to-emerald-400 bg-[length:200%_auto] animate-pulse">
-              AIDS SUMMIT
+              HIV-TB SUMMIT
             </span>
           </h1>
+          <p className="text-xl md:text-2xl text-emerald-200 italic mb-6 font-light">
+            in commemoration with World AIDS Day
+          </p>
           
           <p className="text-2xl md:text-3xl font-medium text-white mb-6 leading-snug max-w-4xl mx-auto drop-shadow-md">
             "Stronger Partnerships for a Healthier, HIV & TB Free Gombe State"
