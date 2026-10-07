@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { submitAbstract } from '@/app/actions/abstract'
+import { submitAbstract } from '@/actions/abstract'
 
 export default function SubmitAbstract() {
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
