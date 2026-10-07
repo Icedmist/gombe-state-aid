@@ -18,7 +18,7 @@ export async function submitAbstract(formData: FormData) {
         email,
         organization,
         themeId,
-        content,
+        text: content,
         status: 'SUBMITTED'
       }
     });
