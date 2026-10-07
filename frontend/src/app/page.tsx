@@ -104,7 +104,7 @@ export default function Home() {
                 A Global Mandate:<br/>World AIDS Day.
               </h2>
               <p className="text-xl text-slate-600 mb-10 leading-relaxed">
-                The Gombe State 2026 AIDS Summit officially aligns with World AIDS Day, uniting clinical experts, health professionals, and government responders to decisively strengthen the TB-HIV medical response.
+                The Gombe State 2026 AIDS Summit officially aligns with World AIDS Day, uniting program experts, health professionals, and government responders to decisively strengthen the TB-HIV program innovation and state response.
               </p>
               <Link href="/about" className="inline-flex items-center text-emerald-950 font-bold text-lg hover:text-emerald-700 transition-colors group uppercase tracking-widest text-sm">
                 Read our vision
@@ -114,10 +114,10 @@ export default function Home() {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               {[
-                { title: "Clinical Protocols", desc: "Aligning government medical action with community needs." },
-                { title: "Medical Innovation", desc: "Sharing clinical breakthroughs and program science." },
+                { title: "Program Innovation", desc: "Sharing program breakthroughs and science." },
                 { title: "Resource Mobilization", desc: "Securing sustainable funding for health facilities." },
-                { title: "Frontline Partnership", desc: "Building resilient medical stakeholder networks." }
+                { title: "Frontline Partnership", desc: "Building resilient stakeholder networks." },
+                { title: "State Response", desc: "Aligning government action with community needs." }
               ].map((item, i) => (
                 <div key={i} className="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md transition-shadow hover:border-emerald-100">
                   <div className="w-10 h-10 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center mb-6">
