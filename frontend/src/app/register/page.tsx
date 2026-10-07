@@ -1,17 +1,29 @@
 'use client'
 
 import { useState } from 'react'
+import { submitRegistration } from '@/actions/register'
 
 export default function Register() {
   const [activeTab, setActiveTab] = useState<'delegate' | 'vendor'>('delegate');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('submitting');
-    setTimeout(() => {
+    setErrorMessage('');
+    
+    const formData = new FormData(e.currentTarget);
+    formData.append('activeTab', activeTab);
+    
+    const result = await submitRegistration(formData);
+    
+    if (result.success) {
       setStatus('success');
-    }, 1500);
+    } else {
+      setStatus('error');
+      setErrorMessage(result.error || 'Something went wrong');
+    }
   };
 
   if (status === 'success') {
@@ -74,34 +86,34 @@ export default function Register() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">First Name</label>
-                  <input type="text" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="text" name="firstName" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Last Name</label>
-                  <input type="text" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="text" name="lastName" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
-                  <input type="email" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="email" name="email" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Phone Number</label>
-                  <input type="tel" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="tel" name="phoneNumber" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">Organization / Company</label>
-                <input type="text" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                <input type="text" name="organization" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
               </div>
 
               {activeTab === 'vendor' && (
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Exhibition Category</label>
-                  <select required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50">
+                  <select name="category" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50">
                     <option value="">Select Category</option>
                     <option>Medical Equipment & Supplies</option>
                     <option>Pharmaceuticals</option>
@@ -119,6 +131,12 @@ export default function Register() {
                     <input type="checkbox" required className="mt-1 mr-3 rounded text-red-600 focus:ring-red-500" />
                     <span className="text-sm text-red-900 font-medium">I agree to the exhibition terms.</span>
                   </label>
+                </div>
+              )}
+
+              {errorMessage && (
+                <div className="bg-red-50 text-red-700 p-3 rounded text-sm text-center font-semibold">
+                  {errorMessage}
                 </div>
               )}
 

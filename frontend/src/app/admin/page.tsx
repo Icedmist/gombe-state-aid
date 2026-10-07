@@ -1,4 +1,28 @@
-export default function AdminDashboard() {
+import { prisma } from '@/lib/prisma';
+
+export const dynamic = 'force-dynamic';
+
+export default async function AdminDashboard() {
+  // Fetch real data from Prisma
+  const [
+    totalRegistrations,
+    totalAbstracts,
+    pendingAbstracts,
+    totalSpeakers,
+    totalPartners,
+    recentRegistrations
+  ] = await Promise.all([
+    prisma.registration.count(),
+    prisma.abstract.count(),
+    prisma.abstract.count({ where: { status: 'SUBMITTED' } }),
+    prisma.speaker.count(),
+    prisma.partner.count(),
+    prisma.registration.findMany({
+      take: 5,
+      orderBy: { createdAt: 'desc' }
+    })
+  ]);
+
   return (
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-6">Dashboard Overview</h2>
@@ -6,21 +30,20 @@ export default function AdminDashboard() {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white p-6 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100">
           <div className="text-sm font-medium text-gray-500 mb-1">Total Registrations</div>
-          <div className="text-3xl font-bold text-gray-900">1,248</div>
-          <div className="text-sm text-green-600 mt-2">↑ 12% from last week</div>
+          <div className="text-3xl font-bold text-gray-900">{totalRegistrations}</div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100">
           <div className="text-sm font-medium text-gray-500 mb-1">Abstract Submissions</div>
-          <div className="text-3xl font-bold text-gray-900">342</div>
-          <div className="text-sm text-yellow-600 mt-2">45 awaiting review</div>
+          <div className="text-3xl font-bold text-gray-900">{totalAbstracts}</div>
+          <div className="text-sm text-yellow-600 mt-2">{pendingAbstracts} awaiting review</div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100">
           <div className="text-sm font-medium text-gray-500 mb-1">Confirmed Speakers</div>
-          <div className="text-3xl font-bold text-gray-900">48</div>
+          <div className="text-3xl font-bold text-gray-900">{totalSpeakers}</div>
         </div>
         <div className="bg-white p-6 rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100">
           <div className="text-sm font-medium text-gray-500 mb-1">Partners & Sponsors</div>
-          <div className="text-3xl font-bold text-gray-900">15</div>
+          <div className="text-3xl font-bold text-gray-900">{totalPartners}</div>
         </div>
       </div>
       
@@ -31,34 +54,32 @@ export default function AdminDashboard() {
             <thead>
               <tr className="border-b border-gray-200">
                 <th className="py-3 px-4 text-sm font-semibold text-gray-600">Name</th>
-                <th className="py-3 px-4 text-sm font-semibold text-gray-600">Organization</th>
-                <th className="py-3 px-4 text-sm font-semibold text-gray-600">Category</th>
+                <th className="py-3 px-4 text-sm font-semibold text-gray-600">Email</th>
+                <th className="py-3 px-4 text-sm font-semibold text-gray-600">Phone</th>
                 <th className="py-3 px-4 text-sm font-semibold text-gray-600">Status</th>
                 <th className="py-3 px-4 text-sm font-semibold text-gray-600">Date</th>
               </tr>
             </thead>
             <tbody>
-              <tr className="border-b border-gray-100">
-                <td className="py-3 px-4 text-sm">Dr. Amina Yusuf</td>
-                <td className="py-3 px-4 text-sm">Ministry of Health</td>
-                <td className="py-3 px-4 text-sm">Government</td>
-                <td className="py-3 px-4 text-sm"><span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Confirmed</span></td>
-                <td className="py-3 px-4 text-sm">Today</td>
-              </tr>
-              <tr className="border-b border-gray-100">
-                <td className="py-3 px-4 text-sm">Prof. Samuel Okafor</td>
-                <td className="py-3 px-4 text-sm">University of Abuja</td>
-                <td className="py-3 px-4 text-sm">Academic</td>
-                <td className="py-3 px-4 text-sm"><span className="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">Confirmed</span></td>
-                <td className="py-3 px-4 text-sm">Yesterday</td>
-              </tr>
-              <tr>
-                <td className="py-3 px-4 text-sm">John Doe</td>
-                <td className="py-3 px-4 text-sm">Global Health NGO</td>
-                <td className="py-3 px-4 text-sm">NGO</td>
-                <td className="py-3 px-4 text-sm"><span className="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs">Pending</span></td>
-                <td className="py-3 px-4 text-sm">2 days ago</td>
-              </tr>
+              {recentRegistrations.length === 0 ? (
+                <tr>
+                  <td colSpan={5} className="py-6 text-center text-gray-500">No registrations yet</td>
+                </tr>
+              ) : (
+                recentRegistrations.map((reg) => (
+                  <tr key={reg.id} className="border-b border-gray-100 last:border-0">
+                    <td className="py-3 px-4 text-sm">{reg.firstName} {reg.lastName}</td>
+                    <td className="py-3 px-4 text-sm">{reg.email}</td>
+                    <td className="py-3 px-4 text-sm">{reg.phoneNumber}</td>
+                    <td className="py-3 px-4 text-sm">
+                      <span className={`px-2 py-1 rounded text-xs ${reg.status === 'CONFIRMED' ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}`}>
+                        {reg.status}
+                      </span>
+                    </td>
+                    <td className="py-3 px-4 text-sm">{reg.createdAt.toLocaleDateString()}</td>
+                  </tr>
+                ))
+              )}
             </tbody>
           </table>
         </div>
