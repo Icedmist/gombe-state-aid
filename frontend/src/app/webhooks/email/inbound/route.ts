@@ -33,7 +33,9 @@ export async function POST(req: Request) {
     })
   } catch (error) {
     console.error('Failed to log inbound email:', error)
-    return Response.json({ error: 'Failed to store inbound email.' }, { status: 500 })
+    const code =
+      error && typeof error === 'object' && 'code' in error ? String((error as { code: unknown }).code) : 'unknown'
+    return Response.json({ error: 'Failed to store inbound email.', code }, { status: 500 })
   }
   return Response.json({ received: true })
 }
