@@ -1,6 +1,8 @@
 'use server'
 
 import { prisma } from '@/lib/prisma'
+import { getResend, getResendFrom } from '@/lib/resend'
+import { plainToHtml, summitEmailShell } from '@/lib/email-templates'
 import { revalidatePath } from 'next/cache'
 
 export async function updateRegistrationStatus(id: string, status: string) {
@@ -171,5 +173,47 @@ export async function checkoutRegistration(id: string) {
   } catch (error) {
     console.error('Error checking out:', error)
     return { success: false, error: 'Check-out failed.' }
+  }
+}
+
+export type EmailAudience = 'all' | 'CONFIRMED' | 'PENDING'
+
+export async function sendSummitEmail(input: { audience: EmailAudience; subject: string; message: string }) {
+  const resend = getResend()
+  if (!resend) {
+    return { success: false, sent: 0, failed: 0, error: 'Email service is not configured (RESEND_API_KEY missing).' }
+  }
+  const subject = input.subject.trim()
+  const message = input.message.trim()
+  if (!subject || !message) {
+    return { success: false, sent: 0, failed: 0, error: 'Subject and message are required.' }
+  }
+  try {
+    const recipients = await prisma.registration.findMany({
+      where: input.audience === 'all' ? {} : { status: input.audience },
+      select: { email: true, firstName: true },
+    })
+    if (recipients.length === 0) {
+      return { success: false, sent: 0, failed: 0, error: 'No recipients in this audience.' }
+    }
+    const html = summitEmailShell({ subject, heading: subject, bodyHtml: plainToHtml(message) })
+    const from = getResendFrom()
+    let sent = 0
+    let failed = 0
+    for (let i = 0; i < recipients.length; i += 10) {
+      const chunk = recipients.slice(i, i + 10)
+      const results = await Promise.allSettled(
+        chunk.map((r) => resend.emails.send({ from, to: r.email, subject, html }))
+      )
+      for (const res of results) {
+        if (res.status === 'fulfilled' && !res.value.error) sent += 1
+        else failed += 1
+      }
+    }
+    revalidatePath('/admin/emails')
+    return { success: failed === 0, sent, failed }
+  } catch (error) {
+    console.error('Error sending summit email:', error)
+    return { success: false, sent: 0, failed: 0, error: 'Failed to send emails.' }
   }
 }
