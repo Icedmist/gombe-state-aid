@@ -121,9 +121,6 @@ export default function EmailComposer() {
             {status === 'sending' ? 'Sending...' : 'Send Branded Email'}
           </button>
         </div>
-        <p className="text-xs text-gray-500">
-          Sent from your verified domain via the summit-branded template. Requires RESEND_API_KEY on the server.
-        </p>
       </form>
 
       {showPreview && previewHtml && (
