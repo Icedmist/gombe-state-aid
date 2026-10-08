@@ -2,24 +2,28 @@
 
 import { useState } from 'react'
 import { submitRegistration } from '@/actions/register'
+import type { TicketData } from '@/lib/ticket'
 import Countdown from '@/components/Countdown'
+import TicketCard from '@/components/TicketCard'
 
 export default function Register() {
   const [activeTab, setActiveTab] = useState<'delegate' | 'vendor'>('delegate');
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
+  const [ticket, setTicket] = useState<TicketData | null>(null);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setStatus('submitting');
     setErrorMessage('');
-    
+
     const formData = new FormData(e.currentTarget);
     formData.append('activeTab', activeTab);
-    
+
     const result = await submitRegistration(formData);
-    
+
     if (result.success) {
+      setTicket(result.ticket);
       setStatus('success');
     } else {
       setStatus('error');
@@ -27,24 +31,34 @@ export default function Register() {
     }
   };
 
+  const handleReset = () => {
+    setTicket(null);
+    setStatus('idle');
+  };
+
   if (status === 'success') {
     return (
-      <div className="bg-milk py-24 min-h-screen flex items-center justify-center">
-        <div className="bg-white p-12 rounded-3xl shadow-lg border-t-8 border-t-red-600 text-center max-w-lg animate-fade-in-up">
-          <div className="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-            </svg>
+      <div className="bg-milk py-16 min-h-screen">
+        <div className="container mx-auto px-4 max-w-2xl animate-fade-in-up">
+          <div className="text-center mb-8">
+            <div className="w-16 h-16 bg-green-100 text-green-700 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+              </svg>
+            </div>
+            <h2 className="text-3xl font-black text-emerald-950 mb-2">Registration Successful!</h2>
+            <p className="text-gray-600">
+              {activeTab === 'vendor'
+                ? "Your exhibition request has been received. You will be redirected to the payment gateway shortly."
+                : "Your delegate pass is ready below."}
+            </p>
           </div>
-          <h2 className="text-3xl font-black text-gray-900 mb-4">Registration Successful!</h2>
-          <p className="text-gray-600 mb-8">
-            {activeTab === 'vendor' 
-              ? "Your exhibition request has been received. You will be redirected to the payment gateway shortly." 
-              : "Your delegate registration has been processed. A confirmation email has been sent."}
-          </p>
-          <button onClick={() => setStatus('idle')} className="bg-red-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-red-700 transition-all duration-300 uppercase tracking-widest">
-            Register Another
-          </button>
+          {ticket && <TicketCard ticket={ticket} />}
+          <div className="text-center mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+            <button onClick={handleReset} className="bg-white border border-slate-300 text-emerald-950 font-bold py-3 px-8 rounded-xl hover:bg-slate-50 transition-all duration-300 uppercase tracking-widest text-sm">
+              Register Another
+            </button>
+          </div>
         </div>
       </div>
     );

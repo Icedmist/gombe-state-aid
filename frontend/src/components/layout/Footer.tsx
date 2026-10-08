@@ -39,6 +39,7 @@ export default function Footer() {
             <h4 className="text-xs font-bold tracking-[0.2em] uppercase mb-6 text-emerald-500">Participate</h4>
             <ul className="space-y-4 text-sm font-medium">
               <li><Link href="/register" className="hover:text-white transition-colors">Delegate Registration</Link></li>
+              <li><Link href="/ticket" className="hover:text-white transition-colors">My Ticket</Link></li>
               <li><Link href="/abstracts" className="hover:text-white transition-colors">Call for Abstracts</Link></li>
               <li><Link href="/partners" className="hover:text-white transition-colors">Partnership Inquiry</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact Secretariat</Link></li>

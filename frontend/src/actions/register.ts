@@ -1,8 +1,13 @@
 'use server'
 
 import { prisma } from '@/lib/prisma'
+import type { TicketData } from '@/lib/ticket'
 
-export async function submitRegistration(formData: FormData) {
+type SubmitResult =
+  | { success: true; ticket: TicketData }
+  | { success: false; error: string }
+
+export async function submitRegistration(formData: FormData): Promise<SubmitResult> {
   try {
     const firstName = formData.get('firstName') as string;
     const lastName = formData.get('lastName') as string;
@@ -12,7 +17,7 @@ export async function submitRegistration(formData: FormData) {
     const activeTab = formData.get('activeTab') as string;
     const category = formData.get('category') as string;
     
-    await prisma.registration.create({
+    const registration = await prisma.registration.create({
       data: {
         firstName,
         lastName,
@@ -25,9 +30,44 @@ export async function submitRegistration(formData: FormData) {
       }
     });
 
-    return { success: true };
+    return {
+      success: true,
+      ticket: {
+        id: registration.id,
+        firstName: registration.firstName,
+        lastName: registration.lastName,
+        email: registration.email,
+        organization: registration.organization,
+        participantCategory: registration.participantCategory,
+        status: registration.status,
+      },
+    };
   } catch (error) {
     console.error('Registration error:', error);
     return { success: false, error: 'Registration failed. Email might already be registered.' };
+  }
+}
+
+export async function lookupTicket(email: string): Promise<{ success: boolean; ticket?: TicketData; error?: string }> {
+  const clean = email.trim().toLowerCase()
+  if (!clean) return { success: false, error: 'Enter your registration email.' }
+  try {
+    const reg = await prisma.registration.findFirst({ where: { email: clean } })
+    if (!reg) return { success: false, error: 'No registration found for this email.' }
+    return {
+      success: true,
+      ticket: {
+        id: reg.id,
+        firstName: reg.firstName,
+        lastName: reg.lastName,
+        email: reg.email,
+        organization: reg.organization,
+        participantCategory: reg.participantCategory,
+        status: reg.status,
+      },
+    }
+  } catch (error) {
+    console.error('Ticket lookup error:', error)
+    return { success: false, error: 'Lookup failed. Try again.' }
   }
 }
