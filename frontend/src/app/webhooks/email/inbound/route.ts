@@ -33,6 +33,7 @@ export async function POST(req: Request) {
     })
   } catch (error) {
     console.error('Failed to log inbound email:', error)
+    return Response.json({ error: 'Failed to store inbound email.' }, { status: 500 })
   }
   return Response.json({ received: true })
 }
