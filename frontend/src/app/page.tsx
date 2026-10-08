@@ -145,7 +145,7 @@ export default async function Home() {
       </section>
 
       {/* PILLARS / SUBTHEMES */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-milk">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
             <div className="max-w-2xl">
@@ -263,7 +263,7 @@ export default async function Home() {
       </section>
 
       {/* PARTNERSHIPS */}
-      <section className="py-24 bg-white border-b border-slate-100/60">
+      <section className="py-24 bg-milk border-b border-emerald-950/5">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl text-center">
           <h2 className="text-3xl md:text-4xl font-black text-emerald-950 mb-6 tracking-tight">
             Institutional Partnerships

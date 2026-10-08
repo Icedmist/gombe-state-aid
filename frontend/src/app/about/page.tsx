@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function About() {
   return (
-    <div className="bg-white py-24 min-h-screen">
+    <div className="bg-milk py-24 min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-4xl animate-fade-in-up">
         <span className="text-red-700 font-bold tracking-widest text-sm uppercase mb-3 block">About the Event</span>
         <h1 className="text-4xl md:text-5xl font-black text-gray-900 mb-8 tracking-tight">Gombe State 2026 AIDS Summit</h1>
