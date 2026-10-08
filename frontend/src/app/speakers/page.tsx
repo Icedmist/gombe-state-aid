@@ -42,7 +42,7 @@ export default function Speakers() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8 border-b border-gray-100 pb-12">
           <div className="max-w-3xl">
             <span className="text-red-600 font-bold tracking-widest text-sm uppercase mb-3 block">Delegation</span>
-            <h1 className="text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
+            <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight leading-tight">
               Summit Speakers &<br />Special Guests
             </h1>
           </div>

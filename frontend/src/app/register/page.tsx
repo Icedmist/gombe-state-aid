@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import { submitRegistration } from '@/actions/register'
+import Countdown from '@/components/Countdown'
 
 export default function Register() {
   const [activeTab, setActiveTab] = useState<'delegate' | 'vendor'>('delegate');
@@ -29,7 +30,7 @@ export default function Register() {
   if (status === 'success') {
     return (
       <div className="bg-milk py-24 min-h-screen flex items-center justify-center">
-        <div className="bg-white p-12 rounded-xl shadow-lg border-t-8 border-t-red-600 text-center max-w-lg">
+        <div className="bg-white p-12 rounded-3xl shadow-lg border-t-8 border-t-red-600 text-center max-w-lg animate-fade-in-up">
           <div className="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
@@ -41,7 +42,7 @@ export default function Register() {
               ? "Your exhibition request has been received. You will be redirected to the payment gateway shortly." 
               : "Your delegate registration has been processed. A confirmation email has been sent."}
           </p>
-          <button onClick={() => setStatus('idle')} className="bg-red-600 text-white font-bold py-3 px-8 rounded-sm hover:bg-red-700 transition-colors uppercase tracking-widest">
+          <button onClick={() => setStatus('idle')} className="bg-red-600 text-white font-bold py-3 px-8 rounded-xl hover:bg-red-700 transition-all duration-300 uppercase tracking-widest">
             Register Another
           </button>
         </div>
@@ -52,19 +53,26 @@ export default function Register() {
   return (
     <div className="bg-milk py-16 min-h-screen">
       <div className="container mx-auto px-4 max-w-3xl animate-fade-in-up">
-        <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100">
+        <div className="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 md:p-8 mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <div className="text-[11px] font-bold uppercase tracking-widest text-rose-600 mb-1">Registration closes in</div>
+            <div className="text-sm text-gray-500 font-medium">The summit begins 1 Dec 2026 — secure your seat.</div>
+          </div>
+          <Countdown />
+        </div>
+        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
           
           {/* Tabs */}
           <div className="flex border-b border-gray-200">
             <button 
               onClick={() => setActiveTab('delegate')}
-              className={`flex-1 py-6 text-center font-black uppercase tracking-widest transition-colors ${activeTab === 'delegate' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+              className={`flex-1 py-6 text-center font-black uppercase tracking-widest transition-all duration-300 ${activeTab === 'delegate' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
             >
               Delegate Registration
             </button>
             <button 
               onClick={() => setActiveTab('vendor')}
-              className={`flex-1 py-6 text-center font-black uppercase tracking-widest transition-colors ${activeTab === 'vendor' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
+              className={`flex-1 py-6 text-center font-black uppercase tracking-widest transition-all duration-300 ${activeTab === 'vendor' ? 'bg-red-600 text-white' : 'bg-gray-100 text-gray-500 hover:bg-gray-200'}`}
             >
               Vendor & Exhibition
             </button>
@@ -86,34 +94,34 @@ export default function Register() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">First Name</label>
-                  <input type="text" name="firstName" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="text" name="firstName" required className="w-full rounded-xl border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50 transition-all duration-300" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Last Name</label>
-                  <input type="text" name="lastName" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="text" name="lastName" required className="w-full rounded-xl border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50 transition-all duration-300" />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Email Address</label>
-                  <input type="email" name="email" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="email" name="email" required className="w-full rounded-xl border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50 transition-all duration-300" />
                 </div>
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Phone Number</label>
-                  <input type="tel" name="phoneNumber" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                  <input type="tel" name="phoneNumber" required className="w-full rounded-xl border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50 transition-all duration-300" />
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-bold text-gray-700 mb-2">Organization / Company</label>
-                <input type="text" name="organization" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50" />
+                <input type="text" name="organization" required className="w-full rounded-xl border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50 transition-all duration-300" />
               </div>
 
               {activeTab === 'vendor' && (
                 <div>
                   <label className="block text-sm font-bold text-gray-700 mb-2">Exhibition Category</label>
-                  <select name="category" required className="w-full rounded-sm border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50">
+                  <select name="category" required className="w-full rounded-xl border-gray-300 shadow-[0_4px_20px_rgb(0,0,0,0.03)] focus:border-red-500 focus:ring-red-500 border p-3 bg-gray-50 transition-all duration-300">
                     <option value="">Select Category</option>
                     <option>Medical Equipment & Supplies</option>
                     <option>Pharmaceuticals</option>
@@ -124,7 +132,7 @@ export default function Register() {
               )}
 
               {activeTab === 'vendor' && (
-                <div className="bg-red-50 p-4 rounded-sm border border-red-100 mt-6">
+                <div className="bg-red-50 p-4 rounded-xl border border-red-100 mt-6">
                   <h4 className="font-bold text-red-900 mb-2">Payment Instruction (₦10,000)</h4>
                   <p className="text-sm text-red-800 mb-4">You will be redirected to the secure payment gateway to process the non-refundable registration fee.</p>
                   <label className="flex items-start">
@@ -141,7 +149,7 @@ export default function Register() {
               )}
 
               <div className="pt-6">
-                <button type="submit" disabled={status === 'submitting'} className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 px-4 rounded-sm transition-all uppercase tracking-widest shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
+                <button type="submit" disabled={status === 'submitting'} className="w-full bg-red-600 hover:bg-red-700 text-white font-black py-4 px-4 rounded-xl transition-all duration-300 uppercase tracking-widest shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:-translate-y-0.5 active:scale-[0.99] disabled:opacity-70 disabled:hover:translate-y-0">
                   {status === 'submitting' ? 'Processing...' : activeTab === 'vendor' ? 'Proceed to Payment' : 'Complete Registration'}
                 </button>
               </div>

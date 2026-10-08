@@ -1,7 +1,21 @@
 'use client';
 import Link from 'next/link';
+import { useState } from 'react';
+
+const NAV_LINKS = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/programme', label: 'Programme' },
+  { href: '/speakers', label: 'Speakers' },
+  { href: '/abstracts', label: 'Abstracts' },
+];
+
+const linkCls =
+  'text-slate-600 hover:text-emerald-600 font-bold text-sm uppercase tracking-wide transition-colors duration-300';
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
   return (
     <header className="sticky top-3 z-50 mx-3 sm:mx-6 rounded-[1.75rem] border border-emerald-950/5 bg-milk shadow-[0_12px_40px_rgba(0,0,0,0.08)] transition-all duration-300">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
@@ -19,11 +33,11 @@ export default function Navbar() {
           </Link>
           
           <nav className="hidden lg:flex items-center space-x-8">
-            <Link href="/" className="text-slate-600 hover:text-emerald-600 font-bold text-sm uppercase tracking-wide transition-colors duration-300">Home</Link>
-            <Link href="/about" className="text-slate-600 hover:text-emerald-600 font-bold text-sm uppercase tracking-wide transition-colors duration-300">About</Link>
-            <Link href="/programme" className="text-slate-600 hover:text-emerald-600 font-bold text-sm uppercase tracking-wide transition-colors duration-300">Programme</Link>
-            <Link href="/speakers" className="text-slate-600 hover:text-emerald-600 font-bold text-sm uppercase tracking-wide transition-colors duration-300">Speakers</Link>
-            <Link href="/abstracts" className="text-slate-600 hover:text-emerald-600 font-bold text-sm uppercase tracking-wide transition-colors duration-300">Abstracts</Link>
+            {NAV_LINKS.map((l) => (
+              <Link key={l.href} href={l.href} className={linkCls}>
+                {l.label}
+              </Link>
+            ))}
           </nav>
           
           <div className="hidden lg:flex items-center space-x-6">
@@ -36,13 +50,55 @@ export default function Navbar() {
           </div>
 
           <div className="lg:hidden">
-            <button className="text-emerald-950 p-2">
-              <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              </svg>
+            <button
+              onClick={() => setOpen((o) => !o)}
+              aria-label={open ? 'Close menu' : 'Open menu'}
+              aria-expanded={open}
+              className="text-emerald-950 p-2 rounded-xl hover:bg-emerald-950/5 transition-colors"
+            >
+              {open ? (
+                <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
             </button>
           </div>
         </div>
+
+        {open && (
+          <nav className="lg:hidden border-t border-emerald-950/5 px-2 pb-4 pt-2">
+            {NAV_LINKS.map((l) => (
+              <Link
+                key={l.href}
+                href={l.href}
+                onClick={() => setOpen(false)}
+                className="block px-4 py-3 rounded-xl text-emerald-950 font-bold text-sm uppercase tracking-wide hover:bg-emerald-950/5 transition-colors"
+              >
+                {l.label}
+              </Link>
+            ))}
+            <div className="flex flex-col gap-2 px-2 pt-2">
+              <Link
+                href="/abstracts/submit"
+                onClick={() => setOpen(false)}
+                className="text-center text-sm font-bold text-emerald-950 uppercase tracking-wide border border-emerald-950/15 rounded-xl px-4 py-3"
+              >
+                Submit Abstract
+              </Link>
+              <Link
+                href="/register"
+                onClick={() => setOpen(false)}
+                className="text-center bg-rose-600 text-white px-4 py-3 rounded-xl font-bold text-sm uppercase tracking-widest"
+              >
+                Register
+              </Link>
+            </div>
+          </nav>
+        )}
       </div>
     </header>
   );
