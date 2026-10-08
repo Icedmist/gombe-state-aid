@@ -37,7 +37,7 @@ export default function Speakers() {
   ];
 
   return (
-    <div className="bg-white py-24 min-h-screen">
+    <div className="bg-milk py-24 min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-20 gap-8 border-b border-gray-100 pb-12">
           <div className="max-w-3xl">

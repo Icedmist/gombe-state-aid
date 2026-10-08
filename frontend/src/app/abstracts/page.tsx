@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function AbstractsLanding() {
   return (
-    <div className="bg-white py-16 min-h-screen">
+    <div className="bg-milk py-16 min-h-screen">
       <div className="container mx-auto px-4 max-w-4xl animate-fade-in-up">
         <h1 className="text-4xl font-black text-gray-900 mb-6 border-l-8 border-red-600 pl-6">Abstract Submissions</h1>
         
