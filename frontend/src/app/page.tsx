@@ -13,11 +13,7 @@ export default function Home() {
 
         <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl pt-24 pb-40">
           
-          <div className="inline-flex items-center gap-3 mb-8 bg-emerald-900/50 border border-emerald-700/50 rounded-full px-5 py-2 backdrop-blur-md shadow-lg">
-            <span className="flex h-2.5 w-2.5 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
-            </span>
+          <div className="inline-flex items-center mb-8 bg-emerald-900/50 border border-emerald-700/50 rounded-full px-5 py-2 backdrop-blur-md shadow-lg">
             <span className="text-emerald-100 font-bold tracking-[0.2em] text-[10px] sm:text-xs uppercase">
               1st December 2026 • World AIDS Day
             </span>
