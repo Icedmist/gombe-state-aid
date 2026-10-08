@@ -16,8 +16,27 @@ async function getShowcaseSpeakers() {
   }
 }
 
+async function getProgrammePreview() {
+  try {
+    return await prisma.session.findMany({
+      where: { published: true },
+      orderBy: [{ startTime: "asc" }],
+      take: 3,
+      include: { speakers: { include: { speaker: true } } },
+    });
+  } catch {
+    return [];
+  }
+}
+
+function formatTime(value: Date | null) {
+  if (!value) return "TBA";
+  return new Date(value).toLocaleTimeString("en-NG", { hour: "2-digit", minute: "2-digit" });
+}
+
 export default async function Home() {
   const speakers = await getShowcaseSpeakers();
+  const sessions = await getProgrammePreview();
   return (
     <div className="flex flex-col w-full bg-milk selection:bg-emerald-100 selection:text-emerald-900">
       
@@ -237,6 +256,56 @@ export default async function Home() {
                   {speaker.organization && (
                     <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">{speaker.organization}</p>
                   )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* PROGRAMME OF EVENTS PREVIEW */}
+      <section className="py-24 bg-white border-y border-emerald-950/5">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+              <span className="text-emerald-600 font-bold tracking-widest text-sm uppercase mb-3 block">Schedule</span>
+              <h2 className="text-4xl md:text-5xl font-black text-emerald-950 tracking-tight">Programme of Events</h2>
+            </div>
+            <Link href="/programme" className="bg-emerald-950 text-white hover:bg-emerald-900 px-8 py-4 font-bold text-sm transition-colors rounded-xl uppercase tracking-widest w-fit">
+              Full Programme
+            </Link>
+          </div>
+
+          {sessions.length === 0 ? (
+            <div className="bg-milk rounded-2xl border border-emerald-950/5 p-12 text-center">
+              <p className="text-lg text-slate-500 font-medium mb-6">The official schedule is being finalised.</p>
+              <Link href="/programme" className="inline-block bg-emerald-950 hover:bg-emerald-900 text-white px-10 py-4 font-bold text-sm uppercase tracking-widest rounded-xl transition-colors">
+                View Programme
+              </Link>
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {sessions.map((session) => (
+                <div key={session.id} className="bg-milk p-6 md:p-8 rounded-2xl border border-emerald-950/5 hover:shadow-[0_8px_30px_rgb(0,0,0,0.06)] transition-shadow flex flex-col md:flex-row gap-4 md:gap-8">
+                  <div className="md:w-32 shrink-0">
+                    <span className="text-2xl font-black text-emerald-950 tracking-tight block">{formatTime(session.startTime)}</span>
+                    {session.room && (
+                      <span className="text-xs font-bold text-slate-500 uppercase tracking-widest">{session.room}</span>
+                    )}
+                  </div>
+                  <div className="flex-1">
+                    {session.sessionType && (
+                      <span className="inline-block px-3 py-1 bg-emerald-950 text-white text-[10px] font-black uppercase tracking-widest mb-3 rounded-full">
+                        {session.sessionType}
+                      </span>
+                    )}
+                    <h3 className="text-xl font-bold text-emerald-950 mb-2 leading-snug">{session.title}</h3>
+                    {session.speakers.length > 0 && (
+                      <p className="text-sm text-slate-500 font-medium">
+                        {session.speakers.map((s) => s.speaker.name).join(" • ")}
+                      </p>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>
