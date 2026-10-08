@@ -19,7 +19,7 @@ async function getShowcaseSpeakers() {
 export default async function Home() {
   const speakers = await getShowcaseSpeakers();
   return (
-    <div className="flex flex-col w-full bg-slate-50 selection:bg-emerald-100 selection:text-emerald-900">
+    <div className="flex flex-col w-full bg-milk selection:bg-emerald-100 selection:text-emerald-900">
       
       {/* GRAND CENTER-ALIGNED HERO SECTION */}
       <section className="relative min-h-[95vh] flex flex-col justify-center items-center bg-emerald-950 overflow-hidden text-center">
@@ -107,7 +107,7 @@ export default async function Home() {
       </section>
 
       {/* HEALTH OVERVIEW */}
-      <section className="pt-32 pb-24 bg-slate-50">
+      <section className="pt-32 pb-24 bg-milk">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <div>
@@ -195,7 +195,7 @@ export default async function Home() {
       </section>
 
       {/* FEATURED SPEAKERS */}
-      <section className="py-24 bg-slate-50">
+      <section className="py-24 bg-milk">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
             <div className="max-w-2xl">

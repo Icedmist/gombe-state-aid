@@ -1,6 +1,6 @@
 export default function Programme() {
   return (
-    <div className="bg-gray-50 py-24 min-h-screen">
+    <div className="bg-milk py-24 min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
         
         <div className="mb-20 text-center">
