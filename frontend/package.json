@@ -15,8 +15,7 @@
     "prisma": "^5.22.0",
     "react": "19.2.8",
     "react-dom": "19.2.8",
-    "resend": "^6.32.1",
-    "svix": "^2.7.0"
+    "resend": "^6.32.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
