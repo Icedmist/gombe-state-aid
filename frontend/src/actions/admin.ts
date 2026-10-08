@@ -32,3 +32,62 @@ export async function updateAbstractStatus(id: string, status: string) {
     return { success: false, error: 'Failed to update abstract' }
   }
 }
+
+export type SpeakerInput = {
+  name: string
+  title?: string | null
+  organization?: string | null
+  country?: string | null
+  biography?: string | null
+  photoUrl?: string | null
+  category?: string | null
+  published?: boolean
+  order?: number
+}
+
+function toSpeakerData(data: SpeakerInput) {
+  return {
+    name: data.name,
+    title: data.title || null,
+    organization: data.organization || null,
+    country: data.country || null,
+    biography: data.biography || null,
+    photoUrl: data.photoUrl || null,
+    category: data.category || null,
+    published: data.published ?? false,
+    order: Number(data.order ?? 0),
+  }
+}
+
+export async function createSpeaker(data: SpeakerInput) {
+  try {
+    await prisma.speaker.create({ data: toSpeakerData(data) })
+    revalidatePath('/admin/speakers')
+    return { success: true }
+  } catch (error) {
+    console.error('Error creating speaker:', error)
+    return { success: false, error: 'Failed to create speaker' }
+  }
+}
+
+export async function updateSpeaker(id: string, data: SpeakerInput) {
+  try {
+    await prisma.speaker.update({ where: { id }, data: toSpeakerData(data) })
+    revalidatePath('/admin/speakers')
+    return { success: true }
+  } catch (error) {
+    console.error('Error updating speaker:', error)
+    return { success: false, error: 'Failed to update speaker' }
+  }
+}
+
+export async function deleteSpeaker(id: string) {
+  try {
+    await prisma.speaker.delete({ where: { id } })
+    revalidatePath('/admin/speakers')
+    return { success: true }
+  } catch (error) {
+    console.error('Error deleting speaker:', error)
+    return { success: false, error: 'Failed to delete speaker' }
+  }
+}
