@@ -20,7 +20,7 @@ export default function SubmitAbstract() {
 
   if (status === 'success') {
     return (
-      <div className="bg-gray-50 py-24 min-h-screen flex items-center justify-center">
+      <div className="bg-milk py-24 min-h-screen flex items-center justify-center">
         <div className="bg-white p-12 rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100 text-center max-w-lg">
           <div className="text-red-600 mb-6">
             <svg className="w-16 h-16 mx-auto" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M5 13l4 4L19 7" /></svg>
@@ -33,7 +33,7 @@ export default function SubmitAbstract() {
   }
 
   return (
-    <div className="bg-gray-50 py-16 min-h-screen">
+    <div className="bg-milk py-16 min-h-screen">
       <div className="container mx-auto px-4 max-w-3xl">
         <div className="bg-white rounded-3xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100 overflow-hidden p-8 md:p-12">
           <h1 className="text-3xl font-black text-gray-900 mb-2">Submit Your Abstract</h1>

@@ -28,7 +28,7 @@ export default function Register() {
 
   if (status === 'success') {
     return (
-      <div className="bg-gray-50 py-24 min-h-screen flex items-center justify-center">
+      <div className="bg-milk py-24 min-h-screen flex items-center justify-center">
         <div className="bg-white p-12 rounded-xl shadow-lg border-t-8 border-t-red-600 text-center max-w-lg">
           <div className="w-20 h-20 bg-red-100 text-red-600 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -50,7 +50,7 @@ export default function Register() {
   }
 
   return (
-    <div className="bg-gray-50 py-16 min-h-screen">
+    <div className="bg-milk py-16 min-h-screen">
       <div className="container mx-auto px-4 max-w-3xl animate-fade-in-up">
         <div className="bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100">
           
