@@ -1,6 +1,13 @@
+'use client';
+
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 export default function Footer() {
+  const pathname = usePathname();
+
+  if (pathname?.startsWith('/admin')) return null;
+
   return (
     <footer className="bg-milk px-3 sm:px-6 pb-6 pt-2">
       <div className="bg-emerald-950 text-emerald-100 pt-20 pb-10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-emerald-900">
@@ -17,7 +24,7 @@ export default function Footer() {
               An official medical and policy initiative by the Gombe State Ministry of Health to integrate, fund, sustain, and own the TB-HIV response.
             </p>
           </div>
-          
+
           <div>
             <h4 className="text-xs font-bold tracking-[0.2em] uppercase mb-6 text-emerald-500">Navigation</h4>
             <ul className="space-y-4 text-sm font-medium">
@@ -27,7 +34,7 @@ export default function Footer() {
               <li><Link href="/news" className="hover:text-white transition-colors">News & Announcements</Link></li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="text-xs font-bold tracking-[0.2em] uppercase mb-6 text-emerald-500">Participate</h4>
             <ul className="space-y-4 text-sm font-medium">
@@ -37,7 +44,7 @@ export default function Footer() {
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact Secretariat</Link></li>
             </ul>
           </div>
-          
+
           <div>
             <h4 className="text-xs font-bold tracking-[0.2em] uppercase mb-6 text-emerald-500">Legal</h4>
             <ul className="space-y-4 text-sm font-medium">
@@ -47,12 +54,12 @@ export default function Footer() {
             </ul>
           </div>
         </div>
-        
+
         <div className="border-t border-emerald-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs font-bold text-emerald-700 uppercase tracking-widest">
           <p>&copy; 2026 Gombe State Government.</p>
           <p className="mt-2 md:mt-0 text-emerald-500/80">World AIDS Day Global Observance</p>
         </div>
-        </div>
+      </div>
       </div>
     </footer>
   );
