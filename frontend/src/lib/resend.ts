@@ -10,5 +10,5 @@ export function getResend(): Resend | null {
 }
 
 export function getResendFrom(): string {
-  return process.env.RESEND_FROM || 'Gombe Summit <updates@gombe-summit.ng>'
+  return process.env.RESEND_FROM || 'Gombe Summit <updates@gombestateaidsummit.ng>'
 }
