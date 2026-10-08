@@ -9,6 +9,8 @@ const LINKS = [
   { href: '/admin/users', label: 'Users' },
   { href: '/admin/abstracts', label: 'Abstracts' },
   { href: '/admin/speakers', label: 'Speakers' },
+  { href: '/admin/programme', label: 'Programme' },
+  { href: '/admin/partners', label: 'Partners & Sponsors' },
   { href: '/admin/emails', label: 'Emails' },
   { href: '/admin/checkin', label: 'QR Check-in' },
 ]
