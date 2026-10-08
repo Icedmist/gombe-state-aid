@@ -33,9 +33,14 @@ export async function POST(req: Request) {
     })
   } catch (error) {
     console.error('Failed to log inbound email:', error)
-    const e = error as { code?: unknown; errorCode?: unknown; name?: unknown }
+    const e = error as { code?: unknown; errorCode?: unknown; name?: unknown; message?: unknown }
     const code = String(e.code ?? e.errorCode ?? e.name ?? 'unknown')
-    return Response.json({ error: 'Failed to store inbound email.', code }, { status: 500 })
+    const detail = String(e.message || '')
+      .replace(/:[^:@\s]+@/g, ':***@')
+      .replace(/whsec_[A-Za-z0-9]+/g, 'whsec_***')
+      .replace(/re_[A-Za-z0-9_]+/g, 're_***')
+      .slice(0, 160)
+    return Response.json({ error: 'Failed to store inbound email.', code, detail }, { status: 500 })
   }
   return Response.json({ received: true })
 }
