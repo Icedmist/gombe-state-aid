@@ -18,7 +18,12 @@ export async function POST(req: Request) {
   }
   let event: { type?: string; data?: any }
   try {
-    event = new Webhook(secret).verify(payload, headers) as unknown as typeof event
+    event = JSON.parse(payload)
+  } catch {
+    return Response.json({ error: 'Invalid payload.' }, { status: 400 })
+  }
+  try {
+    new Webhook(secret).verify(payload, headers)
   } catch {
     return Response.json({ error: 'Invalid signature.' }, { status: 400 })
   }
