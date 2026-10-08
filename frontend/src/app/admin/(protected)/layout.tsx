@@ -11,9 +11,8 @@ const LINKS = [
   { href: '/admin/speakers', label: 'Speakers' },
   { href: '/admin/programme', label: 'Programme' },
   { href: '/admin/partners', label: 'Partners & Sponsors' },
-  { href: '/admin/news', label: 'News' },
+  { href: '/admin/emails', label: 'Emails' },
   { href: '/admin/checkin', label: 'QR Check-in' },
-  { href: '/admin/settings', label: 'Settings' },
 ]
 
 export default async function ProtectedAdminLayout({ children }: { children: React.ReactNode }) {
@@ -21,26 +20,26 @@ export default async function ProtectedAdminLayout({ children }: { children: Rea
     redirect('/admin/login')
   }
   return (
-    <div className="flex h-screen bg-gray-100">
-      <aside className="w-64 bg-emerald-950 text-white flex flex-col">
-        <div className="p-4 border-b border-emerald-900">
+    <div className="flex flex-col lg:flex-row min-h-screen lg:h-screen bg-gray-100">
+      <aside className="w-full lg:w-64 bg-emerald-950 text-white flex lg:flex-col shrink-0">
+        <div className="p-4 border-b border-emerald-900 shrink-0">
           <h2 className="text-xl font-bold tracking-tight">Admin CMS</h2>
-          <p className="text-xs text-emerald-400 mt-1">Gombe AIDS Summit</p>
+          <p className="text-xs text-emerald-400 mt-1 hidden lg:block">Gombe AIDS Summit</p>
         </div>
-        <nav className="flex-1 overflow-y-auto py-4">
-          <ul className="space-y-1 px-2">
+        <nav className="flex-1 overflow-x-auto lg:overflow-y-auto py-2 lg:py-4">
+          <ul className="flex lg:flex-col gap-1 px-2">
             {LINKS.map((l) => (
-              <li key={l.href}>
-                <Link href={l.href} className="block px-4 py-2 rounded text-sm font-medium hover:bg-emerald-900 transition">
+              <li key={l.href} className="shrink-0">
+                <Link href={l.href} className="block px-4 py-2 rounded text-sm font-medium hover:bg-emerald-900 transition whitespace-nowrap">
                   {l.label}
                 </Link>
               </li>
             ))}
           </ul>
         </nav>
-        <div className="p-4 border-t border-emerald-900">
+        <div className="p-2 lg:p-4 lg:border-t border-emerald-900 shrink-0 self-center lg:self-auto">
           <form action={logoutAdmin}>
-            <button type="submit" className="w-full text-left px-4 py-2 text-sm text-emerald-300 hover:text-white hover:bg-emerald-900 rounded transition">
+            <button type="submit" className="w-full text-left px-4 py-2 text-sm text-emerald-300 hover:text-white hover:bg-emerald-900 rounded transition whitespace-nowrap">
               Sign Out
             </button>
           </form>

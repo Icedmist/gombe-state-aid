@@ -21,6 +21,7 @@ export default async function AdminRegistrations() {
                 <th className="py-3 px-4 text-sm font-semibold text-gray-600">Organization</th>
                 <th className="py-3 px-4 text-sm font-semibold text-gray-600">Category</th>
                 <th className="py-3 px-4 text-sm font-semibold text-gray-600">Status</th>
+                <th className="py-3 px-4 text-sm font-semibold text-gray-600">Check-in</th>
                 <th className="py-3 px-4 text-sm font-semibold text-gray-600">Date</th>
                 <th className="py-3 px-4 text-sm font-semibold text-gray-600">Actions</th>
               </tr>
@@ -28,7 +29,7 @@ export default async function AdminRegistrations() {
             <tbody>
               {registrations.length === 0 ? (
                 <tr>
-                  <td colSpan={6} className="py-6 text-center text-gray-500">No registrations found</td>
+                  <td colSpan={7} className="py-6 text-center text-gray-500">No registrations found</td>
                 </tr>
               ) : (
                 registrations.map((reg) => (
@@ -50,6 +51,17 @@ export default async function AdminRegistrations() {
                       }`}>
                         {reg.status}
                       </span>
+                    </td>
+                    <td className="py-3 px-4 text-sm">
+                      {reg.checkInStatus ? (
+                        <span className="px-2 py-1 rounded text-xs font-semibold bg-green-100 text-green-800" title={reg.checkInTime ? new Date(reg.checkInTime).toLocaleString() : ''}>
+                          Checked in
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 rounded text-xs font-semibold bg-gray-100 text-gray-600">
+                          Not in
+                        </span>
+                      )}
                     </td>
                     <td className="py-3 px-4 text-sm text-gray-500">{reg.createdAt.toLocaleDateString()}</td>
                     <td className="py-3 px-4 text-sm">

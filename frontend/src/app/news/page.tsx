@@ -26,7 +26,7 @@ export default function News() {
   ];
 
   return (
-    <div className="bg-gray-50 py-16 min-h-screen">
+    <div className="bg-milk py-16 min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-6xl">
         <div className="mb-16 flex flex-col md:flex-row md:items-end justify-between">
           <div>

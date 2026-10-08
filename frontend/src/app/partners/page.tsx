@@ -17,7 +17,7 @@ export default function Partners() {
   ];
 
   return (
-    <div className="bg-gray-50 py-16 min-h-screen">
+    <div className="bg-milk py-16 min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="text-center max-w-3xl mx-auto mb-16">
           <h1 className="text-4xl font-bold text-gray-900 mb-6">Partners & Sponsors</h1>
