@@ -229,18 +229,30 @@ export async function sendSummitEmail(input: SendEmailInput) {
     const from = buildSender(input.fromName, input.fromLocal)
     let sent = 0
     let failed = 0
+    let firstError = ''
     for (let i = 0; i < emails.length; i += 10) {
       const chunk = emails.slice(i, i + 10)
       const results = await Promise.allSettled(
         chunk.map((email) => resend.emails.send({ from, to: email, subject, html }))
       )
       for (const res of results) {
-        if (res.status === 'fulfilled' && !res.value.error) sent += 1
-        else failed += 1
+        if (res.status === 'fulfilled' && !res.value.error) {
+          sent += 1
+        } else {
+          failed += 1
+          if (!firstError) {
+            firstError =
+              (res.status === 'fulfilled' && (res.value.error as { message?: string } | null)?.message) ||
+              (res.status === 'rejected' ? String(res.reason) : 'Unknown error')
+          }
+        }
       }
     }
     revalidatePath('/admin/emails')
-    return { success: failed === 0, sent, failed }
+    if (failed > 0) {
+      return { success: false, sent, failed, error: `Resend rejected the send: ${firstError}` }
+    }
+    return { success: true, sent, failed }
   } catch (error) {
     console.error('Error sending summit email:', error)
     return { success: false, sent: 0, failed: 0, error: 'Failed to send emails.' }
