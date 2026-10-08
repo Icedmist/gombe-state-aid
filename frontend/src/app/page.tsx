@@ -165,8 +165,8 @@ export default async function Home() {
               "TB/HIV program science in Gombe state: where we are and what next.",
               "One plan, coordinated action and shared responsibility."
             ].map((theme, i) => (
-              <div key={i} className="group relative bg-slate-50 p-10 hover:bg-emerald-950 transition-colors duration-300 rounded-2xl overflow-hidden border border-slate-100/60 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
-                <div className="text-5xl font-black text-emerald-100 group-hover:text-emerald-800 transition-colors mb-6 font-serif">
+              <div key={i} className="group relative bg-white p-10 hover:bg-emerald-950 transition-colors duration-300 rounded-2xl overflow-hidden border border-emerald-950/5 shadow-[0_4px_20px_rgb(0,0,0,0.03)]">
+                <div className="text-5xl font-black text-emerald-950/10 group-hover:text-white/15 transition-colors mb-6 font-serif">
                   {i + 1 < 10 ? `0${i + 1}` : i + 1}
                 </div>
                 <h3 className="text-xl font-bold text-emerald-950 group-hover:text-white transition-colors leading-snug">

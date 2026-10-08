@@ -91,3 +91,85 @@ export async function deleteSpeaker(id: string) {
     return { success: false, error: 'Failed to delete speaker' }
   }
 }
+
+export type CheckInSummary = {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  phoneNumber: string
+  organization: string | null
+  participantCategory: string | null
+  status: string
+  checkInStatus: boolean
+  checkInTime: string | null
+  checkInCount: number
+}
+
+export async function lookupRegistration(query: string): Promise<{ success: boolean; participant?: CheckInSummary; error?: string }> {
+  const q = query.trim()
+  if (!q) return { success: false, error: 'Enter a registration ID or email.' }
+  try {
+    const reg = await prisma.registration.findFirst({
+      where: { OR: [{ id: q }, { email: q }] },
+      include: { _count: { select: { checkIns: true } } },
+    })
+    if (!reg) return { success: false, error: 'No registration found.' }
+    return {
+      success: true,
+      participant: {
+        id: reg.id,
+        firstName: reg.firstName,
+        lastName: reg.lastName,
+        email: reg.email,
+        phoneNumber: reg.phoneNumber,
+        organization: reg.organization,
+        participantCategory: reg.participantCategory,
+        status: reg.status,
+        checkInStatus: reg.checkInStatus,
+        checkInTime: reg.checkInTime ? reg.checkInTime.toISOString() : null,
+        checkInCount: reg._count.checkIns,
+      },
+    }
+  } catch (error) {
+    console.error('Error looking up registration:', error)
+    return { success: false, error: 'Lookup failed.' }
+  }
+}
+
+export async function checkInRegistration(id: string) {
+  try {
+    const reg = await prisma.registration.findUnique({ where: { id } })
+    if (!reg) return { success: false, error: 'Registration not found.' }
+    await prisma.registration.update({
+      where: { id },
+      data: { checkInStatus: true, checkInTime: new Date() },
+    })
+    await prisma.checkIn.create({ data: { registrationId: id, scannedBy: 'admin' } })
+    revalidatePath('/admin/checkin')
+    revalidatePath('/admin/registrations')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error) {
+    console.error('Error checking in:', error)
+    return { success: false, error: 'Check-in failed.' }
+  }
+}
+
+export async function checkoutRegistration(id: string) {
+  try {
+    const reg = await prisma.registration.findUnique({ where: { id } })
+    if (!reg) return { success: false, error: 'Registration not found.' }
+    await prisma.registration.update({
+      where: { id },
+      data: { checkInStatus: false, checkInTime: null },
+    })
+    revalidatePath('/admin/checkin')
+    revalidatePath('/admin/registrations')
+    revalidatePath('/admin')
+    return { success: true }
+  } catch (error) {
+    console.error('Error checking out:', error)
+    return { success: false, error: 'Check-out failed.' }
+  }
+}
