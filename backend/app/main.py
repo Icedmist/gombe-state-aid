@@ -1,7 +1,6 @@
 """FastAPI entrypoint - PostgreSQL backed."""
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
 from app.api.v1.admin import router as admin_router
 from app.api.v1.abstracts import router as abstracts_router
 from app.api.v1.auth import router as auth_router
@@ -29,33 +28,6 @@ app.add_middleware(
 @app.get("/health")
 async def health():
     return {"status": "ok", "db": "postgresql"}
-
-
-@app.post("/api/email/inbound")
-async def email_inbound(request: Request):
-    """Receiving webhook for Resend inbound email (public URL kept stable).
-
-    In Resend dashboard -> Webhooks, subscribe receiving events to
-    https://<vercel-domain>/api/email/inbound and set RESEND_WEBHOOK_SECRET.
-    """
-    from svix.webhooks import Webhook, WebhookVerificationError
-
-    if not settings.RESEND_WEBHOOK_SECRET:
-        return JSONResponse({"error": "Inbound email not configured."}, status_code=500)
-    payload = await request.body()
-    try:
-        event = Webhook(settings.RESEND_WEBHOOK_SECRET).verify(
-            payload,
-            {
-                "svix-id": request.headers.get("svix-id", ""),
-                "svix-timestamp": request.headers.get("svix-timestamp", ""),
-                "svix-signature": request.headers.get("svix-signature", ""),
-            },
-        )
-    except WebhookVerificationError:
-        return JSONResponse({"error": "Invalid signature."}, status_code=400)
-    print(f"[inbound-email] type={(event or {}).get('type', 'unknown')}")
-    return {"received": True}
 
 for r in (auth_router, registrations_router, abstracts_router, speakers_router,
           programme_router, partners_router, sponsors_router, news_router,
