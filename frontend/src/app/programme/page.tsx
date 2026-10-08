@@ -1,4 +1,22 @@
-export default function Programme() {
+import Link from "next/link";
+import { prisma } from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
+
+async function getFeaturedSpeakers() {
+  try {
+    return await prisma.speaker.findMany({
+      where: { published: true },
+      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
+      take: 4,
+    });
+  } catch {
+    return [];
+  }
+}
+
+export default async function Programme() {
+  const speakers = await getFeaturedSpeakers();
   return (
     <div className="bg-milk py-24 min-h-screen">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl">
@@ -88,6 +106,54 @@ export default function Programme() {
             </div>
           </div>
           
+        </div>
+
+        {/* FEATURED SPEAKERS */}
+        <div className="mt-24">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+            <div>
+              <span className="text-rose-600 font-bold tracking-widest text-sm uppercase mb-3 block">Delegation</span>
+              <h2 className="text-3xl md:text-4xl font-black text-emerald-950 tracking-tight">Featured Speakers</h2>
+            </div>
+            <Link href="/speakers" className="bg-emerald-950 text-white hover:bg-emerald-900 px-8 py-4 font-bold text-sm transition-colors rounded-xl uppercase tracking-widest w-fit">
+              All Speakers
+            </Link>
+          </div>
+
+          {speakers.length === 0 ? (
+            <div className="bg-white rounded-2xl border border-emerald-950/5 p-12 text-center">
+              <p className="text-lg text-slate-500 font-medium mb-6">Speaker announcements coming soon.</p>
+              <Link href="/speakers" className="inline-block bg-rose-600 hover:bg-rose-700 text-white px-10 py-4 font-bold text-sm uppercase tracking-widest rounded-xl transition-colors">
+                Meet the Delegation
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {speakers.map((speaker) => (
+                <div key={speaker.id} className="group">
+                  <div className="aspect-[3/4] bg-slate-100 relative overflow-hidden mb-6 rounded-2xl">
+                    <img
+                      src={speaker.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(speaker.name)}&background=0A2518&color=fff&size=512`}
+                      alt={speaker.name}
+                      className="object-cover w-full h-full transition-all duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    {speaker.category && (
+                      <div className="absolute top-4 left-4 bg-rose-600 text-white text-[10px] font-black px-3 py-1 uppercase tracking-widest rounded-full">
+                        {speaker.category}
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="text-xl font-extrabold text-emerald-950 mb-1">{speaker.name}</h3>
+                  {speaker.title && <p className="text-sm text-slate-500 font-medium mb-2">{speaker.title}</p>}
+                  <div className="h-px w-8 bg-rose-600 mb-2 transition-all duration-300 group-hover:w-full"></div>
+                  {speaker.organization && (
+                    <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">{speaker.organization}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>
