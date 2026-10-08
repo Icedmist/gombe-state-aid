@@ -2,7 +2,8 @@ import Link from 'next/link';
 
 export default function Footer() {
   return (
-    <footer className="bg-emerald-950 text-emerald-100 pt-20 pb-10 border-t-[6px] border-emerald-500">
+    <footer className="bg-milk px-3 sm:px-6 pb-6 pt-2">
+      <div className="bg-emerald-950 text-emerald-100 pt-20 pb-10 rounded-[2rem] shadow-[0_20px_50px_rgba(0,0,0,0.12)] border border-emerald-900">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
           <div className="lg:col-span-2">
@@ -50,6 +51,7 @@ export default function Footer() {
         <div className="border-t border-emerald-900 pt-8 flex flex-col md:flex-row justify-between items-center text-xs font-bold text-emerald-700 uppercase tracking-widest">
           <p>&copy; 2026 Gombe State Government.</p>
           <p className="mt-2 md:mt-0 text-emerald-500/80">World AIDS Day Global Observance</p>
+        </div>
         </div>
       </div>
     </footer>

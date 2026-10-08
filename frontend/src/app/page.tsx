@@ -1,7 +1,23 @@
 import Link from "next/link";
 import Countdown from "@/components/Countdown";
+import { prisma } from "@/lib/prisma";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+async function getShowcaseSpeakers() {
+  try {
+    return await prisma.speaker.findMany({
+      where: { published: true },
+      orderBy: [{ order: "asc" }, { createdAt: "desc" }],
+      take: 4,
+    });
+  } catch {
+    return [];
+  }
+}
+
+export default async function Home() {
+  const speakers = await getShowcaseSpeakers();
   return (
     <div className="flex flex-col w-full bg-slate-50 selection:bg-emerald-100 selection:text-emerald-900">
       
@@ -13,11 +29,7 @@ export default function Home() {
 
         <div className="container relative z-20 mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl pt-24 pb-40">
           
-          <div className="inline-flex items-center gap-3 mb-8 bg-emerald-900/50 border border-emerald-700/50 rounded-full px-5 py-2 backdrop-blur-md shadow-lg">
-            <span className="flex h-2.5 w-2.5 relative">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-rose-400 opacity-75"></span>
-              <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-rose-500"></span>
-            </span>
+          <div className="inline-flex items-center mb-8 bg-emerald-900/50 border border-emerald-700/50 rounded-full px-5 py-2 backdrop-blur-md shadow-lg">
             <span className="text-emerald-100 font-bold tracking-[0.2em] text-[10px] sm:text-xs uppercase">
               1st December 2026 • World AIDS Day
             </span>
@@ -34,7 +46,7 @@ export default function Home() {
           </p>
           
           <p className="text-2xl md:text-3xl font-medium text-white mb-6 leading-snug max-w-4xl mx-auto drop-shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
-            "Stronger Partnerships for a Healthier, HIV & TB Free Gombe State"
+            &ldquo;Stronger Partnerships for a Healthier, HIV &amp; TB Free Gombe State&rdquo;
           </p>
 
           <p className="text-lg md:text-xl text-emerald-200/90 font-light mb-12 max-w-2xl mx-auto border-t border-emerald-800/50 pt-6">
@@ -133,7 +145,7 @@ export default function Home() {
       </section>
 
       {/* PILLARS / SUBTHEMES */}
-      <section className="py-24 bg-white">
+      <section className="py-24 bg-milk">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
             <div className="max-w-2xl">
@@ -167,6 +179,71 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SUMMIT THEME */}
+      <section className="py-24 bg-emerald-950 text-white overflow-hidden">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl text-center">
+          <span className="text-emerald-400 font-bold tracking-widest text-sm uppercase mb-6 block">Summit Theme</span>
+          <h2 className="text-4xl md:text-5xl font-black tracking-tight leading-tight mb-8">
+            &ldquo;Stronger Partnerships for a Healthier,
+            <br className="hidden md:block" /> HIV &amp; TB Free Gombe State&rdquo;
+          </h2>
+          <p className="text-xl text-emerald-200/90 font-light max-w-3xl mx-auto">
+            Integrate, fund, sustain and own the TB-HIV response — one plan,
+            coordinated action and shared responsibility.
+          </p>
+        </div>
+      </section>
+
+      {/* FEATURED SPEAKERS */}
+      <section className="py-24 bg-slate-50">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
+            <div className="max-w-2xl">
+              <span className="text-rose-600 font-bold tracking-widest text-sm uppercase mb-3 block">Delegation</span>
+              <h2 className="text-4xl md:text-5xl font-black text-emerald-950 tracking-tight">Featured Speakers</h2>
+            </div>
+            <Link href="/speakers" className="bg-emerald-950 text-white hover:bg-emerald-900 px-8 py-4 font-bold text-sm transition-colors rounded-xl uppercase tracking-widest">
+              All Speakers
+            </Link>
+          </div>
+
+          {speakers.length === 0 ? (
+            <div className="bg-white rounded-2xl border border-slate-100/60 p-12 text-center">
+              <p className="text-lg text-slate-500 font-medium mb-6">Speaker announcements coming soon.</p>
+              <Link href="/speakers" className="inline-block bg-rose-600 hover:bg-rose-700 text-white px-10 py-4 font-bold text-sm uppercase tracking-widest rounded-xl transition-colors">
+                Meet the Delegation
+              </Link>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+              {speakers.map((speaker) => (
+                <div key={speaker.id} className="group">
+                  <div className="aspect-[3/4] bg-slate-100 relative overflow-hidden mb-6 rounded-2xl">
+                    <img
+                      src={speaker.photoUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(speaker.name)}&background=0A2518&color=fff&size=512`}
+                      alt={speaker.name}
+                      className="object-cover w-full h-full transition-all duration-700 group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    {speaker.category && (
+                      <div className="absolute top-4 left-4 bg-rose-600 text-white text-[10px] font-black px-3 py-1 uppercase tracking-widest rounded-full">
+                        {speaker.category}
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="text-xl font-extrabold text-emerald-950 mb-1">{speaker.name}</h3>
+                  {speaker.title && <p className="text-sm text-slate-500 font-medium mb-2">{speaker.title}</p>}
+                  <div className="h-px w-8 bg-rose-600 mb-2 transition-all duration-300 group-hover:w-full"></div>
+                  {speaker.organization && (
+                    <p className="text-xs font-bold uppercase tracking-wider text-emerald-800">{speaker.organization}</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+
       {/* ABSTRACTS CTA (ROSE RED) */}
       <section className="relative py-32 bg-rose-600 text-white overflow-hidden">
         <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
@@ -186,7 +263,7 @@ export default function Home() {
       </section>
 
       {/* PARTNERSHIPS */}
-      <section className="py-24 bg-white border-b border-slate-100/60">
+      <section className="py-24 bg-milk border-b border-emerald-950/5">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-5xl text-center">
           <h2 className="text-3xl md:text-4xl font-black text-emerald-950 mb-6 tracking-tight">
             Institutional Partnerships

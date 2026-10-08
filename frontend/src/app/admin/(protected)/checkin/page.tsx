@@ -1,4 +1,4 @@
-import { processCheckIn } from '../../actions/checkin'
+import { processCheckIn } from '../../../actions/checkin'
 
 export default function CheckInScanner() {
   return (
