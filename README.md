@@ -1,51 +1,45 @@
-# Gombe State Aid — TB/HIV Summit Platform
+# Gombe State 2026 HIV-TB Summit
 
-Monorepo for the Gombe State summit site: **Next.js frontend** (Prisma → PostgreSQL)
-+ **FastAPI backend** (SQLAlchemy async → PostgreSQL). Single Postgres service in Docker Compose.
+This repo hosts the official platform for the **Gombe State 2026 HIV-TB Summit** —
+held on **1st December 2026** in commemoration of **World AIDS Day**.
 
-## Stack
-| Layer | Tech | Notes |
-|---|---|---|
-| Frontend | Next.js 16, Tailwind, Prisma 5 | `frontend/prisma/schema.prisma` is the data reference (provider `postgresql`) |
-| Backend | FastAPI, SQLAlchemy 2 async, Alembic, asyncpg | Mirrors Prisma models; API prefix `/api/v1`, health at `GET /health` |
-| DB | Postgres 15 | `user/password/gombe_summit`; host port **5434** → container 5432 |
-| Workers | Celery + Redis (optional) | Email/QR background jobs |
+Theme: **"Stronger Partnerships for a Healthier, HIV & TB Free Gombe State"**
+(Integrate, fund, sustain and own the TB-HIV response.)
 
-## Quickstart
-```bash
-cp backend/.env.example backend/.env   # adjust secrets
-docker compose up --build              # db :5434, api :8000
-curl localhost:8000/health             # {"status":"ok","db":"postgresql"}
-# API docs: http://localhost:8000/docs
+## Why this exists
 
-# backend migrations
-cd backend
-alembic revision --autogenerate -m "describe change"
-alembic upgrade head
+The summit is where global policy meets local practice: public officials,
+clinicians, development partners, researchers and community groups aligning on
+one plan — a sustained, integrated, locally-owned TB-HIV response for Gombe
+State, at a time of declining external funding. Since 1988, World AIDS Day has
+rallied the world to support people living with HIV and remember those lost to
+the disease; this summit is Gombe State's action plan under that mandate.
 
-# frontend
-cd frontend && npm install && npx prisma generate && npm run dev
-```
+## Who it serves
 
-## Repo layout
-```
-backend/            # FastAPI + Postgres (app/{api,core,models,schemas,services,workers}, alembic/)
-frontend/           # Next.js + Prisma (schema.prisma mirrors backend models)
-docker-compose.yml  # db + api
-.github/workflows/contribution.yml  # CI guard for contribution workflow
-CONTRIBUTING.md / AGENTS.md          # agent workflow docs
-```
+- **Government officials** — policy makers and health administrators
+  coordinating the state response.
+- **Healthcare professionals** — doctors, nurses and clinical officers on the
+  front line of TB-HIV care.
+- **Development partners** — NGOs and funding agencies backing the response.
+- **Researchers** — scientists submitting abstracts and sharing program science.
+- **Community groups** — civil society organisations and advocates.
+- **Vendors & exhibitors** — organisations showcasing goods and services.
 
-## Contribution workflow (mandatory)
-> Issue → Branch → PR → Merge → Delete branches → Close issue
+## What the platform does
 
-1. **Issue first** — no code without a GitHub issue number.
-2. **Branch** — `git checkout -b feat/12-short-slug` (`<type>/<issue>-<slug>`).
-3. **PR** — body must say `Closes #12`; CI enforces it + branch naming.
-4. **Merge + cleanup** — squash-merge with `--delete-branch`, then delete the local branch, verify issue CLOSED.
-Full steps + agent prompt: see [CONTRIBUTING.md](CONTRIBUTING.md) and [AGENTS.md](AGENTS.md).
+- **Event information** — summit details, programme agenda, speakers and
+  special guests, news and media.
+- **Delegate & vendor registration** — sign up as a delegate or exhibitor,
+  with admin review and approval.
+- **Abstract submissions** — researchers submit abstracts for review and
+  track their status.
+- **Programme & speakers** — sessions, tracks, rooms and speaker profiles.
+- **Partners & sponsors** — showcase of organisations behind the summit.
+- **Admin tools** — registration approvals, abstract reviews, event-day
+  QR-code check-in and summary reports.
 
-## Backend endpoints (selection)
-`POST /api/v1/auth/register|login`, `GET /api/v1/auth/me`, registrations CRUD,
-abstracts + reviews, speakers, programme (sessions), partners, sponsors, news,
-media, resources, `POST /api/v1/checkin/{id}`, `GET /api/v1/reports/summary`, `GET /api/v1/admin/overview`.
+## Contributing
+
+All changes follow the issue → branch → PR → merge → cleanup loop described in
+[CONTRIBUTING.md](CONTRIBUTING.md) (agent instructions in [AGENTS.md](AGENTS.md)).
