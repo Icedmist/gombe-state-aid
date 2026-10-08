@@ -35,7 +35,7 @@ export default async function Home() {
             </span>
           </div>
           
-          <h1 className="text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-2 leading-[0.95]">
+          <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black text-white tracking-tighter mb-2 leading-[0.95]">
             GOMBE STATE 2026 <br />
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-200 to-emerald-400 bg-[length:200%_auto] animate-pulse">
               HIV-TB SUMMIT
