@@ -213,6 +213,27 @@ function validateAttachments(files: File[]): { ok: boolean; error?: string } {
   return { ok: true }
 }
 
+export async function getInboundEmailBody(emailId: string): Promise<{ success: boolean; html?: string; text?: string; error?: string }> {
+  const resend = getResend()
+  if (!resend) {
+    return { success: false, error: 'Email service is not configured (RESEND_API_KEY missing).' }
+  }
+  if (!emailId) return { success: false, error: 'No email reference stored.' }
+  try {
+    const { data, error } = await resend.emails.get(emailId)
+    if (error || !data) {
+      return { success: false, error: typeof error?.message === 'string' ? error.message : 'Could not fetch email content.' }
+    }
+    const html = typeof data.html === 'string' ? data.html : undefined
+    const text = typeof data.text === 'string' ? data.text : undefined
+    if (!html && !text) return { success: false, error: 'No readable content stored for this email.' }
+    return { success: true, html, text }
+  } catch (err) {
+    console.error('Error fetching inbound email:', err)
+    return { success: false, error: 'Could not fetch email content.' }
+  }
+}
+
 export async function previewSummitEmail(input: { subject: string; message: string }) {
   const subject = input.subject.trim() || '(No subject)'
   const message = input.message.trim()
