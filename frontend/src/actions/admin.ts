@@ -185,6 +185,32 @@ export type SendEmailInput = {
   fromLocal?: string
   subject: string
   message: string
+  files?: File[]
+}
+
+const ATTACH_MAX_FILES = 3
+const ATTACH_MAX_BYTES = 5 * 1024 * 1024
+const ATTACH_BLOCKED = ['exe', 'bat', 'cmd', 'com', 'scr', 'ps1', 'sh', 'js', 'msi']
+
+function validateAttachments(files: File[]): { ok: boolean; error?: string } {
+  if (files.length > ATTACH_MAX_FILES) {
+    return { ok: false, error: `Attach at most ${ATTACH_MAX_FILES} files.` }
+  }
+  let total = 0
+  for (const f of files) {
+    const ext = (f.name.split('.').pop() || '').toLowerCase()
+    if (ATTACH_BLOCKED.includes(ext)) {
+      return { ok: false, error: `"${f.name}" is not an allowed file type.` }
+    }
+    if (f.size > ATTACH_MAX_BYTES) {
+      return { ok: false, error: `"${f.name}" exceeds 5 MB.` }
+    }
+    total += f.size
+  }
+  if (total > 9 * 1024 * 1024) {
+    return { ok: false, error: 'Attachments total more than 9 MB.' }
+  }
+  return { ok: true }
 }
 
 export async function previewSummitEmail(input: { subject: string; message: string }) {
@@ -227,13 +253,23 @@ export async function sendSummitEmail(input: SendEmailInput) {
     }
     const html = summitEmailShell({ subject, heading: subject, bodyHtml: plainToHtml(message) })
     const from = buildSender(input.fromName, input.fromLocal)
+    const files = (input.files || []).filter((f) => f && f.size > 0)
+    const check = validateAttachments(files)
+    if (!check.ok) {
+      return { success: false, sent: 0, failed: 0, error: check.error }
+    }
+    const attachments = await Promise.all(
+      files.map(async (f) => ({ filename: f.name, content: Buffer.from(await f.arrayBuffer()) }))
+    )
     let sent = 0
     let failed = 0
     let firstError = ''
     for (let i = 0; i < emails.length; i += 10) {
       const chunk = emails.slice(i, i + 10)
       const results = await Promise.allSettled(
-        chunk.map((email) => resend.emails.send({ from, to: email, subject, html }))
+        chunk.map((email) =>
+          resend.emails.send({ from, to: email, subject, html, attachments: attachments.length ? attachments : undefined })
+        )
       )
       for (const res of results) {
         if (res.status === 'fulfilled' && !res.value.error) {
