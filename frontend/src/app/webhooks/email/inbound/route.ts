@@ -28,6 +28,10 @@ export async function POST(req: Request) {
     return Response.json({ error: 'Invalid signature.' }, { status: 400 })
   }
   try {
+    const eventType = typeof event.type === 'string' ? event.type : ''
+    if (eventType && eventType !== 'email.received') {
+      return Response.json({ received: true, skipped: eventType })
+    }
     await prisma.auditLog.create({
       data: {
         action: 'INBOUND_EMAIL',
