@@ -13,6 +13,7 @@ const LINKS = [
   { href: '/admin/programme', label: 'Programme' },
   { href: '/admin/partners', label: 'Partners & Sponsors' },
   { href: '/admin/emails', label: 'Emails' },
+  { href: '/admin/emails/sent', label: 'Sent' },
   { href: '/admin/emails/inbox', label: 'Inbox' },
   { href: '/admin/checkin', label: 'QR Check-in' },
 ]

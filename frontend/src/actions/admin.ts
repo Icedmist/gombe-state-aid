@@ -1,8 +1,9 @@
 'use server'
 
 import { prisma } from '@/lib/prisma'
-import { getResend, getResendFrom } from '@/lib/resend'
+import { getResend } from '@/lib/resend'
 import { buildSender, parseCustomRecipients, plainToHtml, summitEmailShell } from '@/lib/email-templates'
+import { getSupabaseAdmin } from '@/lib/supabase-admin'
 import { revalidatePath } from 'next/cache'
 
 export async function updateRegistrationStatus(id: string, status: string) {
@@ -279,9 +280,41 @@ export async function sendSummitEmail(input: SendEmailInput) {
     if (!check.ok) {
       return { success: false, sent: 0, failed: 0, error: check.error }
     }
-    const attachments = await Promise.all(
-      files.map(async (f) => ({ filename: f.name, content: Buffer.from(await f.arrayBuffer()) }))
+    const buffers = await Promise.all(
+      files.map(async (f) => ({ name: f.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 120), content: Buffer.from(await f.arrayBuffer()) }))
     )
+    // Archive to private bucket + record the send before dispatching.
+    const record = await prisma.sentEmail.create({
+      data: {
+        subject,
+        fromName: (input.fromName || 'Gombe Summit').trim() || 'Gombe Summit',
+        fromLocal: (input.fromLocal || 'updates').trim().toLowerCase().replace(/[^a-z0-9._-]/g, '') || 'updates',
+        audience: input.audience,
+        recipientCount: emails.length,
+        recipients: emails.slice(0, 500),
+        attachments: [],
+      },
+    })
+    const storedPaths: Array<{ name: string; path: string }> = []
+    const supabase = getSupabaseAdmin()
+    if (buffers.length > 0) {
+      if (!supabase) {
+        await prisma.sentEmail.delete({ where: { id: record.id } })
+        return { success: false, sent: 0, failed: 0, error: 'File archive is not configured. Remove attachments or try later.' }
+      }
+      for (const b of buffers) {
+        const path = `sent/${record.id}/${b.name}`
+        const { error: uploadError } = await supabase.storage.from('email-attachments').upload(path, b.content, { upsert: true })
+        if (uploadError) {
+          console.error('Attachment archive error:', uploadError)
+          await prisma.sentEmail.delete({ where: { id: record.id } })
+          return { success: false, sent: 0, failed: 0, error: 'Attachment archiving failed. Please try again.' }
+        }
+        storedPaths.push({ name: b.name, path })
+      }
+      await prisma.sentEmail.update({ where: { id: record.id }, data: { attachments: storedPaths } })
+    }
+    const attachments = buffers.map((b) => ({ filename: b.name, content: b.content }))
     let sent = 0
     let failed = 0
     let firstError = ''
