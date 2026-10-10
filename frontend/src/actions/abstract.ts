@@ -84,3 +84,95 @@ export async function getAbstractFileUrl(path: string | null): Promise<string | 
   }
   return data.signedUrl;
 }
+
+export type AbstractSummary = {
+  id: string
+  title: string
+  authorName: string
+  email: string
+  organization: string
+  themeId: string | null
+  status: string
+  coAuthors: string | null
+  phone: string | null
+  presentationType: string | null
+  keywords: string | null
+  text: string
+  fileUrl: string | null
+  createdAt: string
+}
+
+function toSummary(a: {
+  id: string; title: string; authorName: string; email: string; organization: string;
+  themeId: string | null; status: string; coAuthors: string | null; phone: string | null;
+  presentationType: string | null; keywords: string | null; text: string;
+  fileUrl: string | null; createdAt: Date
+}): AbstractSummary {
+  return { ...a, createdAt: a.createdAt.toISOString() }
+}
+
+export async function lookupAbstracts(query: string): Promise<{ success: boolean; results?: AbstractSummary[]; error?: string }> {
+  const q = query.trim()
+  if (!q) return { success: false, error: 'Enter your abstract ID or submission email.' }
+  try {
+    const rows = await prisma.abstract.findMany({
+      where: { OR: [{ id: q }, { email: q.toLowerCase() }] },
+      orderBy: { createdAt: 'desc' },
+    })
+    if (rows.length === 0) return { success: false, error: 'No abstract found.' }
+    return { success: true, results: rows.map(toSummary) }
+  } catch (error) {
+    console.error('Abstract lookup error:', error)
+    return { success: false, error: 'Lookup failed. Try again.' }
+  }
+}
+
+export async function updateAbstractSubmission(id: string, formData: FormData) {
+  try {
+    const existing = await prisma.abstract.findUnique({ where: { id } })
+    if (!existing) return { success: false, error: 'Abstract not found.' }
+    if (existing.status !== 'SUBMITTED' && existing.status !== 'UNDER_REVIEW') {
+      return { success: false, error: 'This abstract can no longer be edited (already decided).' }
+    }
+    const data = {
+      title: ((formData.get('title') as string) || '').trim() || existing.title,
+      authorName: ((formData.get('authorName') as string) || '').trim() || existing.authorName,
+      organization: ((formData.get('organization') as string) || '').trim() || existing.organization,
+      themeId: ((formData.get('themeId') as string) || '').trim() || existing.themeId,
+      text: ((formData.get('text') as string) || '').trim() || existing.text,
+      coAuthors: ((formData.get('coAuthors') as string) || '').trim() || null,
+      phone: ((formData.get('phone') as string) || '').trim() || null,
+      presentationType: ((formData.get('presentationType') as string) || '').trim() || null,
+      keywords: ((formData.get('keywords') as string) || '').trim() || null,
+    }
+    let fileUrl = existing.fileUrl
+    const file = formData.get('file') as File | null
+    if (file && file.size > 0) {
+      if (!ABSTRACT_MIME_TYPES.includes(file.type)) {
+        return { success: false, error: 'Only PDF or Word documents are accepted.' }
+      }
+      if (file.size > ABSTRACT_MAX_BYTES) {
+        return { success: false, error: 'File must be smaller than 10 MB.' }
+      }
+      const supabase = getSupabaseAdmin()
+      if (!supabase) return { success: false, error: 'File upload is not configured.' }
+      const path = `${id}/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 100)}`
+      const { error: uploadError } = await supabase.storage
+        .from(ABSTRACTS_BUCKET)
+        .upload(path, Buffer.from(await file.arrayBuffer()), { contentType: file.type, upsert: true })
+      if (uploadError) {
+        console.error('Abstract re-upload error:', uploadError)
+        return { success: false, error: 'File upload failed. Details were still saved.' }
+      }
+      if (existing.fileUrl) {
+        await supabase.storage.from(ABSTRACTS_BUCKET).remove([existing.fileUrl])
+      }
+      fileUrl = path
+    }
+    const updated = await prisma.abstract.update({ where: { id }, data: { ...data, fileUrl } })
+    return { success: true, result: toSummary(updated) }
+  } catch (error) {
+    console.error('Abstract update error:', error)
+    return { success: false, error: 'Update failed. Try again.' }
+  }
+}
