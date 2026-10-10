@@ -34,6 +34,9 @@ export default function AbstractsLanding() {
           <Link href="/abstracts/submit" className="inline-block bg-red-600 hover:bg-red-700 text-white px-10 py-4 rounded-sm font-black text-lg uppercase tracking-wide transition-all shadow-[0_10px_20px_rgba(220,38,38,0.3)] hover:-translate-y-1">
             Open Submission Portal
           </Link>
+          <p className="mt-6 text-gray-600">
+            Already submitted? <Link href="/abstracts/manage" className="font-bold text-emerald-800 underline hover:text-emerald-600">View or update your submission</Link>
+          </p>
         </div>
       </div>
     </div>
