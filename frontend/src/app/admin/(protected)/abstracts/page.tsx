@@ -67,6 +67,9 @@ export default async function AdminAbstracts() {
                       </span>
                     </td>
                     <td className="py-3 px-4 text-sm">
+                      <a href={`/admin/abstracts/${abs.id}`} className="text-emerald-700 hover:text-emerald-900 font-semibold mr-3">
+                        View
+                      </a>
                       <AbstractActions id={abs.id} currentStatus={abs.status} />
                     </td>
                   </tr>
