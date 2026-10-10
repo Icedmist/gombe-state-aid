@@ -8,8 +8,34 @@ import {
   getSupabaseAdmin,
 } from '@/lib/supabase-admin'
 
+function shortId(id: string) {
+  return `ABS-${id.replace(/[^a-zA-Z0-9]/g, '').slice(-6).toUpperCase()}`
+}
+
 function safeFileName(name: string) {
   return name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 120)
+}
+
+async function sendReceiptEmail(to: { email: string; authorName: string; title: string; id: string }) {
+  // Receipt email. Never fails the submission.
+  try {
+    const { getResend } = await import('@/lib/resend')
+    const { buildSender, plainToHtml, summitEmailShell } = await import('@/lib/email-templates')
+    const resend = getResend()
+    if (!resend) return
+    const code = shortId(to.id)
+    const subject = `Abstract received - ${code}`
+    const html = summitEmailShell({
+      subject,
+      heading: `We received your abstract, ${to.authorName.split(' ')[0] || 'colleague'}!`,
+      bodyHtml: plainToHtml(
+        `Your abstract \"${to.title}\" has been received by the Scientific Committee.\n\nYour Abstract ID is ${code}.\n\nKeep this ID: use it on the Manage Submission page to view or update your work before the decision.\n\nYou will be notified of the outcome after review.`
+      ),
+    })
+    await resend.emails.send({ from: buildSender('Gombe Summit', 'abstracts'), to: to.email, subject, html })
+  } catch (emailError) {
+    console.error('Abstract receipt email failed (submission kept):', emailError)
+  }
 }
 
 export async function submitAbstract(formData: FormData) {
@@ -59,14 +85,16 @@ export async function submitAbstract(formData: FormData) {
         return { success: false, error: 'File upload failed. Please try again.' };
       }
       await prisma.abstract.update({ where: { id: record.id }, data: { fileUrl: filePath } });
-      return { success: true };
+      await sendReceiptEmail({ email, authorName, title, id: record.id });
+      return { success: true, id: record.id };
     }
 
-    await prisma.abstract.create({
+    const created = await prisma.abstract.create({
       data: { title, authorName, email, organization, themeId, text: content, coAuthors, phone, presentationType, keywords, declaration, status: 'SUBMITTED' }
     });
 
-    return { success: true };
+    await sendReceiptEmail({ email, authorName, title, id: created.id });
+    return { success: true, id: created.id };
   } catch (error) {
     console.error('Abstract submission error:', error);
     return { success: false, error: 'Abstract submission failed.' };
