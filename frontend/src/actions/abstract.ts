@@ -143,8 +143,21 @@ export async function lookupAbstracts(query: string): Promise<{ success: boolean
   const q = query.trim()
   if (!q) return { success: false, error: 'Enter your abstract ID or submission email.' }
   try {
+    // 1. Full record ID (the long one).
+    const exact = await prisma.abstract.findUnique({ where: { id: q } })
+    if (exact) return { success: true, results: [toSummary(exact)] }
+    // 2. Short code as shown to users (ABS-XXXXXX, case-insensitive).
+    const code = q.toUpperCase().replace(/^ABS-/, '').replace(/[^A-Z0-9]/g, '')
+    if (code.length >= 4) {
+      const short = await prisma.abstract.findMany({
+        where: { id: { endsWith: code, mode: 'insensitive' } },
+        orderBy: { createdAt: 'desc' },
+      })
+      if (short.length > 0) return { success: true, results: short.map(toSummary) }
+    }
+    // 3. Submission email.
     const rows = await prisma.abstract.findMany({
-      where: { OR: [{ id: q }, { email: q.toLowerCase() }] },
+      where: { email: q.toLowerCase() },
       orderBy: { createdAt: 'desc' },
     })
     if (rows.length === 0) return { success: false, error: 'No abstract found.' }

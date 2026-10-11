@@ -56,7 +56,7 @@ export default function ManageAbstract() {
         <div className="text-center mb-10">
           <span className="text-rose-600 font-bold tracking-widest text-sm uppercase mb-3 block">My Abstract</span>
           <h1 className="text-4xl md:text-5xl font-black text-emerald-950 tracking-tight">View & Update</h1>
-          <p className="text-slate-500 mt-4">Enter your abstract ID or submission email.</p>
+          <p className="text-slate-500 mt-4">Enter the Abstract ID shown after submission (e.g. ABS-XXXXXX) or your submission email.</p>
         </div>
 
         <div className="bg-white rounded-3xl shadow-xl border border-emerald-950/5 p-6 md:p-8 mb-6">
