@@ -30,7 +30,17 @@ export default function EmailComposer() {
     if (!confirm(`Send this email to ${target}?`)) return
     setStatus('sending')
     setResult('')
-    const res = await sendSummitEmail({ audience, customTo, fromName, fromLocal, subject, message, files })
+    const fd = new FormData()
+    fd.append('audience', audience)
+    if (customTo) fd.append('customTo', customTo)
+    if (fromName) fd.append('fromName', fromName)
+    if (fromLocal) fd.append('fromLocal', fromLocal)
+    fd.append('subject', subject)
+    fd.append('message', message)
+    for (const f of files) {
+      fd.append('files', f)
+    }
+    const res = await sendSummitEmail(fd)
     if (res.success) {
       setStatus('done')
       setResult(`Sent to ${res.sent} recipient${res.sent === 1 ? '' : 's'}.`)

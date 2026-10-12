@@ -3,7 +3,7 @@
 import { prisma } from '@/lib/prisma'
 import { getResend } from '@/lib/resend'
 import { buildSender, parseCustomRecipients, plainToHtml, summitEmailShell } from '@/lib/email-templates'
-import { getSupabaseAdmin } from '@/lib/supabase-admin'
+import { getSupabaseAdmin, getEmailAttachmentsBucketName } from '@/lib/supabase-admin'
 import { revalidatePath } from 'next/cache'
 
 export async function updateRegistrationStatus(id: string, status: string) {
@@ -214,21 +214,101 @@ function validateAttachments(files: File[]): { ok: boolean; error?: string } {
   return { ok: true }
 }
 
-export async function getInboundEmailBody(emailId: string): Promise<{ success: boolean; html?: string; text?: string; error?: string }> {
+export type InboundEmailAttachment = {
+  id: string
+  filename: string
+  size?: number
+  contentType?: string
+  downloadUrl?: string
+}
+
+export async function getInboundEmailBody(emailId: string): Promise<{
+  success: boolean
+  html?: string
+  text?: string
+  attachments?: InboundEmailAttachment[]
+  rawUrl?: string
+  error?: string
+}> {
   const resend = getResend()
   if (!resend) {
     return { success: false, error: 'Email service is not configured (RESEND_API_KEY missing).' }
   }
   if (!emailId) return { success: false, error: 'No email reference stored.' }
   try {
-    const { data, error } = await resend.emails.get(emailId)
-    if (error || !data) {
-      return { success: false, error: typeof error?.message === 'string' ? error.message : 'Could not fetch email content.' }
+    let html: string | undefined
+    let text: string | undefined
+    let rawUrl: string | undefined
+    const attachments: InboundEmailAttachment[] = []
+
+    // Fetch inbound email details via receiving API (falling back to outbound get if needed)
+    try {
+      const receivingRes = await resend.emails.receiving.get(emailId)
+      if (receivingRes.data) {
+        const d = receivingRes.data
+        html = typeof d.html === 'string' ? d.html : undefined
+        text = typeof d.text === 'string' ? d.text : undefined
+        rawUrl = typeof d.raw?.download_url === 'string' ? d.raw.download_url : undefined
+        if (Array.isArray(d.attachments)) {
+          for (const a of d.attachments) {
+            attachments.push({
+              id: a.id,
+              filename: a.filename || 'attachment',
+              size: typeof a.size === 'number' ? a.size : undefined,
+              contentType: a.content_type,
+            })
+          }
+        }
+      } else if (receivingRes.error) {
+        // Fallback to standard emails.get
+        const sendRes = await resend.emails.get(emailId)
+        if (sendRes.data) {
+          html = typeof sendRes.data.html === 'string' ? sendRes.data.html : undefined
+          text = typeof sendRes.data.text === 'string' ? sendRes.data.text : undefined
+        } else {
+          const msg = receivingRes.error?.message || sendRes.error?.message || 'Could not fetch email content.'
+          return { success: false, error: msg }
+        }
+      }
+    } catch {
+      const sendRes = await resend.emails.get(emailId)
+      if (sendRes.data) {
+        html = typeof sendRes.data.html === 'string' ? sendRes.data.html : undefined
+        text = typeof sendRes.data.text === 'string' ? sendRes.data.text : undefined
+      } else {
+        return { success: false, error: 'Could not fetch email content.' }
+      }
     }
-    const html = typeof data.html === 'string' ? data.html : undefined
-    const text = typeof data.text === 'string' ? data.text : undefined
-    if (!html && !text) return { success: false, error: 'No readable content stored for this email.' }
-    return { success: true, html, text }
+
+    // Retrieve download URLs for attachments via receiving attachments API
+    try {
+      const attachList = await resend.emails.receiving.attachments.list({ emailId })
+      if (attachList.data?.data && Array.isArray(attachList.data.data)) {
+        for (const item of attachList.data.data) {
+          const existing = attachments.find((a) => a.id === item.id)
+          if (existing) {
+            existing.downloadUrl = item.download_url
+            if (!existing.filename && item.filename) existing.filename = item.filename
+            if (!existing.size && typeof item.size === 'number') existing.size = item.size
+          } else {
+            attachments.push({
+              id: item.id,
+              filename: item.filename || 'attachment',
+              size: typeof item.size === 'number' ? item.size : undefined,
+              contentType: item.content_type,
+              downloadUrl: item.download_url,
+            })
+          }
+        }
+      }
+    } catch (attachErr) {
+      console.warn('Could not list attachments with download URLs:', attachErr)
+    }
+
+    if (!html && !text && attachments.length === 0 && !rawUrl) {
+      return { success: false, error: 'No readable content stored for this email.' }
+    }
+    return { success: true, html, text, attachments, rawUrl }
   } catch (err) {
     console.error('Error fetching inbound email:', err)
     return { success: false, error: 'Could not fetch email content.' }
@@ -242,20 +322,47 @@ export async function previewSummitEmail(input: { subject: string; message: stri
   return { success: true, html: summitEmailShell({ subject, heading: subject, bodyHtml: plainToHtml(message) }) }
 }
 
-export async function sendSummitEmail(input: SendEmailInput) {
+export async function sendSummitEmail(input: SendEmailInput | FormData) {
   const resend = getResend()
   if (!resend) {
     return { success: false, sent: 0, failed: 0, error: 'Email service is not configured (RESEND_API_KEY missing).' }
   }
-  const subject = input.subject.trim()
-  const message = input.message.trim()
+
+  let audience: EmailAudience = 'all'
+  let customTo: string | undefined
+  let fromName: string | undefined
+  let fromLocal: string | undefined
+  let subject = ''
+  let message = ''
+  let inputFiles: File[] = []
+
+  if (input instanceof FormData) {
+    audience = (input.get('audience') as EmailAudience) || 'all'
+    customTo = (input.get('customTo') as string) || undefined
+    fromName = (input.get('fromName') as string) || undefined
+    fromLocal = (input.get('fromLocal') as string) || undefined
+    subject = (input.get('subject') as string) || ''
+    message = (input.get('message') as string) || ''
+    inputFiles = input.getAll('files').filter((f): f is File => f instanceof File && f.size > 0)
+  } else {
+    audience = input.audience
+    customTo = input.customTo
+    fromName = input.fromName
+    fromLocal = input.fromLocal
+    subject = input.subject
+    message = input.message
+    inputFiles = (input.files || []).filter((f) => f && f.size > 0)
+  }
+
+  subject = subject.trim()
+  message = message.trim()
   if (!subject || !message) {
     return { success: false, sent: 0, failed: 0, error: 'Subject and message are required.' }
   }
   try {
     let emails: string[]
-    if (input.audience === 'custom') {
-      const { valid, invalid } = parseCustomRecipients(input.customTo || '')
+    if (audience === 'custom') {
+      const { valid, invalid } = parseCustomRecipients(customTo || '')
       if (valid.length === 0) {
         return { success: false, sent: 0, failed: 0, error: 'No valid custom addresses.' }
       }
@@ -265,7 +372,7 @@ export async function sendSummitEmail(input: SendEmailInput) {
       emails = valid
     } else {
       const recipients = await prisma.registration.findMany({
-        where: input.audience === 'all' ? {} : { status: input.audience },
+        where: audience === 'all' ? {} : { status: audience },
         select: { email: true },
       })
       emails = recipients.map((r) => r.email)
@@ -274,43 +381,43 @@ export async function sendSummitEmail(input: SendEmailInput) {
       return { success: false, sent: 0, failed: 0, error: 'No recipients in this audience.' }
     }
     const html = summitEmailShell({ subject, heading: subject, bodyHtml: plainToHtml(message) })
-    const from = buildSender(input.fromName, input.fromLocal)
-    const files = (input.files || []).filter((f) => f && f.size > 0)
-    const check = validateAttachments(files)
+    const from = buildSender(fromName, fromLocal)
+    const check = validateAttachments(inputFiles)
     if (!check.ok) {
       return { success: false, sent: 0, failed: 0, error: check.error }
     }
     const buffers = await Promise.all(
-      files.map(async (f) => ({ name: f.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 120), content: Buffer.from(await f.arrayBuffer()) }))
+      inputFiles.map(async (f) => ({ name: f.name.replace(/[^a-zA-Z0-9._-]/g, '_').slice(0, 120), content: Buffer.from(await f.arrayBuffer()) }))
     )
     // Archive to private bucket + record the send before dispatching.
     const record = await prisma.sentEmail.create({
       data: {
         subject,
-        fromName: (input.fromName || 'Gombe Summit').trim() || 'Gombe Summit',
-        fromLocal: (input.fromLocal || 'updates').trim().toLowerCase().replace(/[^a-z0-9._-]/g, '') || 'updates',
-        audience: input.audience,
+        fromName: (fromName || 'Gombe Summit').trim() || 'Gombe Summit',
+        fromLocal: (fromLocal || 'updates').trim().toLowerCase().replace(/[^a-z0-9._-]/g, '') || 'updates',
+        audience,
         recipientCount: emails.length,
         recipients: emails.slice(0, 500),
         attachments: [],
       },
     })
-    const storedPaths: Array<{ name: string; path: string }> = []
+    const storedPaths: Array<{ name: string; path: string; bucket: string }> = []
     const supabase = getSupabaseAdmin()
     if (buffers.length > 0) {
       if (!supabase) {
         await prisma.sentEmail.delete({ where: { id: record.id } })
         return { success: false, sent: 0, failed: 0, error: 'File archive is not configured. Remove attachments or try later.' }
       }
+      const targetBucket = await getEmailAttachmentsBucketName(supabase)
       for (const b of buffers) {
         const path = `sent/${record.id}/${b.name}`
-        const { error: uploadError } = await supabase.storage.from('email-attachments').upload(path, b.content, { upsert: true })
+        const { error: uploadError } = await supabase.storage.from(targetBucket).upload(path, b.content, { upsert: true })
         if (uploadError) {
-          console.error('Attachment archive error:', uploadError)
+          console.error(`Attachment archive error in bucket ${targetBucket}:`, uploadError)
           await prisma.sentEmail.delete({ where: { id: record.id } })
           return { success: false, sent: 0, failed: 0, error: 'Attachment archiving failed. Please try again.' }
         }
-        storedPaths.push({ name: b.name, path })
+        storedPaths.push({ name: b.name, path, bucket: targetBucket })
       }
       await prisma.sentEmail.update({ where: { id: record.id }, data: { attachments: storedPaths } })
     }
@@ -339,6 +446,7 @@ export async function sendSummitEmail(input: SendEmailInput) {
       }
     }
     revalidatePath('/admin/emails')
+    revalidatePath('/admin/emails/sent')
     if (failed > 0) {
       return { success: false, sent, failed, error: `Resend rejected the send: ${firstError}` }
     }

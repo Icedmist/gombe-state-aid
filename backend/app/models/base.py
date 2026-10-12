@@ -13,3 +13,4 @@ from app.models.resource import Resource  # noqa: F401
 from app.models.checkin import CheckIn  # noqa: F401
 from app.models.faq import Faq  # noqa: F401
 from app.models.audit_log import AuditLog  # noqa: F401
+from app.models.sent_email import SentEmail  # noqa: F401

@@ -3,7 +3,7 @@ import { getSupabaseAdmin } from '@/lib/supabase-admin'
 
 export const dynamic = 'force-dynamic'
 
-type StoredFile = { name: string; path: string }
+type StoredFile = { name: string; path: string; bucket?: string }
 
 export default async function AdminSent() {
   const sends = await prisma.sentEmail.findMany({ orderBy: { sentAt: 'desc' }, take: 100 })
@@ -14,8 +14,19 @@ export default async function AdminSent() {
       const urls: Record<string, string> = {}
       if (supabase) {
         for (const f of files) {
-          const { data } = await supabase.storage.from('email-attachments').createSignedUrl(f.path, 3600)
-          if (data?.signedUrl) urls[f.path] = data.signedUrl
+          const bucket = f.bucket || 'email-attachments'
+          let signedUrl: string | null = null
+          const { data } = await supabase.storage.from(bucket).createSignedUrl(f.path, 3600, { download: f.name })
+          if (data?.signedUrl) {
+            signedUrl = data.signedUrl
+          } else {
+            // Fallback to abstracts bucket if needed
+            const { data: fallbackData } = await supabase.storage.from('abstracts').createSignedUrl(f.path, 3600, { download: f.name })
+            if (fallbackData?.signedUrl) {
+              signedUrl = fallbackData.signedUrl
+            }
+          }
+          if (signedUrl) urls[f.path] = signedUrl
         }
       }
       return { id: s.id, urls }
