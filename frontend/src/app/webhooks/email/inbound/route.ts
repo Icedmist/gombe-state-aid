@@ -11,33 +11,47 @@ export async function POST(req: Request) {
     return Response.json({ error: 'Inbound email not configured.' }, { status: 500 })
   }
   const payload = await req.text()
-  const headers = {
-    'svix-id': req.headers.get('svix-id') || '',
-    'svix-timestamp': req.headers.get('svix-timestamp') || '',
-    'svix-signature': req.headers.get('svix-signature') || '',
-  }
-  let event: { type?: string; data?: any }
+  const headers: Record<string, string> = {}
+  req.headers.forEach((val, key) => {
+    headers[key.toLowerCase()] = val
+  })
+
+  let event: { type?: string; data?: Record<string, unknown>; id?: string }
   try {
     event = JSON.parse(payload)
   } catch {
     return Response.json({ error: 'Invalid payload.' }, { status: 400 })
   }
+
   try {
     new Webhook(secret).verify(payload, headers)
-  } catch {
+  } catch (err) {
+    console.warn('Inbound email signature verification failed:', (err as Error)?.message)
     return Response.json({ error: 'Invalid signature.' }, { status: 400 })
   }
+
   try {
     const eventType = typeof event.type === 'string' ? event.type : ''
     if (eventType && eventType !== 'email.received') {
       return Response.json({ received: true, skipped: eventType })
     }
+
+    const emailId =
+      (typeof event.data?.email_id === 'string' && event.data.email_id) ||
+      (typeof event.data?.id === 'string' && event.data.id) ||
+      (typeof event.id === 'string' && event.id) ||
+      null
+
+    const sanitizedDetails = JSON.parse(
+      JSON.stringify({ type: event.type || 'email.received', data: event.data || {} }).replace(/\\u0000/g, '')
+    )
+
     await prisma.auditLog.create({
       data: {
         action: 'INBOUND_EMAIL',
         entityType: 'EMAIL',
-        entityId: typeof event.data?.email_id === 'string' ? event.data.email_id : null,
-        details: { type: event.type || 'unknown', data: event.data || {} },
+        entityId: emailId,
+        details: sanitizedDetails,
       },
     })
   } catch (error) {

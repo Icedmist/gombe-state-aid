@@ -20,6 +20,8 @@ function parseMail(id: string, emailId: string | null, receivedAt: Date, details
     Array.isArray(data.to) ? data.to.join(', ') : data.to || headers.to || ''
   )
   const subject = str(data.subject || headers.subject || '(no subject)')
+  const resolvedEmailId = emailId || str(data.email_id || data.id || root.id || '') || null
+  const attachmentCount = Array.isArray(data.attachments) ? data.attachments.length : 0
   let raw = ''
   try {
     raw = JSON.stringify(details, null, 2)
@@ -28,12 +30,13 @@ function parseMail(id: string, emailId: string | null, receivedAt: Date, details
   }
   return {
     id,
-    emailId,
+    emailId: resolvedEmailId,
     receivedAt: receivedAt.toLocaleString(),
     eventType: str(root.type) || 'email',
     from,
     to,
     subject,
+    attachmentCount,
     raw,
   }
 }
