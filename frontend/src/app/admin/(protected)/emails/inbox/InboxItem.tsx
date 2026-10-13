@@ -87,13 +87,28 @@ export default function InboxItem({ mail }: { mail: InboxMail }) {
 
   const totalAttachments = attachments.length > 0 ? attachments.length : mail.attachmentCount
 
+  const isOutbound =
+    mail.eventType === 'email.sent' ||
+    mail.eventType === 'email.delivered' ||
+    mail.eventType.startsWith('email.bounced') ||
+    mail.eventType.startsWith('email.complained')
+
   return (
     <div className="bg-white rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100 p-5 transition-all">
       <button onClick={toggle} className="w-full text-left cursor-pointer">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div className="min-w-0">
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 flex-wrap">
               <span className="font-bold text-gray-900 truncate text-base">{mail.subject}</span>
+              {mail.eventType === 'email.received' ? (
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-md px-2 py-0.5 whitespace-nowrap">
+                  📥 Reply
+                </span>
+              ) : isOutbound ? (
+                <span className="inline-flex items-center gap-1 text-[11px] font-bold text-blue-800 bg-blue-50 border border-blue-200 rounded-md px-2 py-0.5 whitespace-nowrap">
+                  ✓ Delivery
+                </span>
+              ) : null}
               {totalAttachments > 0 ? (
                 <span className="inline-flex items-center gap-1 text-[11px] font-bold text-emerald-800 bg-emerald-50 border border-emerald-200 rounded-md px-2 py-0.5">
                   📎 {totalAttachments}
@@ -217,11 +232,20 @@ export default function InboxItem({ mail }: { mail: InboxMail }) {
 
           {/* Note if body not retained */}
           {note && !html && !text && (
-            <div className="bg-amber-50 border border-amber-200 text-amber-900 p-4 rounded-xl text-sm leading-relaxed">
+            <div
+              className={`${
+                isOutbound
+                  ? 'bg-blue-50/80 border-blue-200 text-blue-950'
+                  : 'bg-amber-50 border-amber-200 text-amber-900'
+              } border p-4 rounded-xl text-sm leading-relaxed`}
+            >
               <div className="font-bold flex items-center gap-1.5 mb-1">
-                <span>ℹ️</span> Notice: Message Body Not Retained on Mail Server
+                <span>ℹ️</span>{' '}
+                {isOutbound
+                  ? 'Outbound Broadcast Delivery Confirmation'
+                  : 'Notice: Message Body Not Retained on Mail Server'}
               </div>
-              <p className="text-xs text-amber-800">
+              <p className={`text-xs ${isOutbound ? 'text-blue-800' : 'text-amber-800'}`}>
                 {note}
               </p>
             </div>

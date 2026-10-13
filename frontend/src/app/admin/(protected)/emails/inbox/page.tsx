@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma'
-import InboxItem, { type InboxMail, type StoredAttachment } from './InboxItem'
+import InboxList from './InboxList'
+import { type InboxMail, type StoredAttachment } from './InboxItem'
 
 export const dynamic = 'force-dynamic'
 
@@ -93,7 +94,7 @@ export default async function AdminInbox() {
     <div>
       <h2 className="text-2xl font-bold text-gray-900 mb-2">Received Mail</h2>
       <p className="text-sm text-gray-500 mb-6">
-        Inbound mail stored from the Resend receiving webhook ({mails.length} stored).
+        Inbound messages from delegates, speakers, and partners, plus delivery notifications ({mails.length} total).
       </p>
       {mails.length === 0 ? (
         <div className="bg-white rounded-xl shadow-[0_4px_20px_rgb(0,0,0,0.03)] border border-gray-100 p-12 text-center">
@@ -103,11 +104,7 @@ export default async function AdminInbox() {
           </p>
         </div>
       ) : (
-        <div className="space-y-3">
-          {mails.map((mail) => (
-            <InboxItem key={mail.id} mail={mail} />
-          ))}
-        </div>
+        <InboxList mails={mails} />
       )}
     </div>
   )
