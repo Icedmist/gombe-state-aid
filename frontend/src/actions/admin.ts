@@ -313,59 +313,86 @@ export async function getInboundEmailBody(emailId?: string | null, logId?: strin
       log?.entityId ||
       (typeof data.email_id === 'string' ? data.email_id : typeof data.id === 'string' ? data.id : null)
 
+    const eventType = String(details.type || data.type || '')
+    const isOutbound =
+      eventType === 'email.sent' ||
+      eventType === 'email.delivered' ||
+      eventType.startsWith('email.bounced') ||
+      eventType.startsWith('email.complained')
+
     const resend = getResend()
     if (resend && resolvedEmailId) {
-      try {
-        const receivingRes = await resend.emails.receiving.get(resolvedEmailId)
-        if (receivingRes.data) {
-          const d = receivingRes.data
-          if (typeof d.html === 'string') html = d.html
-          if (typeof d.text === 'string') text = d.text
-          if (typeof d.raw?.download_url === 'string') rawUrl = d.raw.download_url
-          if (Array.isArray(d.attachments)) {
-            for (const a of d.attachments) {
-              const existing = attachments.find((x) => x.id === a.id || x.filename === a.filename)
+      if (isOutbound) {
+        // Delivery tracking events correspond to outbound messages
+        try {
+          const sendRes = await resend.emails.get(resolvedEmailId)
+          if (sendRes.data) {
+            if (typeof sendRes.data.html === 'string') html = sendRes.data.html
+            if (typeof sendRes.data.text === 'string') text = sendRes.data.text
+          }
+        } catch (sendErr) {
+          console.warn('Resend outbound emails.get failed for delivery event:', sendErr)
+        }
+      } else {
+        try {
+          const receivingRes = await resend.emails.receiving.get(resolvedEmailId)
+          if (receivingRes.data) {
+            const d = receivingRes.data
+            if (typeof d.html === 'string') html = d.html
+            if (typeof d.text === 'string') text = d.text
+            if (typeof d.raw?.download_url === 'string') rawUrl = d.raw.download_url
+            if (Array.isArray(d.attachments)) {
+              for (const a of d.attachments) {
+                const existing = attachments.find((x) => x.id === a.id || x.filename === a.filename)
+                if (existing) {
+                  if (!existing.contentType && a.content_type) existing.contentType = a.content_type
+                  if (!existing.size && typeof a.size === 'number') existing.size = a.size
+                } else {
+                  attachments.push({
+                    id: a.id,
+                    filename: a.filename || 'attachment',
+                    size: typeof a.size === 'number' ? a.size : undefined,
+                    contentType: a.content_type,
+                  })
+                }
+              }
+            }
+          } else if (receivingRes.error) {
+            // Fallback to standard emails.get
+            const sendRes = await resend.emails.get(resolvedEmailId)
+            if (sendRes.data) {
+              if (typeof sendRes.data.html === 'string') html = sendRes.data.html
+              if (typeof sendRes.data.text === 'string') text = sendRes.data.text
+            }
+          }
+        } catch (receivingErr) {
+          console.warn('Resend receiving.get lookup skipped/failed:', receivingErr)
+        }
+
+        try {
+          const attachList = await resend.emails.receiving.attachments.list({ emailId: resolvedEmailId })
+          if (attachList.data?.data && Array.isArray(attachList.data.data)) {
+            for (const item of attachList.data.data) {
+              const existing = attachments.find((x) => x.id === item.id || x.filename === item.filename)
               if (existing) {
-                if (!existing.contentType && a.content_type) existing.contentType = a.content_type
-                if (!existing.size && typeof a.size === 'number') existing.size = a.size
+                existing.downloadUrl = item.download_url
+                if (!existing.filename && item.filename) existing.filename = item.filename
+                if (!existing.size && typeof item.size === 'number') existing.size = item.size
+                if (!existing.contentType && item.content_type) existing.contentType = item.content_type
               } else {
                 attachments.push({
-                  id: a.id,
-                  filename: a.filename || 'attachment',
-                  size: typeof a.size === 'number' ? a.size : undefined,
-                  contentType: a.content_type,
+                  id: item.id,
+                  filename: item.filename || 'attachment',
+                  size: typeof item.size === 'number' ? item.size : undefined,
+                  contentType: item.content_type,
+                  downloadUrl: item.download_url,
                 })
               }
             }
           }
+        } catch (attachErr) {
+          console.warn('Could not list attachments with download URLs:', attachErr)
         }
-      } catch (receivingErr) {
-        console.warn('Resend receiving.get lookup skipped/failed:', receivingErr)
-      }
-
-      try {
-        const attachList = await resend.emails.receiving.attachments.list({ emailId: resolvedEmailId })
-        if (attachList.data?.data && Array.isArray(attachList.data.data)) {
-          for (const item of attachList.data.data) {
-            const existing = attachments.find((x) => x.id === item.id || x.filename === item.filename)
-            if (existing) {
-              existing.downloadUrl = item.download_url
-              if (!existing.filename && item.filename) existing.filename = item.filename
-              if (!existing.size && typeof item.size === 'number') existing.size = item.size
-              if (!existing.contentType && item.content_type) existing.contentType = item.content_type
-            } else {
-              attachments.push({
-                id: item.id,
-                filename: item.filename || 'attachment',
-                size: typeof item.size === 'number' ? item.size : undefined,
-                contentType: item.content_type,
-                downloadUrl: item.download_url,
-              })
-            }
-          }
-        }
-      } catch (attachErr) {
-        console.warn('Could not list attachments with download URLs:', attachErr)
       }
 
       // Cache back to audit log if updated
@@ -392,7 +419,9 @@ export async function getInboundEmailBody(emailId?: string | null, logId?: strin
 
     const note =
       !html && !text
-        ? 'The email message body was not retained on the mail server. Metadata and attachment records captured upon arrival are displayed below.'
+        ? isOutbound
+          ? `This record is an automated delivery confirmation (${eventType}) for an outbound announcement dispatched by the summit. Delivery tracking events do not store a separate copy of the outbound message body.`
+          : 'The email message body was not retained on the mail server. Metadata and attachment records captured upon arrival are displayed below.'
         : undefined
 
     return { success: true, html, text, attachments, rawUrl, note }
