@@ -222,95 +222,182 @@ export type InboundEmailAttachment = {
   downloadUrl?: string
 }
 
-export async function getInboundEmailBody(emailId: string): Promise<{
+export async function getInboundAttachmentUrl(
+  emailId: string,
+  attachmentId: string
+): Promise<{ success: boolean; downloadUrl?: string; error?: string }> {
+  const resend = getResend()
+  if (!resend) return { success: false, error: 'Email service is not configured (RESEND_API_KEY missing).' }
+  try {
+    const res = await resend.emails.receiving.attachments.get({ emailId, id: attachmentId })
+    if (res.data?.download_url) {
+      return { success: true, downloadUrl: res.data.download_url }
+    }
+    return { success: false, error: res.error?.message || 'Attachment not found.' }
+  } catch (err) {
+    return { success: false, error: (err as Error)?.message || 'Failed to fetch attachment URL.' }
+  }
+}
+
+export async function getInboundEmailBody(emailId?: string | null, logId?: string | null): Promise<{
   success: boolean
   html?: string
   text?: string
   attachments?: InboundEmailAttachment[]
   rawUrl?: string
+  note?: string
   error?: string
 }> {
-  const resend = getResend()
-  if (!resend) {
-    return { success: false, error: 'Email service is not configured (RESEND_API_KEY missing).' }
-  }
-  if (!emailId) return { success: false, error: 'No email reference stored.' }
   try {
-    let html: string | undefined
-    let text: string | undefined
-    let rawUrl: string | undefined
+    let log = null
+    if (logId) {
+      log = await prisma.auditLog.findUnique({ where: { id: logId } })
+    } else if (emailId) {
+      log = await prisma.auditLog.findFirst({
+        where: { OR: [{ entityId: emailId }, { id: emailId }] },
+      })
+    }
+
+    const details = (log?.details && typeof log.details === 'object' ? log.details : {}) as Record<string, unknown>
+    const data = (details.data && typeof details.data === 'object' ? details.data : details) as Record<string, unknown>
+
+    let html: string | undefined =
+      (typeof details.html === 'string' && details.html) ||
+      (typeof data.html === 'string' && data.html) ||
+      undefined
+    let text: string | undefined =
+      (typeof details.text === 'string' && details.text) ||
+      (typeof data.text === 'string' && data.text) ||
+      undefined
+    let rawUrl: string | undefined =
+      (typeof details.rawUrl === 'string' && details.rawUrl) ||
+      (typeof (data.raw as { download_url?: string })?.download_url === 'string' &&
+        (data.raw as { download_url?: string }).download_url) ||
+      undefined
+
     const attachments: InboundEmailAttachment[] = []
+    const rawAttachments = Array.isArray(details.cachedAttachments)
+      ? details.cachedAttachments
+      : Array.isArray(data.attachments)
+      ? data.attachments
+      : Array.isArray(details.attachments)
+      ? details.attachments
+      : []
 
-    // Fetch inbound email details via receiving API (falling back to outbound get if needed)
-    try {
-      const receivingRes = await resend.emails.receiving.get(emailId)
-      if (receivingRes.data) {
-        const d = receivingRes.data
-        html = typeof d.html === 'string' ? d.html : undefined
-        text = typeof d.text === 'string' ? d.text : undefined
-        rawUrl = typeof d.raw?.download_url === 'string' ? d.raw.download_url : undefined
-        if (Array.isArray(d.attachments)) {
-          for (const a of d.attachments) {
-            attachments.push({
-              id: a.id,
-              filename: a.filename || 'attachment',
-              size: typeof a.size === 'number' ? a.size : undefined,
-              contentType: a.content_type,
-            })
+    for (const a of rawAttachments) {
+      if (a && typeof a === 'object') {
+        const item = a as Record<string, unknown>
+        const id = String(item.id || item.filename || Math.random())
+        attachments.push({
+          id,
+          filename: String(item.filename || item.name || 'attachment'),
+          size: typeof item.size === 'number' ? item.size : undefined,
+          contentType:
+            typeof item.content_type === 'string'
+              ? item.content_type
+              : typeof item.contentType === 'string'
+              ? item.contentType
+              : undefined,
+          downloadUrl:
+            typeof item.download_url === 'string'
+              ? item.download_url
+              : typeof item.downloadUrl === 'string'
+              ? item.downloadUrl
+              : undefined,
+        })
+      }
+    }
+
+    const resolvedEmailId =
+      emailId ||
+      log?.entityId ||
+      (typeof data.email_id === 'string' ? data.email_id : typeof data.id === 'string' ? data.id : null)
+
+    const resend = getResend()
+    if (resend && resolvedEmailId) {
+      try {
+        const receivingRes = await resend.emails.receiving.get(resolvedEmailId)
+        if (receivingRes.data) {
+          const d = receivingRes.data
+          if (typeof d.html === 'string') html = d.html
+          if (typeof d.text === 'string') text = d.text
+          if (typeof d.raw?.download_url === 'string') rawUrl = d.raw.download_url
+          if (Array.isArray(d.attachments)) {
+            for (const a of d.attachments) {
+              const existing = attachments.find((x) => x.id === a.id || x.filename === a.filename)
+              if (existing) {
+                if (!existing.contentType && a.content_type) existing.contentType = a.content_type
+                if (!existing.size && typeof a.size === 'number') existing.size = a.size
+              } else {
+                attachments.push({
+                  id: a.id,
+                  filename: a.filename || 'attachment',
+                  size: typeof a.size === 'number' ? a.size : undefined,
+                  contentType: a.content_type,
+                })
+              }
+            }
           }
         }
-      } else if (receivingRes.error) {
-        // Fallback to standard emails.get
-        const sendRes = await resend.emails.get(emailId)
-        if (sendRes.data) {
-          html = typeof sendRes.data.html === 'string' ? sendRes.data.html : undefined
-          text = typeof sendRes.data.text === 'string' ? sendRes.data.text : undefined
-        } else {
-          const msg = receivingRes.error?.message || sendRes.error?.message || 'Could not fetch email content.'
-          return { success: false, error: msg }
-        }
+      } catch (receivingErr) {
+        console.warn('Resend receiving.get lookup skipped/failed:', receivingErr)
       }
-    } catch {
-      const sendRes = await resend.emails.get(emailId)
-      if (sendRes.data) {
-        html = typeof sendRes.data.html === 'string' ? sendRes.data.html : undefined
-        text = typeof sendRes.data.text === 'string' ? sendRes.data.text : undefined
-      } else {
-        return { success: false, error: 'Could not fetch email content.' }
-      }
-    }
 
-    // Retrieve download URLs for attachments via receiving attachments API
-    try {
-      const attachList = await resend.emails.receiving.attachments.list({ emailId })
-      if (attachList.data?.data && Array.isArray(attachList.data.data)) {
-        for (const item of attachList.data.data) {
-          const existing = attachments.find((a) => a.id === item.id)
-          if (existing) {
-            existing.downloadUrl = item.download_url
-            if (!existing.filename && item.filename) existing.filename = item.filename
-            if (!existing.size && typeof item.size === 'number') existing.size = item.size
-          } else {
-            attachments.push({
-              id: item.id,
-              filename: item.filename || 'attachment',
-              size: typeof item.size === 'number' ? item.size : undefined,
-              contentType: item.content_type,
-              downloadUrl: item.download_url,
-            })
+      try {
+        const attachList = await resend.emails.receiving.attachments.list({ emailId: resolvedEmailId })
+        if (attachList.data?.data && Array.isArray(attachList.data.data)) {
+          for (const item of attachList.data.data) {
+            const existing = attachments.find((x) => x.id === item.id || x.filename === item.filename)
+            if (existing) {
+              existing.downloadUrl = item.download_url
+              if (!existing.filename && item.filename) existing.filename = item.filename
+              if (!existing.size && typeof item.size === 'number') existing.size = item.size
+              if (!existing.contentType && item.content_type) existing.contentType = item.content_type
+            } else {
+              attachments.push({
+                id: item.id,
+                filename: item.filename || 'attachment',
+                size: typeof item.size === 'number' ? item.size : undefined,
+                contentType: item.content_type,
+                downloadUrl: item.download_url,
+              })
+            }
           }
         }
+      } catch (attachErr) {
+        console.warn('Could not list attachments with download URLs:', attachErr)
       }
-    } catch (attachErr) {
-      console.warn('Could not list attachments with download URLs:', attachErr)
+
+      // Cache back to audit log if updated
+      if (log && (html || text || attachments.length > 0 || rawUrl)) {
+        try {
+          const updatedDetails = JSON.parse(
+            JSON.stringify({
+              ...details,
+              html: html || (typeof details.html === 'string' ? details.html : null),
+              text: text || (typeof details.text === 'string' ? details.text : null),
+              rawUrl: rawUrl || (typeof details.rawUrl === 'string' ? details.rawUrl : null),
+              cachedAttachments: attachments,
+            })
+          )
+          await prisma.auditLog.update({
+            where: { id: log.id },
+            data: { details: updatedDetails },
+          })
+        } catch (saveErr) {
+          console.warn('Could not update auditLog details cache:', saveErr)
+        }
+      }
     }
 
-    if (!html && !text && attachments.length === 0 && !rawUrl) {
-      return { success: false, error: 'No readable content stored for this email.' }
-    }
-    return { success: true, html, text, attachments, rawUrl }
+    const note =
+      !html && !text
+        ? 'The email message body was not retained on the mail server. Metadata and attachment records captured upon arrival are displayed below.'
+        : undefined
+
+    return { success: true, html, text, attachments, rawUrl, note }
   } catch (err) {
-    console.error('Error fetching inbound email:', err)
+    console.error('Error in getInboundEmailBody:', err)
     return { success: false, error: 'Could not fetch email content.' }
   }
 }

@@ -42,8 +42,47 @@ export async function POST(req: Request) {
       (typeof event.id === 'string' && event.id) ||
       null
 
+    let fetchedHtml: string | null = null
+    let fetchedText: string | null = null
+    let fetchedRawUrl: string | null = null
+    let fetchedAttachments: Array<{ id: string; filename: string; size?: number; contentType?: string; downloadUrl?: string }> = []
+
+    if (emailId) {
+      try {
+        const { getResend } = await import('@/lib/resend')
+        const resend = getResend()
+        if (resend) {
+          const receivingRes = await resend.emails.receiving.get(emailId)
+          if (receivingRes.data) {
+            fetchedHtml = receivingRes.data.html || null
+            fetchedText = receivingRes.data.text || null
+            fetchedRawUrl = receivingRes.data.raw?.download_url || null
+          }
+          const attachRes = await resend.emails.receiving.attachments.list({ emailId })
+          if (attachRes.data?.data && Array.isArray(attachRes.data.data)) {
+            fetchedAttachments = attachRes.data.data.map((a) => ({
+              id: a.id,
+              filename: a.filename || 'attachment',
+              size: typeof a.size === 'number' ? a.size : undefined,
+              contentType: a.content_type,
+              downloadUrl: a.download_url,
+            }))
+          }
+        }
+      } catch (fetchErr) {
+        console.warn('Could not prefetch inbound email content from Resend:', fetchErr)
+      }
+    }
+
     const sanitizedDetails = JSON.parse(
-      JSON.stringify({ type: event.type || 'email.received', data: event.data || {} }).replace(/\\u0000/g, '')
+      JSON.stringify({
+        type: event.type || 'email.received',
+        data: event.data || {},
+        html: fetchedHtml,
+        text: fetchedText,
+        rawUrl: fetchedRawUrl,
+        cachedAttachments: fetchedAttachments,
+      }).replace(/\\u0000/g, '')
     )
 
     await prisma.auditLog.create({
