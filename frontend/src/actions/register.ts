@@ -1,7 +1,10 @@
 'use server'
 
 import { prisma } from '@/lib/prisma'
+import { getResend } from '@/lib/resend'
+import { buildSender, plainToHtml, summitEmailShell } from '@/lib/email-templates'
 import type { TicketData } from '@/lib/ticket'
+import { ticketCode } from '@/lib/ticket'
 
 type SubmitResult =
   | { success: true; ticket: TicketData }
@@ -29,6 +32,27 @@ export async function submitRegistration(formData: FormData): Promise<SubmitResu
         status: activeTab === 'vendor' ? 'PENDING' : 'CONFIRMED'
       }
     });
+
+    const code = ticketCode(registration.id)
+
+    // Confirmation email carrying the ticket ID. Never fails the registration.
+    try {
+      const resend = getResend()
+      if (resend) {
+        const from = buildSender('Gombe Summit', 'registration')
+        const subject = `Your summit pass is ready - ${code}`
+        const html = summitEmailShell({
+          subject,
+          heading: `You're registered, ${registration.firstName}!`,
+          bodyHtml: plainToHtml(
+            `Your ${registration.participantCategory === 'VENDOR' ? 'exhibitor' : 'delegate'} registration for the Gombe State 2026 HIV-TB Summit is ${registration.status.toLowerCase()}.\n\nYour Ticket ID is ${code}.\n\nPresent this ID at the entrance for check-in, or retrieve your pass anytime with your email address.\n\nEvent: 1 December 2026 (World AIDS Day).`
+          ),
+        })
+        await resend.emails.send({ from, to: registration.email, subject, html })
+      }
+    } catch (emailError) {
+      console.error('Confirmation email failed (registration kept):', emailError)
+    }
 
     return {
       success: true,

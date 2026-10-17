@@ -41,6 +41,7 @@ export default function Footer() {
               <li><Link href="/register" className="hover:text-white transition-colors">Delegate Registration</Link></li>
               <li><Link href="/ticket" className="hover:text-white transition-colors">My Ticket</Link></li>
               <li><Link href="/abstracts" className="hover:text-white transition-colors">Call for Abstracts</Link></li>
+              <li><Link href="/abstracts/manage" className="hover:text-white transition-colors">Manage Submission</Link></li>
               <li><Link href="/partners" className="hover:text-white transition-colors">Partnership Inquiry</Link></li>
               <li><Link href="/contact" className="hover:text-white transition-colors">Contact Secretariat</Link></li>
             </ul>
