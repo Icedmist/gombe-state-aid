@@ -20,7 +20,7 @@ class Settings(BaseSettings):
     SMTP_PORT: int = 1025
     SMTP_USER: str = ""
     SMTP_PASSWORD: str = ""
-    MAIL_FROM: str = "noreply@gombe-summit.ng"
+    MAIL_FROM: str = "noreply@gombestateaidsummit.ng"
 
     REDIS_URL: str = "redis://redis:6379/0"
     STORAGE_DIR: str = "/data/uploads"

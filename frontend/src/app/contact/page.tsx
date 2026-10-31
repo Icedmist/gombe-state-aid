@@ -41,8 +41,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <h3 className="text-lg font-semibold mb-1">Email</h3>
-                  <p className="text-green-100">info@gombeaids-summit2026.gov.ng</p>
-                  <p className="text-green-100">abstracts@gombeaids-summit2026.gov.ng</p>
+                  <p className="text-green-100">info@gombestateaidsummit.ng</p>
+                  <p className="text-green-100">abstracts@gombestateaidsummit.ng</p>
                 </div>
               </div>
 
