@@ -6,6 +6,9 @@ held on **1st December 2026** in commemoration of **World AIDS Day**.
 Theme: **"Stronger Partnerships for a Healthier, HIV & TB Free Gombe State"**
 (Integrate, fund, sustain and own the TB-HIV response.)
 
+Venue: **Gombe State University Medical College Auditorium, Federal Teaching Hospital, Gombe**.
+Secretariat: **+234 802 265 4185**, **+234 903 661 3416**.
+
 ## Why this exists
 
 The summit is where global policy meets local practice: public officials,

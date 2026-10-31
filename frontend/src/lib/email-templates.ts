@@ -54,6 +54,8 @@ export function summitEmailShell(opts: { subject: string; heading: string; bodyH
       <div style="background-color:${BRAND.deepSoft};border:1px solid ${BRAND.deepSoft};border-radius:0 0 20px 20px;padding:26px 32px;text-align:center;">
         <p style="color:${BRAND.mint};font-size:12px;letter-spacing:1.5px;font-weight:bold;margin:0 0 10px;">STRONGER PARTNERSHIPS FOR A HEALTHIER, HIV &amp; TB FREE GOMBE STATE</p>
         <p style="color:#94a3b8;font-size:12px;margin:0;">Gombe State Ministry of Health &bull; TB-HIV Summit Secretariat</p>
+        <p style="color:#94a3b8;font-size:12px;margin:8px 0 0;">Gombe State University Medical College Auditorium, Federal Teaching Hospital, Gombe</p>
+        <p style="color:#94a3b8;font-size:12px;margin:8px 0 0;">Secretariat: +234 802 265 4185 &bull; +234 903 661 3416</p>
         <p style="color:#64748b;font-size:11px;margin:10px 0 0;">You received this email because you registered for the summit.</p>
       </div>
     </div>

@@ -61,7 +61,7 @@ export default async function Home() {
             </span>
           </h1>
           <p className="text-xl md:text-2xl text-emerald-200 italic mb-6 font-light">
-            in commemoration with World AIDS Day
+            in commemoration of World AIDS Day
           </p>
           
           <p className="text-2xl md:text-3xl font-medium text-white mb-6 leading-snug max-w-4xl mx-auto drop-shadow-[0_8px_30px_rgb(0,0,0,0.06)]">
@@ -106,7 +106,8 @@ export default async function Home() {
               </div>
               <div className="text-left">
                 <div className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 mb-1">Location</div>
-                <div className="text-lg font-black text-emerald-950">TBA, Gombe</div>
+                <div className="text-base md:text-lg font-black text-emerald-950 leading-tight">Medical College Auditorium</div>
+                <div className="text-xs font-semibold text-slate-500">Federal Teaching Hospital, Gombe</div>
               </div>
             </div>
             <div className="p-8 flex items-center justify-center md:justify-start gap-4 hover:bg-slate-50 transition-colors md:col-span-2">

@@ -45,7 +45,7 @@ export async function submitRegistration(formData: FormData): Promise<SubmitResu
           subject,
           heading: `You're registered, ${registration.firstName}!`,
           bodyHtml: plainToHtml(
-            `Your ${registration.participantCategory === 'VENDOR' ? 'exhibitor' : 'delegate'} registration for the Gombe State 2026 HIV-TB Summit is ${registration.status.toLowerCase()}.\n\nYour Ticket ID is ${code}.\n\nPresent this ID at the entrance for check-in, or retrieve your pass anytime with your email address.\n\nEvent: 1 December 2026 (World AIDS Day).`
+            `Your ${registration.participantCategory === 'VENDOR' ? 'exhibitor' : 'delegate'} registration for the Gombe State 2026 HIV-TB Summit is ${registration.status.toLowerCase()}.\n\nYour Ticket ID is ${code}.\n\nPresent this ID at the entrance for check-in, or retrieve your pass anytime with your email address.\n\nEvent: 1 December 2026 (World AIDS Day).\n\nVenue: Gombe State University Medical College Auditorium, Federal Teaching Hospital, Gombe.\n\nSecretariat: +234 802 265 4185, +234 903 661 3416.`
           ),
         })
         await resend.emails.send({ from, to: registration.email, subject, html })
