@@ -22,7 +22,7 @@ export default function FAQ() {
     },
     {
       question: "Where will the summit take place?",
-      answer: "The exact venue in Gombe State is currently being finalized. Once confirmed, it will be updated on the website and all registered participants will receive an email notification."
+      answer: "The summit will hold at the Gombe State University Medical College Auditorium, Federal Teaching Hospital, Gombe."
     },
     {
       question: "Will certificates of attendance be provided?",

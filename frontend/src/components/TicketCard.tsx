@@ -18,6 +18,9 @@ export default function TicketCard({ ticket }: { ticket: TicketData }) {
           <div className="text-xs font-bold tracking-widest text-emerald-200/70 uppercase mt-1">
             1 Dec 2026 • World AIDS Day
           </div>
+          <div className="text-[10px] font-semibold tracking-wide text-emerald-200/60 mt-2">
+            Medical College Auditorium, Federal Teaching Hospital, Gombe
+          </div>
         </div>
 
         <div className="bg-white px-8 py-6">

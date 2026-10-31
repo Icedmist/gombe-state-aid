@@ -24,10 +24,10 @@ export default function Contact() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-1">Office Address</h3>
+                  <h3 className="text-lg font-semibold mb-1">Summit Venue</h3>
                   <p className="text-green-100 leading-relaxed">
-                    Gombe State Ministry of Health<br />
-                    State Secretariat Complex<br />
+                    Gombe State University Medical College Auditorium<br />
+                    Federal Teaching Hospital<br />
                     Gombe, Gombe State, Nigeria
                   </p>
                 </div>
@@ -53,8 +53,13 @@ export default function Contact() {
                   </svg>
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold mb-1">Phone Number</h3>
-                  <p className="text-green-100">+234 (0) 800 000 0000</p>
+                  <h3 className="text-lg font-semibold mb-1">Phone Numbers</h3>
+                  <p className="text-green-100">
+                    <a href="tel:+2348022654185" className="hover:text-white transition-colors">+234 802 265 4185</a>
+                  </p>
+                  <p className="text-green-100">
+                    <a href="tel:+2349036613416" className="hover:text-white transition-colors">+234 903 661 3416</a>
+                  </p>
                 </div>
               </div>
             </div>
