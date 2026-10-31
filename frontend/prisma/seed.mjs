@@ -4,7 +4,7 @@ import { PrismaClient } from '@prisma/client'
 
 const prisma = new PrismaClient()
 
-const email = process.env.SEED_ADMIN_EMAIL || 'admin@gombe-summit.ng'
+const email = process.env.SEED_ADMIN_EMAIL || 'admin@gombestateaidsummit.ng'
 const name = process.env.SEED_ADMIN_NAME || 'Summit Administrator'
 
 const user = await prisma.user.upsert({
