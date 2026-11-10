@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 220" role="img" aria-label="Gombe State coat of arms">
+  <g fill="#f8fafc" stroke="#0f172a" stroke-width="3" stroke-linejoin="round">
+    <path d="M45 190c-8-20-10-50 0-72 6-14 18-24 30-26l-6-12 14 4 10-10 2 16 12 10-8 8-6 22 2 60z"/>
+    <path d="M155 190c8-20 10-50 0-72-6-14-18-24-30-26l6-12-14 4-10-10-2 16-12 10 8 8 6 22-2 60z"/>
+  </g>
+  <path d="M60 70h80v70c0 22-18 38-40 46-22-8-40-24-40-46z" fill="#0b6b35" stroke="#0f172a" stroke-width="4"/>
+  <path d="M100 80v48M100 128l-24 30M100 128l24 30" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <g fill="#b91c1c" stroke="#0f172a" stroke-width="2" stroke-linejoin="round">
+    <path d="M100 24c-8 0-14 5-14 12 0 6 4 10 8 13l-22-8 8 14-14-4 10 12 24-4 24 4 10-12-14 4 8-14-22 8c4-3 8-7 8-13 0-7-6-12-14-12z"/>
+  </g>
+  <circle cx="100" cy="30" r="3.5" fill="#fff"/>
+  <path d="M52 196h96v14H52z" fill="#0b6b35" stroke="#0f172a" stroke-width="2"/>
+  <text x="100" y="207" text-anchor="middle" font-size="9" fill="#fff" font-family="Georgia, serif" font-weight="bold">GOMBE</text>
+</svg>

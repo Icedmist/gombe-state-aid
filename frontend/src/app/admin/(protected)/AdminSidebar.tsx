@@ -7,6 +7,7 @@ import { logoutAdmin } from '@/actions/admin-session'
 const LINKS = [
   { href: '/admin', label: 'Dashboard' },
   { href: '/admin/registrations', label: 'Registrations' },
+  { href: '/admin/tags', label: 'Attendee Tags' },
   { href: '/admin/users', label: 'Users' },
   { href: '/admin/abstracts', label: 'Abstracts' },
   { href: '/admin/speakers', label: 'Speakers' },

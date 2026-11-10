@@ -4,11 +4,12 @@ import "./globals.css";
 import Navbar from "@/components/layout/Navbar";
 import NavSpacer from "@/components/layout/NavSpacer";
 import Footer from "@/components/layout/Footer";
+import { EVENT_ONE_LINER } from "@/lib/event";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Gombe State 2026 AIDS Summit",
+  title: EVENT_ONE_LINER,
   description: "Integrate, fund, sustain and own TB-HIV Response in Gombe State",
 };
 
