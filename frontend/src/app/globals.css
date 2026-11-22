@@ -41,16 +41,6 @@
   100% { transform: translateX(100%); }
 }
 
-.tag-ribbon {
-  background: repeating-linear-gradient(
-    135deg,
-    #0f7a3d 0 6px,
-    #ffffff 6px 9px,
-    #d81f2a 9px 15px,
-    #ffffff 15px 18px
-  );
-}
-
 @media print {
   @page {
     size: 4in 6in;

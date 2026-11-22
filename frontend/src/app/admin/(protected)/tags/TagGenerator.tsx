@@ -63,7 +63,8 @@ export default function TagGenerator({ attendees }: { attendees: TagAttendee[] }
         <div>
           <h2 className="text-2xl font-bold text-gray-900">Attendee Tags</h2>
           <p className="mt-1 text-sm text-gray-500">
-            Generate printable wearables with each attendee&apos;s role, ID number and the summit one-liner.
+            Generate printable wearables from the official summit badge — each tag only swaps in the
+            attendee&apos;s name, role and ID number.
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2 print:hidden">
